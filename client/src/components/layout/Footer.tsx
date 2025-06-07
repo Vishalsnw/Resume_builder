@@ -1,193 +1,143 @@
 // client/src/components/layout/Footer.tsx
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 interface FooterProps {
-  currentUser?: string;
-  currentDateTime?: string;
+  currentUser: string;
 }
 
-const Footer: React.FC<FooterProps> = ({
-  currentUser = 'Vishalsnw',
-  currentDateTime = '2025-06-07 17:27:45'
-}) => {
+const Footer: React.FC<FooterProps> = ({ currentUser }) => {
+  const [currentDateTime, setCurrentDateTime] = useState<string>('');
+
+  // Update current date time every second
+  useEffect(() => {
+    const updateDateTime = () => {
+      const now = new Date();
+      const formatted = now.toISOString()
+        .replace('T', ' ')
+        .substring(0, 19);
+      setCurrentDateTime(formatted);
+    };
+
+    updateDateTime(); // Initial call
+    const interval = setInterval(updateDateTime, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // Mobile app specific links
+  const mobileAppLinks = [
+    { name: 'Rate App', href: 'market://details?id=com.airesume.builder' },
+    { name: 'Share App', href: '#' },
+    { name: 'Offline Mode', href: '/offline-access' },
+    { name: 'App Settings', href: '/app-settings' },
+  ];
+
   const footerLinks = {
-    product: [
-      { name: 'Features', href: '/features' },
+    features: [
+      { name: 'Resume Builder', href: '/resume/builder' },
+      { name: 'AI Assistant', href: '/resume/ai' },
       { name: 'Templates', href: '/resume/templates' },
-      { name: 'Pricing', href: '/subscription' },
-      { name: 'AI Tools', href: '/resume/ai' },
+      { name: 'Cover Letters', href: '/cover-letters' },
     ],
     support: [
       { name: 'Help Center', href: '/help' },
-      { name: 'Documentation', href: '/docs' },
       { name: 'Contact Us', href: '/contact' },
       { name: 'FAQ', href: '/faq' },
-    ],
-    company: [
-      { name: 'About Us', href: '/about' },
-      { name: 'Careers', href: '/careers' },
-      { name: 'Blog', href: '/blog' },
-      { name: 'Terms of Service', href: '/terms' },
+      { name: 'Tutorial', href: '/tutorial' },
     ],
     legal: [
       { name: 'Privacy Policy', href: '/privacy' },
-      { name: 'Terms', href: '/terms' },
-      { name: 'Cookie Policy', href: '/cookies' },
+      { name: 'Terms of Use', href: '/terms' },
+      { name: 'Data Policy', href: '/data-policy' },
       { name: 'Licenses', href: '/licenses' },
     ],
   };
 
-  const socialLinks = [
-    {
-      name: 'GitHub',
-      href: 'https://github.com/Vishalsnw',
-      icon: (props: any) => (
-        <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
-          <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
-        </svg>
-      ),
-    },
-    {
-      name: 'LinkedIn',
-      href: 'https://linkedin.com/in/Vishalsnw',
-      icon: (props: any) => (
-        <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
-          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-        </svg>
-      ),
-    },
-    {
-      name: 'Twitter',
-      href: 'https://twitter.com/Vishalsnw',
-      icon: (props: any) => (
-        <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
-          <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
-        </svg>
-      ),
-    },
-  ];
+  // Handle share app functionality
+  const handleShareApp = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'AI Resume Builder',
+          text: 'Create professional resumes with AI assistance!',
+          url: 'https://play.google.com/store/apps/details?id=com.airesume.builder'
+        });
+      } catch (error) {
+        console.error('Error sharing:', error);
+      }
+    }
+  };
 
   return (
-    <footer className="bg-white border-t border-gray-200">
-      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
-        <div className="xl:grid xl:grid-cols-3 xl:gap-8">
-          {/* Company Info */}
-          <div className="space-y-8 xl:col-span-1">
+    <footer className="bg-white border-t border-gray-200 pb-safe-area">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Main Footer Content */}
+        <div className="py-8">
+          {/* App Info */}
+          <div className="text-center mb-6">
             <img
-              className="h-10"
               src="/logo.svg"
               alt="AI Resume Builder"
+              className="h-8 mx-auto mb-2"
             />
-            <p className="text-gray-500 text-base">
-              Create professional resumes with the power of AI.
-              Stand out from the crowd and land your dream job.
+            <p className="text-sm text-gray-500">
+              Version 1.0.0
             </p>
-            <div className="flex space-x-6">
-              {socialLinks.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="text-gray-400 hover:text-gray-500"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <span className="sr-only">{item.name}</span>
-                  <item.icon className="h-6 w-6" aria-hidden="true" />
-                </a>
-              ))}
-            </div>
           </div>
 
-          {/* Footer Links */}
-          <div className="mt-12 grid grid-cols-2 gap-8 xl:mt-0 xl:col-span-2">
-            <div className="md:grid md:grid-cols-2 md:gap-8">
-              <div>
-                <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
-                  Product
+          {/* Quick Links - Mobile Optimized */}
+          <div className="grid grid-cols-2 gap-4 mb-8 md:grid-cols-3">
+            {Object.entries(footerLinks).map(([category, links]) => (
+              <div key={category} className="text-center">
+                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+                  {category}
                 </h3>
-                <ul className="mt-4 space-y-4">
-                  {footerLinks.product.map((item) => (
-                    <li key={item.name}>
+                <ul className="space-y-2">
+                  {links.map((link) => (
+                    <li key={link.name}>
                       <Link
-                        to={item.href}
-                        className="text-base text-gray-500 hover:text-gray-900"
+                        to={link.href}
+                        className="text-sm text-gray-500 hover:text-gray-900"
                       >
-                        {item.name}
+                        {link.name}
                       </Link>
                     </li>
                   ))}
                 </ul>
               </div>
-              <div className="mt-12 md:mt-0">
-                <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
-                  Support
-                </h3>
-                <ul className="mt-4 space-y-4">
-                  {footerLinks.support.map((item) => (
-                    <li key={item.name}>
-                      <Link
-                        to={item.href}
-                        className="text-base text-gray-500 hover:text-gray-900"
-                      >
-                        {item.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-            <div className="md:grid md:grid-cols-2 md:gap-8">
-              <div>
-                <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
-                  Company
-                </h3>
-                <ul className="mt-4 space-y-4">
-                  {footerLinks.company.map((item) => (
-                    <li key={item.name}>
-                      <Link
-                        to={item.href}
-                        className="text-base text-gray-500 hover:text-gray-900"
-                      >
-                        {item.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="mt-12 md:mt-0">
-                <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
-                  Legal
-                </h3>
-                <ul className="mt-4 space-y-4">
-                  {footerLinks.legal.map((item) => (
-                    <li key={item.name}>
-                      <Link
-                        to={item.href}
-                        className="text-base text-gray-500 hover:text-gray-900"
-                      >
-                        {item.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+            ))}
+          </div>
+
+          {/* Mobile App Specific Actions */}
+          <div className="flex justify-center space-x-4 mb-6">
+            <button
+              onClick={handleShareApp}
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+            >
+              Share App
+            </button>
+            <a
+              href="market://details?id=com.airesume.builder"
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-blue-600 bg-blue-100 hover:bg-blue-200"
+            >
+              Rate Us
+            </a>
+          </div>
+
+          {/* User Info & DateTime */}
+          <div className="text-center text-xs text-gray-400 space-y-1">
+            <p>Logged in as: {currentUser}</p>
+            <p>Last Updated: {currentDateTime} UTC</p>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-12 border-t border-gray-200 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-base text-gray-400">
-              &copy; {new Date().getFullYear()} AI Resume Builder. All rights reserved.
-            </p>
-            <div className="mt-4 md:mt-0 text-sm text-gray-400">
-              <p>Last updated: {currentDateTime}</p>
-              <p>Current user: {currentUser}</p>
-            </div>
-          </div>
+        {/* Copyright - Safe Area Aware */}
+        <div className="border-t border-gray-200 py-4">
+          <p className="text-center text-xs text-gray-400">
+            © {new Date().getFullYear()} AI Resume Builder. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
