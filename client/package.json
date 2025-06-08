@@ -14,8 +14,6 @@
     "lint:fix": "eslint src/**/*.{js,jsx,ts,tsx} --fix",
     "format": "prettier --write src/**/*.{js,jsx,ts,tsx,css,md,json}",
     "type-check": "tsc --noEmit",
-    "prepare": "husky install",
-    "pre-commit": "lint-staged",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "serve": "serve -s build",
     "dev": "npm start",
@@ -93,8 +91,6 @@
     "eslint-plugin-prettier": "^5.1.2",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "husky": "^8.0.3",
-    "lint-staged": "^15.2.0",
     "postcss": "^8.4.33",
     "prettier": "^3.1.1",
     "sass": "^1.69.7",
@@ -119,15 +115,6 @@
       "last 1 safari version"
     ]
   },
-  "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "src/**/*.{css,scss,md,json}": [
-      "prettier --write"
-    ]
-  },
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
@@ -141,4 +128,4 @@
     "node": ">=16.0.0",
     "npm": ">=8.0.0"
   }
-  }
+}
