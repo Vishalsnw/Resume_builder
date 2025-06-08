@@ -1,7 +1,6 @@
 // client/src/components/common/buttons/PrimaryButton.tsx
 
 import React from 'react';
-import * as FiIcons from 'react-icons/fi'; // Import all icons as a namespace
 
 interface PrimaryButtonProps {
   children: React.ReactNode;
@@ -77,15 +76,15 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
     full: 'rounded-full',
   };
 
-  // Fixed: Use the namespace approach for icons
+  // Simple status icons using Unicode characters
   const getStatusIcon = () => {
     switch(status) {
       case 'loading':
-        return <FiIcons.FiLoader className="animate-spin" />;
+        return <span className="animate-spin inline-block">⟳</span>;
       case 'success':
-        return <FiIcons.FiCheck />;
+        return <span>✓</span>;
       case 'error':
-        return <FiIcons.FiX />;
+        return <span>✕</span>;
       default:
         return icon;
     }
@@ -131,7 +130,7 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
   const content = (
     <>
       {/* Icon - Left Position */}
-      {iconPosition === 'left' && (
+      {iconPosition === 'left' && getStatusIcon() && (
         <span className={`mr-2 ${size === 'sm' ? 'text-sm' : ''}`}>
           {getStatusIcon()}
         </span>
@@ -140,15 +139,15 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
       {/* Secure Icon */}
       {secure && (
         <span className={`mr-2 ${size === 'sm' ? 'text-sm' : ''}`}>
-          <FiIcons.FiLock />
+          🔒
         </span>
       )}
 
       {/* Button Text */}
-      <span>{children}</span>
+      <span>{buttonLoading ? 'Loading...' : children}</span>
 
       {/* Icon - Right Position */}
-      {iconPosition === 'right' && (
+      {iconPosition === 'right' && getStatusIcon() && (
         <span className={`ml-2 ${size === 'sm' ? 'text-sm' : ''}`}>
           {getStatusIcon()}
         </span>
