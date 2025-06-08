@@ -1,22 +1,76 @@
-import Cache from './cache.utils';
+// cache.utils.ts
 
-// Create a cache instance
-const myCache = new Cache<string>();
+/**
+ * A simple in-memory cache implementation.
+ */
+class Cache<T> {
+    private store: Map<string, { value: T; expiry: number | null }> = new Map();
 
-// Set a value with a 5-second TTL
-myCache.set('username', 'Vishalsnw', 5000);
+    /**
+     * Sets a value in the cache with an optional expiry time.
+     * @param key - The key to store the value under.
+     * @param value - The value to store.
+     * @param ttl - Time-to-live in milliseconds (optional). If not provided, the value will not expire.
+     */
+    set(key: string, value: T, ttl?: number): void {
+        const expiry = ttl ? Date.now() + ttl : null;
+        this.store.set(key, { value, expiry });
+    }
 
-// Get the value
-console.log(myCache.get('username')); // Output: 'Vishalsnw'
+    /**
+     * Gets a value from the cache.
+     * @param key - The key of the value to retrieve.
+     * @returns The cached value, or `null` if the key does not exist or has expired.
+     */
+    get(key: string): T | null {
+        const item = this.store.get(key);
 
-// Check if the key exists
-console.log(myCache.has('username')); // Output: true
+        if (!item) {
+            return null;
+        }
 
-// Wait for 6 seconds and check again
-setTimeout(() => {
-    console.log(myCache.get('username')); // Output: null (expired)
-    console.log(myCache.has('username')); // Output: false
-}, 6000);
+        if (item.expiry !== null && Date.now() > item.expiry) {
+            this.store.delete(key); // Remove expired item
+            return null;
+        }
 
-// Clear the cache
-myCache.clear();
+        return item.value;
+    }
+
+    /**
+     * Deletes a value from the cache.
+     * @param key - The key of the value to delete.
+     */
+    delete(key: string): void {
+        this.store.delete(key);
+    }
+
+    /**
+     * Clears all entries from the cache.
+     */
+    clear(): void {
+        this.store.clear();
+    }
+
+    /**
+     * Checks if a key exists in the cache and is not expired.
+     * @param key - The key to check.
+     * @returns `true` if the key exists and is not expired, otherwise `false`.
+     */
+    has(key: string): boolean {
+        const item = this.store.get(key);
+
+        if (!item) {
+            return false;
+        }
+
+        if (item.expiry !== null && Date.now() > item.expiry) {
+            this.store.delete(key); // Remove expired item
+            return false;
+        }
+
+        return true;
+    }
+}
+
+export default Cache;
