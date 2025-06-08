@@ -7,7 +7,7 @@ import {
   FiX,
   FiAlertCircle,
   FiChevronRight,
-  FiExternalLink
+  FiLink2 // Changed from FiExternalLink to FiLink2 which exists in react-icons/fi
 } from 'react-icons/fi';
 
 interface SecondaryButtonProps {
@@ -153,7 +153,7 @@ const SecondaryButton: React.FC<SecondaryButtonProps> = ({
 
       {/* External Link Icon */}
       {external && (
-        <FiExternalLink className={`ml-2 ${size === 'sm' ? 'text-sm' : ''}`} />
+        <FiLink2 className={`ml-2 ${size === 'sm' ? 'text-sm' : ''}`} />
       )}
     </>
   );
