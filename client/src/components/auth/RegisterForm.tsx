@@ -7,13 +7,21 @@ import {
   updateProfile,
   signInWithPopup,
   GoogleAuthProvider,
-  sendEmailVerification
+  sendEmailVerification,
+  UserCredential
 } from 'firebase/auth';
 import { auth } from '../../config/firebase';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import toast from 'react-hot-toast';
+
+// Define extended interface for UserCredential that includes _tokenResponse
+interface ExtendedUserCredential extends UserCredential {
+  _tokenResponse?: {
+    isNewUser?: boolean;
+  };
+}
 
 // Validation schema
 const schema = yup.object().shape({
@@ -116,9 +124,10 @@ export const RegisterForm: React.FC = () => {
 
     try {
       const provider = new GoogleAuthProvider();
-      const result = await signInWithPopup(auth, provider);
+      // Use the extended type for the result
+      const result = await signInWithPopup(auth, provider) as ExtendedUserCredential;
 
-      // Check if it's a new user
+      // Now TypeScript knows about _tokenResponse
       if (result._tokenResponse?.isNewUser) {
         toast.success('Account created successfully!', {
           id: loadingToast
