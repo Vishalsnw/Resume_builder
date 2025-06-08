@@ -19,6 +19,7 @@ interface PrimaryButtonProps {
   fullWidth?: boolean;
   disabled?: boolean;
   loading?: boolean;
+  isLoading?: boolean; // Added isLoading as an alternative to loading
   icon?: React.ReactNode;
   iconPosition?: 'left' | 'right';
   rounded?: 'none' | 'sm' | 'md' | 'lg' | 'full';
@@ -41,6 +42,7 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
   fullWidth = false,
   disabled = false,
   loading = false,
+  isLoading, // Added isLoading parameter
   icon,
   iconPosition = 'left',
   rounded = 'md',
@@ -53,6 +55,9 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
   ariaLabel,
   testId,
 }) => {
+  // Use isLoading if provided, otherwise fall back to loading
+  const buttonLoading = isLoading !== undefined ? isLoading : loading;
+  
   const [rippleStyle, setRippleStyle] = React.useState<React.CSSProperties>({});
   const [isRippling, setIsRippling] = React.useState(false);
 
@@ -88,7 +93,7 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
   };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    if (disabled || loading || status === 'loading') return;
+    if (disabled || buttonLoading || status === 'loading') return; // Using buttonLoading here
 
     if (withRipple) {
       const button = event.currentTarget;
@@ -111,6 +116,7 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
     onClick?.(event);
   };
 
+  // Update to use buttonLoading instead of loading
   const buttonClasses = [
     'relative inline-flex items-center justify-center',
     'font-medium transition-colors duration-150 ease-in-out',
@@ -119,7 +125,7 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
     variantStyles[variant],
     roundedStyles[rounded],
     fullWidth ? 'w-full' : '',
-    disabled || loading || status === 'loading' ? 'opacity-50 cursor-not-allowed' : '',
+    disabled || buttonLoading || status === 'loading' ? 'opacity-50 cursor-not-allowed' : '',
     'overflow-hidden',
     className,
   ].join(' ');
@@ -179,7 +185,7 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
     <button
       type={type}
       onClick={handleClick}
-      disabled={disabled || loading || status === 'loading'}
+      disabled={disabled || buttonLoading || status === 'loading'} // Using buttonLoading here
       className={buttonClasses}
       aria-label={ariaLabel}
       data-testid={testId}
