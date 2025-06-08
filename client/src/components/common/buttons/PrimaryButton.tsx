@@ -1,14 +1,7 @@
 // client/src/components/common/buttons/PrimaryButton.tsx
 
 import React from 'react';
-import {
-  FiLoader,
-  FiCheck,
-  FiX,
-  FiAlertCircle,
-  FiChevronRight,
-  FiLock
-} from 'react-icons/fi';
+import * as FiIcons from 'react-icons/fi'; // Import all icons as a namespace
 
 interface PrimaryButtonProps {
   children: React.ReactNode;
@@ -19,7 +12,7 @@ interface PrimaryButtonProps {
   fullWidth?: boolean;
   disabled?: boolean;
   loading?: boolean;
-  isLoading?: boolean; // Added isLoading as an alternative to loading
+  isLoading?: boolean; 
   icon?: React.ReactNode;
   iconPosition?: 'left' | 'right';
   rounded?: 'none' | 'sm' | 'md' | 'lg' | 'full';
@@ -42,7 +35,7 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
   fullWidth = false,
   disabled = false,
   loading = false,
-  isLoading, // Added isLoading parameter
+  isLoading,
   icon,
   iconPosition = 'left',
   rounded = 'md',
@@ -55,7 +48,6 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
   ariaLabel,
   testId,
 }) => {
-  // Use isLoading if provided, otherwise fall back to loading
   const buttonLoading = isLoading !== undefined ? isLoading : loading;
   
   const [rippleStyle, setRippleStyle] = React.useState<React.CSSProperties>({});
@@ -85,15 +77,22 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
     full: 'rounded-full',
   };
 
-  const statusIcons = {
-    loading: <FiLoader className="animate-spin" />,
-    success: <FiCheck />,
-    error: <FiX />,
-    idle: icon,
+  // Fixed: Use the namespace approach for icons
+  const getStatusIcon = () => {
+    switch(status) {
+      case 'loading':
+        return <FiIcons.FiLoader className="animate-spin" />;
+      case 'success':
+        return <FiIcons.FiCheck />;
+      case 'error':
+        return <FiIcons.FiX />;
+      default:
+        return icon;
+    }
   };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    if (disabled || buttonLoading || status === 'loading') return; // Using buttonLoading here
+    if (disabled || buttonLoading || status === 'loading') return;
 
     if (withRipple) {
       const button = event.currentTarget;
@@ -116,7 +115,6 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
     onClick?.(event);
   };
 
-  // Update to use buttonLoading instead of loading
   const buttonClasses = [
     'relative inline-flex items-center justify-center',
     'font-medium transition-colors duration-150 ease-in-out',
@@ -133,24 +131,26 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
   const content = (
     <>
       {/* Icon - Left Position */}
-      {iconPosition === 'left' && (statusIcons[status] || icon) && (
+      {iconPosition === 'left' && (
         <span className={`mr-2 ${size === 'sm' ? 'text-sm' : ''}`}>
-          {statusIcons[status] || icon}
+          {getStatusIcon()}
         </span>
       )}
 
       {/* Secure Icon */}
       {secure && (
-        <FiLock className={`mr-2 ${size === 'sm' ? 'text-sm' : ''}`} />
+        <span className={`mr-2 ${size === 'sm' ? 'text-sm' : ''}`}>
+          <FiIcons.FiLock />
+        </span>
       )}
 
       {/* Button Text */}
       <span>{children}</span>
 
       {/* Icon - Right Position */}
-      {iconPosition === 'right' && (statusIcons[status] || icon) && (
+      {iconPosition === 'right' && (
         <span className={`ml-2 ${size === 'sm' ? 'text-sm' : ''}`}>
-          {statusIcons[status] || icon}
+          {getStatusIcon()}
         </span>
       )}
 
@@ -185,7 +185,7 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
     <button
       type={type}
       onClick={handleClick}
-      disabled={disabled || buttonLoading || status === 'loading'} // Using buttonLoading here
+      disabled={disabled || buttonLoading || status === 'loading'}
       className={buttonClasses}
       aria-label={ariaLabel}
       data-testid={testId}
@@ -194,19 +194,5 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
     </button>
   );
 };
-
-// CSS for ripple animation (add to your global CSS)
-/*
-@keyframes ripple {
-  to {
-    transform: scale(4);
-    opacity: 0;
-  }
-}
-
-.animate-ripple {
-  animation: ripple 0.6s linear;
-}
-*/
 
 export default PrimaryButton;
