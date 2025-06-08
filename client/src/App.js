@@ -1,7 +1,7 @@
 // client/src/App.tsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { ToastContainer } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast'; // Fixed import
 import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import LoginForm from './components/auth/LoginForm';
@@ -31,7 +31,7 @@ function App() {
           {/* 404 Route */}
           <Route path="*" element={<NotFound />} />
         </Routes>
-        <ToastContainer />
+        <Toaster position="top-right" /> {/* Changed to Toaster */}
       </AuthProvider>
     </Router>
   );
