@@ -20,12 +20,16 @@ declare module 'react-icons/fi' {
   export const FiLock: IconType;
   export const FiHelpCircle: IconType;
   
-  // New icons from error messages
+  // New icons from previous errors
   export const FiExternalLink: IconType;
   export const FiLink2: IconType;
   export const FiInfo: IconType;
   export const FiAlertTriangle: IconType;
   export const FiChevronDown: IconType;
+  
+  // New icons from the latest error
+  export const FiMaximize2: IconType;
+  export const FiMinimize2: IconType;
   
   // Additional common Feather icons that might be used
   export const FiUser: IconType;
@@ -53,4 +57,14 @@ declare module 'react-icons/fi' {
   export const FiMail: IconType;
   export const FiPhone: IconType;
   export const FiStar: IconType;
-}
+  export const FiChevronLeft: IconType;
+  export const FiChevronUp: IconType;
+  export const FiMoreVertical: IconType;
+  export const FiMoreHorizontal: IconType;
+  export const FiRefresh: IconType;
+  export const FiGithub: IconType;
+  export const FiLinkedin: IconType;
+  export const FiTwitter: IconType;
+  export const FiDollarSign: IconType;
+  export const FiFileText: IconType;
+    }
