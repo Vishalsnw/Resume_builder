@@ -28,7 +28,8 @@ declare module 'react-icons/fi' {
   export const FiChevronDown: IconType;
   export const FiMaximize2: IconType;
   export const FiMinimize2: IconType;
-  export const FiCheckCircle: IconType; // Added the missing icon
+  export const FiCheckCircle: IconType;
+  export const FiRefreshCcw: IconType; // Added the missing icon
   
   // Additional common Feather icons that might be used
   export const FiUser: IconType;
