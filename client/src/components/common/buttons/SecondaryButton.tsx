@@ -1,14 +1,6 @@
 // client/src/components/common/buttons/SecondaryButton.tsx
 
 import React from 'react';
-import {
-  FiLoader,
-  FiCheck,
-  FiX,
-  FiAlertCircle,
-  FiChevronRight,
-  FiLink2 // Changed from FiExternalLink to FiLink2 which exists in react-icons/fi
-} from 'react-icons/fi';
 
 interface SecondaryButtonProps {
   children: React.ReactNode;
@@ -106,11 +98,18 @@ const SecondaryButton: React.FC<SecondaryButtonProps> = ({
     full: 'rounded-full',
   };
 
-  const statusIcons = {
-    loading: <FiLoader className="animate-spin" />,
-    success: <FiCheck />,
-    error: <FiX />,
-    idle: icon,
+  // Using Unicode symbols instead of icons
+  const getStatusIcon = () => {
+    switch(status) {
+      case 'loading':
+        return <span className="animate-spin inline-block">⟳</span>;
+      case 'success':
+        return <span>✓</span>;
+      case 'error':
+        return <span>✕</span>;
+      default:
+        return icon;
+    }
   };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -135,9 +134,9 @@ const SecondaryButton: React.FC<SecondaryButtonProps> = ({
   const content = (
     <>
       {/* Icon - Left Position */}
-      {iconPosition === 'left' && (statusIcons[status] || icon) && (
+      {iconPosition === 'left' && (getStatusIcon()) && (
         <span className={`mr-2 ${size === 'sm' ? 'text-sm' : ''}`}>
-          {statusIcons[status] || icon}
+          {getStatusIcon()}
         </span>
       )}
 
@@ -145,15 +144,15 @@ const SecondaryButton: React.FC<SecondaryButtonProps> = ({
       <span>{children}</span>
 
       {/* Icon - Right Position */}
-      {iconPosition === 'right' && (statusIcons[status] || icon) && (
+      {iconPosition === 'right' && (getStatusIcon()) && (
         <span className={`ml-2 ${size === 'sm' ? 'text-sm' : ''}`}>
-          {statusIcons[status] || icon}
+          {getStatusIcon()}
         </span>
       )}
 
       {/* External Link Icon */}
       {external && (
-        <FiLink2 className={`ml-2 ${size === 'sm' ? 'text-sm' : ''}`} />
+        <span className={`ml-2 ${size === 'sm' ? 'text-sm' : ''}`}>↗</span>
       )}
     </>
   );
