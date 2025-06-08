@@ -1,0 +1,91 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Logs
+logs
+*.log
+logs/*.log
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+jspm_packages/
+bower_components/
+
+# Environment
+.env
+.env.test
+.env.production
+.env.local
+
+# Typescript
+*.tsbuildinfo
+
+# Build output
+dist/
+build/
+out/
+.temp/
+
+# Coverage
+coverage/
+*.lcov
+*.lcov.info
+
+# Testing
+.nyc_output/
+.vscode-test/
+
+# IDEs and editors
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Mac OS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*.swp
+*.swo
+
+# Optional npm cache directory
+.npm/
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Optional Prettier cache
+.prettiercache
+
+# IntelliJ IDEA
+*.iml
+.idea/
+
+# Visual Studio Code
+.vscode/
+.history/
+.vscode-test/
+
+# Temporary files
+*.tmp
+*.temp
+~$*
+
+# GitHub Actions
+.github/workflows/*.lock
+.github/workflows/node_modules/
