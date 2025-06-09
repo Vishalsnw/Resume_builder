@@ -36,12 +36,12 @@ jobs:
       - name: Run import fixer
         run: |
           echo "⚙️ Running fixer..."
-          python3 << 'EOF'
+          echo '
 import os, re
 
 SRC_DIR = os.getcwd()
-BASE_DIRS = ['components', 'hooks', 'utils', 'contexts', 'services', 'types']
-IMPORT_ALIAS = '@/'
+BASE_DIRS = ["components", "hooks", "utils", "contexts", "services", "types"]
+IMPORT_ALIAS = "@/"
 
 def find_exports():
     ex = {}
@@ -50,26 +50,26 @@ def find_exports():
         if not os.path.exists(path): continue
         for root, _, files in os.walk(path):
             for f in files:
-                if f.endswith(('.tsx', '.ts', '.js', '.jsx')):
-                    name = f.split('.')[0]
-                    rel = os.path.relpath(os.path.join(root, f), SRC_DIR).replace("\\", "/")
+                if f.endswith((".tsx", ".ts", ".js", ".jsx")):
+                    name = f.split(".")[0]
+                    rel = os.path.relpath(os.path.join(root, f), SRC_DIR).replace("\\\\", "/")
                     ex[name] = os.path.splitext(rel)[0]
     return ex
 
 def update_file(filepath, exports):
-    with open(filepath, 'r', encoding='utf-8') as f:
+    with open(filepath, "r", encoding="utf-8") as f:
         text = f.read()
 
-    existing_imports = set(re.findall(r'import\s+([A-Za-z0-9_]+)', text))
-    used = set(k for k in exports if re.search(rf'\b{k}\b', text)) - existing_imports
+    existing_imports = set(re.findall(r"import\\s+([A-Za-z0-9_]+)", text))
+    used = set(k for k in exports if re.search(rf"\\b{k}\\b", text)) - existing_imports
     if not used: return False
 
-    new_imports = [f"import {u} from '{IMPORT_ALIAS}{exports[u]}';\n" for u in used]
+    new_imports = [f"import {u} from \'{IMPORT_ALIAS}{exports[u]}\';\\n" for u in used]
     lines = text.splitlines(keepends=True)
-    insert_index = next((i for i, l in enumerate(lines) if l.strip() and not l.strip().startswith(('//', '/*'))), 0)
+    insert_index = next((i for i, l in enumerate(lines) if l.strip() and not l.strip().startswith(("//", "/*"))), 0)
     updated = lines[:insert_index] + new_imports + lines[insert_index:]
 
-    with open(filepath, 'w', encoding='utf-8') as f:
+    with open(filepath, "w", encoding="utf-8") as f:
         f.writelines(updated)
     print(f"✅ Updated: {filepath} with {', '.join(used)}")
     return True
@@ -78,11 +78,12 @@ exports = find_exports()
 count = 0
 for root, _, files in os.walk(SRC_DIR):
     for f in files:
-        if f.endswith(('.tsx', '.ts', '.js', '.jsx')):
+        if f.endswith((".tsx", ".ts", ".js", ".jsx")):
             if update_file(os.path.join(root, f), exports):
                 count += 1
-print(f"\n🔁 Updated {count} files.")
-EOF
+print(f"\\n🔁 Updated {count} files.")
+          ' > fixer.py
+          python3 fixer.py
 
       - name: Check for Git changes
         id: check_changes
