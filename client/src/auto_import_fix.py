@@ -17,7 +17,19 @@ def find_all_exports(base_dirs):
     return exports
 
 def get_imported_items(text):
-    return set(re.findall(r'import\s+(\w+)', text))
+    # Get all imported items, including renamed imports
+    direct_imports = re.findall(r'import\s+(\w+)', text)
+    renamed_imports = re.findall(r'import\s+{[^}]*\s+(\w+)\s+as\s+(\w+)[^}]*}', text)
+    return set(direct_imports + [alias for _, alias in renamed_imports])
+
+def get_local_declarations(text):
+    # Find component declarations (const X =, function X, class X)
+    const_declarations = re.findall(r'(?:const|let|var)\s+(\w+)\s*[:=]', text)
+    func_declarations = re.findall(r'function\s+(\w+)', text)
+    class_declarations = re.findall(r'class\s+(\w+)', text)
+    interface_declarations = re.findall(r'(?:interface|type|enum)\s+(\w+)', text)
+    
+    return set(const_declarations + func_declarations + class_declarations + interface_declarations)
 
 def get_used_items(text, known_items):
     used = set()
@@ -27,18 +39,34 @@ def get_used_items(text, known_items):
             used.add(item)
     return used
 
-def add_imports(filepath, missing, exports):
+def add_imports(filepath, missing, exports, local_declarations):
     with open(filepath, 'r', encoding='utf-8') as f:
         lines = f.readlines()
 
     insert_at = next((i for i, line in enumerate(lines)
                       if line.strip() and not line.strip().startswith(("//", "/*", "*"))), 0)
-
-    import_lines = [f"import {item} from '{IMPORT_ALIAS}{exports[item]}';\n" for item in missing]
+    
+    import_lines = []
+    skipped = []
+    
+    for item in missing:
+        if item in local_declarations:
+            # Naming conflict detected, use an alias
+            alias = f"{item}Import"
+            import_lines.append(f"import {{ default as {alias} }} from '{IMPORT_ALIAS}{exports[item]}';\n")
+            skipped.append(f"{item} (imported as {alias} to avoid conflict)")
+        else:
+            import_lines.append(f"import {item} from '{IMPORT_ALIAS}{exports[item]}';\n")
+    
+    if skipped:
+        import_lines.append(f"\n// NOTE: The following imports were renamed to avoid conflicts with local declarations:\n")
+        import_lines.append(f"// {', '.join(skipped)}\n")
 
     updated = lines[:insert_at] + import_lines + lines[insert_at:]
     with open(filepath, 'w', encoding='utf-8') as f:
         f.writelines(updated)
+    
+    return skipped
 
 def is_code_file(filename):
     return filename.endswith(('.tsx', '.ts', '.js', '.jsx'))
@@ -51,6 +79,7 @@ def main():
     total = 0
     updated = 0
     all_used = set()
+    conflicts = []
 
     for root, _, files in os.walk(SRC_DIR):
         for file in files:
@@ -62,13 +91,16 @@ def main():
                 text = f.read()
 
             imported = get_imported_items(text)
+            local_declarations = get_local_declarations(text)
             used = get_used_items(text, exports.keys())
             all_used.update(used)
 
             missing = used - imported
             if missing:
                 print(f"🔧 Updating {filepath} - adding: {', '.join(missing)}")
-                add_imports(filepath, missing, exports)
+                skipped = add_imports(filepath, missing, exports, local_declarations)
+                if skipped:
+                    conflicts.extend([f"{filepath}: {s}" for s in skipped])
                 updated += 1
 
             total += 1
@@ -79,6 +111,11 @@ def main():
         print("\n⚠️ Possibly unused files/components:")
         for u in sorted(unused):
             print(f"  - {u} → {exports[u]}")
+    
+    if conflicts:
+        print("\n⚠️ Naming conflicts detected and handled:")
+        for conflict in conflicts:
+            print(f"  - {conflict}")
 
     print(f"\n✅ Done: Processed {total} files, updated {updated} files.")
 
