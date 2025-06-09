@@ -1,3 +1,4 @@
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import FileInput from '@/components/FileInput';
 import FileInputWrapper from '@/components/FileInputWrapper';
 import React, { useRef } from 'react';

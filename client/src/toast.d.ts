@@ -1,6 +1,9 @@
 // src/toast.d.ts
 
 // Global toast definition
+import [id] from '@/pages/resumes/edit/[id]';
+import toast.d from '@/toast.d';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 declare const toast: {
   success: (message: string, options?: any) => void;
   error: (message: string, options?: any) => void;

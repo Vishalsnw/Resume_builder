@@ -1,5 +1,11 @@
 // src/components/auth/Auth.tsx
 
+import forgot-password from '@/pages/forgot-password';
+import login from '@/pages/api/auth/login';
+import [id] from '@/pages/resumes/edit/[id]';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import register from '@/pages/api/auth/register';
+import 500 from '@/pages/500';
 import Auth from '@/components/auth/Auth';
 import useForm from '@/hooks/useForm';
 import React, { useState } from 'react';

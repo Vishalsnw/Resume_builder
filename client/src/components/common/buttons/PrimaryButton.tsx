@@ -1,5 +1,7 @@
 // client/src/components/common/buttons/PrimaryButton.tsx
 
+import 500 from '@/pages/500';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import PrimaryButton from '@/components/common/buttons/PrimaryButton';
 import React from 'react';
 

@@ -1,5 +1,12 @@
 // pages/profile/edit.tsx
 
+import index from '@/pages/help/index';
+import edit from '@/pages/profile/edit';
+import upload from '@/pages/api/upload';
+import [id] from '@/pages/resumes/edit/[id]';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import login from '@/pages/api/auth/login';
+import 500 from '@/pages/500';
 import Profile from '@/components/profile/Profile';
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';

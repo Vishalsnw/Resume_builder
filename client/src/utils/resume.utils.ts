@@ -6,6 +6,8 @@
  * @returns A single merged object containing all sections.
  */
 import resume.utils from '@/utils/resume.utils';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import resume.utils from '@/utils/resume.utils';
 export function mergeSections(sections: Record<string, any>[]): Record<string, any> {
     return sections.reduce((merged, section) => {
         return { ...merged, ...section };

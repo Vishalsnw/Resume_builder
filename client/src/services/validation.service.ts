@@ -6,6 +6,9 @@
  * @returns True if valid, otherwise false.
  */
 import validation.service from '@/services/validation.service';
+import [id] from '@/pages/resumes/edit/[id]';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import validation.service from '@/services/validation.service';
 export const validateEmail = (email: string): boolean => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);

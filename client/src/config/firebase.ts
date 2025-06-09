@@ -1,3 +1,4 @@
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import firebase from '@/components/auth/firebase';
 import Auth from '@/components/auth/Auth';
 import { initializeApp } from 'firebase/app';

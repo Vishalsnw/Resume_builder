@@ -1,5 +1,7 @@
 // client/src/components/resume/templates/ATSTemplate.tsx
 
+import index from '@/pages/help/index';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import ATSTemplate from '@/components/resume/templates/ATSTemplate';
 import React from 'react';
 import { format } from 'date-fns';

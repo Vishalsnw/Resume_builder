@@ -1,5 +1,8 @@
 // pages/help/index.tsx
 
+import index from '@/pages/help/index';
+import 500 from '@/pages/500';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import React, { useState, useEffect } from 'react';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';

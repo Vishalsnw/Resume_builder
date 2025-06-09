@@ -1,5 +1,6 @@
 // hooks/usePagination.ts
 
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import usePagination from '@/hooks/usePagination';
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/router';

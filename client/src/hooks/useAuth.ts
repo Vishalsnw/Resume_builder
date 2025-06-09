@@ -1,5 +1,11 @@
 // hooks/useAuth.ts
 
+import { default as loginImport } from '@/pages/api/auth/login';
+import dashboard from '@/pages/dashboard';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+
+// NOTE: Renamed to avoid conflict with local declarations:
+// login → loginImport
 import Auth from '@/components/auth/Auth';
 import useAuth from '@/hooks/useAuth';
 import { useSession, signIn, signOut } from 'next-auth/react';

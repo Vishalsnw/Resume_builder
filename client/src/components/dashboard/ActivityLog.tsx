@@ -1,5 +1,12 @@
 // client/src/components/common/activity/ActivityLog.tsx
 
+import dashboard from '@/pages/dashboard';
+import upload from '@/pages/api/upload';
+import create from '@/pages/resumes/create';
+import [id] from '@/pages/resumes/edit/[id]';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import login from '@/pages/api/auth/login';
+import 500 from '@/pages/500';
 import ActivityLog from '@/components/dashboard/ActivityLog';
 import React, { forwardRef, useState } from 'react';
 import {

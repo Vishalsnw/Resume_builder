@@ -1,5 +1,10 @@
 // client/src/components/resume/builder/PersonalInfoForm.tsx
 
+import 500 from '@/pages/500';
+import [id] from '@/pages/resumes/edit/[id]';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import register from '@/pages/api/auth/register';
+import upload from '@/pages/api/upload';
 import Profile from '@/components/profile/Profile';
 import LoadingSpinner from '@/components/layout/LoadingSpinner';
 import useForm from '@/hooks/useForm';

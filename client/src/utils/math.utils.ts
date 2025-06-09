@@ -5,6 +5,10 @@
  * @param num - The number to calculate the factorial for.
  * @returns The factorial of the number.
  */
+import index from '@/pages/help/index';
+import [id] from '@/pages/resumes/edit/[id]';
+import math.utils from '@/utils/math.utils';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import math.utils from '@/utils/math.utils';
 export function factorial(num: number): number {
     if (num < 0) {

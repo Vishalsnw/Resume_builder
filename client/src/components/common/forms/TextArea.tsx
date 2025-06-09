@@ -1,5 +1,7 @@
 // client/src/components/common/inputs/TextArea.tsx
 
+import 500 from '@/pages/500';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import Footer from '@/components/layout/Footer';
 import TextArea from '@/components/common/forms/TextArea';
 import React, { forwardRef, useEffect, useRef, useState } from 'react';

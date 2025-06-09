@@ -1,3 +1,6 @@
+import 500 from '@/pages/500';
+import [id] from '@/pages/resumes/edit/[id]';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import Profile from '@/components/profile/Profile';
 import React from 'react';
 

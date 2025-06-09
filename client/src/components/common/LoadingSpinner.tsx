@@ -1,3 +1,4 @@
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import LoadingSpinner from '@/components/layout/LoadingSpinner';
 import React from 'react';
 

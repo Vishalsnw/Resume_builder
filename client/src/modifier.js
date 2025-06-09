@@ -1,6 +1,9 @@
 // src/modifier.js
 
 // This is a script that runs at build time to modify the problematic file
+import [id] from '@/pages/resumes/edit/[id]';
+import modifier from '@/modifier';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 const fs = require('fs');
 const path = require('path');
 

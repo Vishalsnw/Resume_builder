@@ -1,5 +1,10 @@
 // pages/api/users/index.ts
 
+import index from '@/pages/help/index';
+import 500 from '@/pages/500';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import settings from '@/pages/profile/settings';
+import create from '@/pages/resumes/create';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 import { prisma } from '../../../lib/prisma';

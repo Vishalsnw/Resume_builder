@@ -1,5 +1,6 @@
 // hooks/useNotification.ts
 
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import useNotification from '@/hooks/useNotification';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { z } from 'zod';

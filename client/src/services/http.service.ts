@@ -1,6 +1,11 @@
 // src/services/http.service.ts
 
 import http.service from '@/services/http.service';
+import 500 from '@/pages/500';
+import create from '@/pages/resumes/create';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import auth.service from '@/services/auth.service';
+import http.service from '@/services/http.service';
 import auth.service from '@/services/auth.service';
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 import { z } from 'zod';

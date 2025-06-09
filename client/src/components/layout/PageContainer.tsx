@@ -1,5 +1,7 @@
 // client/src/components/layout/PageContainer.tsx
 
+import [id] from '@/pages/resumes/edit/[id]';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import PageContainer from '@/components/layout/PageContainer';
 import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';

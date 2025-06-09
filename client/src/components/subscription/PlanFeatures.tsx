@@ -1,5 +1,8 @@
 // client/src/components/subscription/PlanFeatures.tsx
 
+import 500 from '@/pages/500';
+import edit from '@/pages/profile/edit';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import PlanFeatures from '@/components/subscription/PlanFeatures';
 import Footer from '@/components/layout/Footer';
 import React, { useState } from 'react';

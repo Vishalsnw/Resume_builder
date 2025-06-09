@@ -1,5 +1,10 @@
 // pages/templates/index.tsx
 
+import index from '@/pages/help/index';
+import create from '@/pages/resumes/create';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import login from '@/pages/api/auth/login';
+import 500 from '@/pages/500';
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';

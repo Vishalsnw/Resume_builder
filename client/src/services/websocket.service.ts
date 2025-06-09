@@ -3,6 +3,7 @@
  * Handles WebSocket connections, message sending, and reconnections.
  */
 
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 export class WebSocketService {
   private socket: WebSocket | null = null;
   private url: string;

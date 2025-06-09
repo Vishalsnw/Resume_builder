@@ -6,6 +6,8 @@
  * @returns True if the email is valid, otherwise false.
  */
 import validation.utils from '@/utils/validation.utils';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import validation.utils from '@/utils/validation.utils';
 export function validateEmail(email: string): boolean {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);

@@ -1,6 +1,8 @@
 // src/ref-hack.js
 
 // Import React
+import ref-hack from '@/ref-hack';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import React from 'react';
 
 // Monkeypatch React.RefObject to make current writable

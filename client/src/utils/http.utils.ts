@@ -6,6 +6,8 @@
  * @returns A promise resolving to the JSON response.
  */
 import http.utils from '@/utils/http.utils';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import http.utils from '@/utils/http.utils';
 export async function getRequest<T>(url: string): Promise<T> {
     try {
         const response = await fetch(url, {

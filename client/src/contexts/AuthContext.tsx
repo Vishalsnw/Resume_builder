@@ -1,4 +1,10 @@
 // client/src/contexts/AuthContext.tsx
+import { default as registerImport } from '@/pages/api/auth/register';
+import { default as loginImport } from '@/pages/api/auth/login';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+
+// NOTE: Renamed to avoid conflict with local declarations:
+// register → registerImport, login → loginImport
 import firebase from '@/components/auth/firebase';
 import AuthContext from '@/contexts/AuthContext';
 import Auth from '@/components/auth/Auth';

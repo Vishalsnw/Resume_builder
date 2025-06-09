@@ -1,5 +1,9 @@
 // client/src/components/resume/builder/CoverLetterGenerator.tsx
 
+import settings from '@/pages/profile/settings';
+import [id] from '@/pages/resumes/edit/[id]';
+import 500 from '@/pages/500';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import Footer from '@/components/layout/Footer';
 import CoverLetterGenerator from '@/components/resume/export/CoverLetterGenerator';
 import Settings from '@/components/settings/Settings';

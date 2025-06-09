@@ -1,5 +1,11 @@
 // src/components/resume/ResumeEditor.tsx - Part 1: Imports and interfaces
 
+import index from '@/pages/help/index';
+import contact from '@/pages/help/contact';
+import [id] from '@/pages/resumes/edit/[id]';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import register from '@/pages/api/auth/register';
+import 500 from '@/pages/500';
 import useForm from '@/hooks/useForm';
 import Sidebar from '@/components/layout/Sidebar';
 import ResumeEditor from '@/components/resume/ResumeEditor';

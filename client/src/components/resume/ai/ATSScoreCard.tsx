@@ -1,5 +1,8 @@
 // client/src/components/resume/builder/ATSScoreCard.tsx
 
+import index from '@/pages/help/index';
+import 500 from '@/pages/500';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import Footer from '@/components/layout/Footer';
 import ATSScoreCard from '@/components/resume/ai/ATSScoreCard';
 import React, { useState, useEffect } from 'react';

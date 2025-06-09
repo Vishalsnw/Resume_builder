@@ -1,6 +1,8 @@
 // notification.service.ts
 
 // Define the types of notifications
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import notification.service from '@/services/notification.service';
 import notification.service from '@/services/notification.service';
 export type NotificationType = 'success' | 'error' | 'info' | 'warning';
 

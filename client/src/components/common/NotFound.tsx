@@ -1,3 +1,7 @@
+import 404 from '@/pages/404';
+import login from '@/pages/api/auth/login';
+import dashboard from '@/pages/dashboard';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import Dashboard from '@/components/dashboard/Dashboard';
 import NotFound from '@/components/common/NotFound';
 import React from 'react';

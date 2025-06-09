@@ -1,4 +1,23 @@
 // client/src/App.js or App.tsx
+import 404 from '@/pages/404';
+import Settings from '@/components/settings/Settings';
+import dashboard from '@/pages/dashboard';
+import { default as AppImport } from '@/App';
+import create from '@/pages/resumes/create';
+import login from '@/pages/api/auth/login';
+import Profile from '@/components/profile/Profile';
+import [id] from '@/pages/resumes/edit/[id]';
+import LoginForm from '@/components/auth/LoginForm';
+import AuthContext from '@/contexts/AuthContext';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import settings from '@/pages/profile/settings';
+import register from '@/pages/api/auth/register';
+import 500 from '@/pages/500';
+import useAuth from '@/hooks/useAuth';
+import EmailVerification from '@/components/auth/EmailVerification';
+
+// NOTE: Renamed to avoid conflict with local declarations:
+// App → AppImport
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';

@@ -1,3 +1,4 @@
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 module.exports = {
   extends: ['react-app', 'react-app/jest'],
   rules: {

@@ -1,5 +1,8 @@
 // pdf.utils.ts
 
+import index from '@/pages/help/index';
+import pdf.utils from '@/utils/pdf.utils';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import pdf.utils from '@/utils/pdf.utils';
 import jsPDF from 'jspdf';
 

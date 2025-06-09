@@ -1,5 +1,11 @@
 // client/src/components/layout/Footer.tsx
 
+import App from '@/App';
+import contact from '@/pages/help/contact';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import settings from '@/pages/profile/settings';
+import 500 from '@/pages/500';
+import faq from '@/pages/help/faq';
 import Footer from '@/components/layout/Footer';
 import Settings from '@/components/settings/Settings';
 import React, { useState, useEffect } from 'react';

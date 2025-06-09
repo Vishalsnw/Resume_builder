@@ -1,6 +1,9 @@
 // src/components/file-upload-fix.tsx
 
 // This is a helper component you can use to replace the problematic component
+import upload from '@/pages/api/upload';
+import file-upload-fix from '@/components/file-upload-fix';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import file-upload-fix from '@/components/file-upload-fix';
 import { ForwardedRef, forwardRef, useRef, InputHTMLAttributes } from 'react';
 

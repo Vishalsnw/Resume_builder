@@ -1,5 +1,12 @@
 // pages/reset-password.tsx
 
+import index from '@/pages/help/index';
+import forgot-password from '@/pages/forgot-password';
+import reset-password from '@/pages/reset-password';
+import [id] from '@/pages/resumes/edit/[id]';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import login from '@/pages/api/auth/login';
+import 500 from '@/pages/500';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';

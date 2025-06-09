@@ -1,5 +1,8 @@
 // src/services/api.service.ts
 
+import create from '@/pages/resumes/create';
+import api.service from '@/services/api.service';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import api.service from '@/services/api.service';
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 import { z } from 'zod';

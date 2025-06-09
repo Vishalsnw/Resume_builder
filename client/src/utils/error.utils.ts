@@ -6,6 +6,8 @@
  * @param context - Optional context or additional information about where the error occurred.
  */
 import error.utils from '@/utils/error.utils';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import error.utils from '@/utils/error.utils';
 export function logError(error: unknown, context?: string): void {
     console.error(`[Error] ${context ? `[${context}] ` : ''}`, error);
 }

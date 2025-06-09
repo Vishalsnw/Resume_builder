@@ -1,5 +1,12 @@
 // pages/login.tsx
 
+import dashboard from '@/pages/dashboard';
+import forgot-password from '@/pages/forgot-password';
+import create from '@/pages/resumes/create';
+import register from '@/pages/api/auth/register';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import login from '@/pages/api/auth/login';
+import 500 from '@/pages/500';
 import React, { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';

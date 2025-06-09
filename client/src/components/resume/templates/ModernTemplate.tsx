@@ -1,5 +1,9 @@
 // client/src/components/resume/templates/ModernTemplate.tsx
 
+import index from '@/pages/help/index';
+import [id] from '@/pages/resumes/edit/[id]';
+import 500 from '@/pages/500';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import ModernTemplate from '@/components/resume/templates/ModernTemplate';
 import Profile from '@/components/profile/Profile';
 import React from 'react';

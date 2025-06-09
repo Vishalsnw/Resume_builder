@@ -1,5 +1,7 @@
 // client/src/components/common/alerts/Alert.tsx
 
+import 500 from '@/pages/500';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import Alert from '@/components/common/feedback/Alert';
 import React, { forwardRef, useState } from 'react';
 import {

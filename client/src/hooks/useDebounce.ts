@@ -1,5 +1,7 @@
 // hooks/useDebounce.ts
 
+import 500 from '@/pages/500';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import useDebounce from '@/hooks/useDebounce';
 import { useState, useEffect, useCallback, useRef } from 'react';
 

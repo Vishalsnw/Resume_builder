@@ -1,5 +1,10 @@
 // client/src/components/pricing/PricingCards.tsx
 
+import index from '@/pages/help/index';
+import dashboard from '@/pages/dashboard';
+import create from '@/pages/resumes/create';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import 500 from '@/pages/500';
 import Dashboard from '@/components/dashboard/Dashboard';
 import PricingCards from '@/components/subscription/PricingCards';
 import React, { useState } from 'react';

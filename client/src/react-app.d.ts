@@ -1,5 +1,8 @@
 // src/react-app.d.ts
 
+import react-app.d from '@/react-app.d';
+import [id] from '@/pages/resumes/edit/[id]';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import 'react';
 
 declare module 'react' {

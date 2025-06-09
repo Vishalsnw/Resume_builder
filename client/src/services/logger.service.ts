@@ -2,6 +2,8 @@
 
 // Define log levels
 import logger.service from '@/services/logger.service';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import logger.service from '@/services/logger.service';
 export type LogLevel = 'info' | 'warn' | 'error' | 'debug';
 
 /**

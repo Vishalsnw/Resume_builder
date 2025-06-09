@@ -1,5 +1,7 @@
 // client/src/components/resume/builder/ContentEnhancer.tsx
 
+import 500 from '@/pages/500';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import Footer from '@/components/layout/Footer';
 import ContentEnhancer from '@/components/resume/ai/ContentEnhancer';
 import React, { useState, useRef } from 'react';

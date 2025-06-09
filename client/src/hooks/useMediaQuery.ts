@@ -1,5 +1,7 @@
 // hooks/useMediaQuery.ts
 
+import [id] from '@/pages/resumes/edit/[id]';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { z } from 'zod';

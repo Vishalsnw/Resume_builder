@@ -5,6 +5,12 @@
  * @param file - The file to read.
  * @returns A promise that resolves to the file content as a string.
  */
+import { default as indexImport } from '@/pages/help/index';
+import file.utils from '@/utils/file.utils';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+
+// NOTE: Renamed to avoid conflict with local declarations:
+// index → indexImport
 import file.utils from '@/utils/file.utils';
 export function readFileAsText(file: File): Promise<string> {
     return new Promise((resolve, reject) => {

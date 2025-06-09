@@ -1,5 +1,8 @@
 // src/react-icons.d.ts
 
+import [id] from '@/pages/resumes/edit/[id]';
+import react-icons.d from '@/react-icons.d';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 declare module 'react-icons/fi' {
   import { ComponentType, SVGAttributes } from 'react';
   

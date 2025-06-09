@@ -1,5 +1,7 @@
 // client/src/components/common/buttons/SecondaryButton.tsx
 
+import 500 from '@/pages/500';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import SecondaryButton from '@/components/common/buttons/SecondaryButton';
 import React from 'react';
 

@@ -1,5 +1,10 @@
 // src/components/resume/ResumePreview.tsx
 
+import index from '@/pages/help/index';
+import contact from '@/pages/help/contact';
+import [id] from '@/pages/resumes/edit/[id]';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import 500 from '@/pages/500';
 import ResumePreview from '@/components/resume/ResumePreview';
 import React, { useRef } from 'react';
 import { 

@@ -1,5 +1,9 @@
 // client/src/components/resume/templates/CreativeTemplate.tsx
 
+import index from '@/pages/help/index';
+import [id] from '@/pages/resumes/edit/[id]';
+import 500 from '@/pages/500';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import CreativeTemplate from '@/components/resume/templates/CreativeTemplate';
 import Profile from '@/components/profile/Profile';
 import React from 'react';

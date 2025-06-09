@@ -1,5 +1,11 @@
 // client/src/components/common/inputs/Select.tsx
 
+import { default as indexImport } from '@/pages/help/index';
+import 500 from '@/pages/500';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+
+// NOTE: Renamed to avoid conflict with local declarations:
+// index → indexImport
 import Input from '@/components/common/forms/Input';
 import Dropdown from '@/components/common/ui/Dropdown';
 import Select from '@/components/common/forms/Select';

@@ -1,5 +1,8 @@
 // client/src/components/payment/PaymentForm.tsx
 
+import [id] from '@/pages/resumes/edit/[id]';
+import 500 from '@/pages/500';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import Footer from '@/components/layout/Footer';
 import PaymentForm from '@/components/subscription/PaymentForm';
 import Select from '@/components/common/forms/Select';

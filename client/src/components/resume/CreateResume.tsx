@@ -1,4 +1,8 @@
 // client/src/components/resume/CreateResume.tsx
+import create from '@/pages/resumes/create';
+import 500 from '@/pages/500';
+import [id] from '@/pages/resumes/edit/[id]';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import CreateResume from '@/components/resume/CreateResume';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';

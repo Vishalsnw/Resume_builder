@@ -4,6 +4,9 @@
  * Generates a Version 4 UUID (Random UUID).
  * @returns A randomly generated UUID string in the format xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx.
  */
+import [id] from '@/pages/resumes/edit/[id]';
+import uuid.utils from '@/utils/uuid.utils';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import uuid.utils from '@/utils/uuid.utils';
 export function generateUUIDv4(): string {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (char) => {

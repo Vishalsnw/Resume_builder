@@ -1,5 +1,7 @@
 // pages/templates/preview/[id].tsx
 
+import 500 from '@/pages/500';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import TemplatePreview from '@/components/resume/templates/TemplatePreview';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';

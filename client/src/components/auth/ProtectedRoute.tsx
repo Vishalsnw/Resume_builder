@@ -1,4 +1,6 @@
 // client/src/components/auth/ProtectedRoute.tsx
+import login from '@/pages/api/auth/login';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import AuthContext from '@/contexts/AuthContext';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import useAuth from '@/hooks/useAuth';

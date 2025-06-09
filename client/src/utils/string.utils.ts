@@ -6,6 +6,8 @@
  * @returns The string with the first letter capitalized.
  */
 import string.utils from '@/utils/string.utils';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import string.utils from '@/utils/string.utils';
 export function capitalizeFirstLetter(str: string): string {
     if (!str) return '';
     return str.charAt(0).toUpperCase() + str.slice(1);

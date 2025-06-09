@@ -1,5 +1,9 @@
 // pages/profile/settings.tsx
 
+import settings from '@/pages/profile/settings';
+import login from '@/pages/api/auth/login';
+import 500 from '@/pages/500';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import Profile from '@/components/profile/Profile';
 import Footer from '@/components/layout/Footer';
 import Settings from '@/components/settings/Settings';

@@ -1,3 +1,4 @@
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import ResumeBuilder from '@/components/resume/ResumeBuilder';
 import AuthContext from '@/contexts/AuthContext';
 import useAuth from '@/hooks/useAuth';

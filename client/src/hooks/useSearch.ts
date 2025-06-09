@@ -1,5 +1,10 @@
 // hooks/useSearch.ts
 
+import { default as indexImport } from '@/pages/help/index';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+
+// NOTE: Renamed to avoid conflict with local declarations:
+// index → indexImport
 import useLocalStorage from '@/hooks/useLocalStorage';
 import useDebounce from '@/hooks/useDebounce';
 import useSearch from '@/hooks/useSearch';

@@ -1,4 +1,6 @@
 import notification.utils from '@/utils/notification.utils';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import notification.utils from '@/utils/notification.utils';
 import {
     showSuccessNotification,
     showErrorNotification,

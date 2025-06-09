@@ -1,5 +1,7 @@
 // hooks/useResume.ts
 
+import 500 from '@/pages/500';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import useDebounce from '@/hooks/useDebounce';
 import useResume from '@/hooks/useResume';

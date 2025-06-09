@@ -1,5 +1,7 @@
 // hooks/useClickOutside.ts
 
+import create from '@/pages/resumes/create';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import useClickOutside from '@/hooks/useClickOutside';
 import { useEffect, useRef, useCallback, RefObject } from 'react';
 import { z } from 'zod';

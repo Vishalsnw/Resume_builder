@@ -1,5 +1,15 @@
 // pages/resumes/index.tsx
 
+import index from '@/pages/help/index';
+import edit from '@/pages/profile/edit';
+import { default as modifierImport } from '@/modifier';
+import create from '@/pages/resumes/create';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import login from '@/pages/api/auth/login';
+import 500 from '@/pages/500';
+
+// NOTE: Renamed to avoid conflict with local declarations:
+// modifier → modifierImport
 import Card from '@/components/common/ui/Card';
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';

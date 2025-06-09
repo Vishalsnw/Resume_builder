@@ -1,4 +1,5 @@
 // Apply this fix immediately when imported
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 (function patchRefBehavior() {
   // Wait for React to be available in the global scope or module scope
   function checkAndPatchReact() {

@@ -1,5 +1,6 @@
 // hooks/useForm.ts
 
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import useForm from '@/hooks/useForm';
 import { useState, useCallback, useEffect } from 'react';
 import { z } from 'zod';

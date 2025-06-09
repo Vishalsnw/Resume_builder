@@ -1,5 +1,10 @@
 // client/src/components/resume/templates/ClassicTemplate.tsx
 
+import index from '@/pages/help/index';
+import 404 from '@/pages/404';
+import [id] from '@/pages/resumes/edit/[id]';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import 500 from '@/pages/500';
 import Profile from '@/components/profile/Profile';
 import ClassicTemplate from '@/components/resume/templates/ClassicTemplate';
 import React from 'react';

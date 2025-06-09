@@ -1,5 +1,11 @@
 // pages/dashboard.tsx
 
+import dashboard from '@/pages/dashboard';
+import edit from '@/pages/profile/edit';
+import create from '@/pages/resumes/create';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import login from '@/pages/api/auth/login';
+import 500 from '@/pages/500';
 import Dashboard from '@/components/dashboard/Dashboard';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';

@@ -1,5 +1,9 @@
 // pages/api/resumes/[id].ts
 
+import 404 from '@/pages/404';
+import 500 from '@/pages/500';
+import create from '@/pages/resumes/create';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 import { prisma } from '../../../lib/prisma';

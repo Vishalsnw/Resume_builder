@@ -1,5 +1,10 @@
 // pages/api/auth/[...nextauth].ts
 
+import login from '@/pages/api/auth/login';
+import create from '@/pages/resumes/create';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import settings from '@/pages/profile/settings';
+import register from '@/pages/api/auth/register';
 import Auth from '@/components/auth/Auth';
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';

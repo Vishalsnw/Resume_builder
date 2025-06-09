@@ -1,5 +1,7 @@
 // client/src/components/common/navigation/Tabs.tsx
 
+import 500 from '@/pages/500';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import Tabs from '@/components/common/ui/Tabs';
 import React, { forwardRef, useState, useEffect } from 'react';
 import {

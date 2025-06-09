@@ -1,5 +1,10 @@
 // pages/api/auth/register.ts
 
+import create from '@/pages/resumes/create';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import settings from '@/pages/profile/settings';
+import register from '@/pages/api/auth/register';
+import 500 from '@/pages/500';
 import { NextApiRequest, NextApiResponse } from 'next';
 import bcrypt from 'bcryptjs';
 import { prisma } from '../../../lib/prisma';

@@ -1,5 +1,7 @@
 // client/src/components/common/modals/Modal.tsx
 
+import 500 from '@/pages/500';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import Modal from '@/components/common/feedback/Modal';
 import Footer from '@/components/layout/Footer';
 import React, { forwardRef, useEffect, useRef } from 'react';

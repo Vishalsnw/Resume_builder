@@ -1,5 +1,11 @@
 // pages/profile/index.tsx
 
+import index from '@/pages/help/index';
+import 500 from '@/pages/500';
+import dashboard from '@/pages/dashboard';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import login from '@/pages/api/auth/login';
+import upload from '@/pages/api/upload';
 import Profile from '@/components/profile/Profile';
 import UserProfile from '@/components/dashboard/UserProfile';
 import React, { useState, useEffect } from 'react';

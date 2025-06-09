@@ -1,5 +1,8 @@
 // client/src/components/auth/ForgotPassword.tsx
 
+import login from '@/pages/api/auth/login';
+import 500 from '@/pages/500';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import firebase from '@/components/auth/firebase';
 import ForgotPassword from '@/components/auth/ForgotPassword';
 import React, { useState } from 'react';

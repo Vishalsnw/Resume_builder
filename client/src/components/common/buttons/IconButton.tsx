@@ -1,5 +1,7 @@
 // client/src/components/common/buttons/IconButton.tsx
 
+import 500 from '@/pages/500';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import Badge from '@/components/common/ui/Badge';
 import IconButton from '@/components/common/buttons/IconButton';
 import Tooltip from '@/components/common/ui/Tooltip';

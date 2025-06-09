@@ -1,5 +1,8 @@
 // client/src/components/resume/export/PDFExporter.tsx
 
+import settings from '@/pages/profile/settings';
+import 500 from '@/pages/500';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import PDFExporter from '@/components/resume/export/PDFExporter';
 import Footer from '@/components/layout/Footer';
 import Settings from '@/components/settings/Settings';

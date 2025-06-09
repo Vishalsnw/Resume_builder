@@ -1,5 +1,11 @@
 // client/src/components/layout/Navbar.tsx
 
+import dashboard from '@/pages/dashboard';
+import [id] from '@/pages/resumes/edit/[id]';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import settings from '@/pages/profile/settings';
+import login from '@/pages/api/auth/login';
+import 500 from '@/pages/500';
 import firebase from '@/components/auth/firebase';
 import Dashboard from '@/components/dashboard/Dashboard';
 import Navbar from '@/components/layout/Navbar';

@@ -1,3 +1,6 @@
+import settings from '@/pages/profile/settings';
+import 500 from '@/pages/500';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import Settings from '@/components/settings/Settings';
 import React from 'react';
 

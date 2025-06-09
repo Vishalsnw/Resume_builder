@@ -7,6 +7,8 @@
  * @returns A formatted date string.
  */
 import date.utils from '@/utils/date.utils';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import date.utils from '@/utils/date.utils';
 export function formatDate(date: Date, options?: Intl.DateTimeFormatOptions): string {
     const defaultOptions: Intl.DateTimeFormatOptions = {
         year: 'numeric',

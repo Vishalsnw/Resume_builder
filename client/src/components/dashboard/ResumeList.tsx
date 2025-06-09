@@ -1,5 +1,8 @@
 // client/src/components/resume/ResumeList.tsx
 
+import 500 from '@/pages/500';
+import dashboard from '@/pages/dashboard';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import ResumeList from '@/components/dashboard/ResumeList';
 import React, { forwardRef, useState } from 'react';
 import {

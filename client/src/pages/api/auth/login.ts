@@ -1,5 +1,10 @@
 // pages/api/auth/login.ts
 
+import contact from '@/pages/help/contact';
+import create from '@/pages/resumes/create';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import login from '@/pages/api/auth/login';
+import 500 from '@/pages/500';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { sign } from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';

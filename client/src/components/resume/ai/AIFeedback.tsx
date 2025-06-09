@@ -1,5 +1,7 @@
 // client/src/components/resume/builder/AIFeedback.tsx
 
+import 500 from '@/pages/500';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import AIFeedback from '@/components/resume/ai/AIFeedback';
 import Footer from '@/components/layout/Footer';
 import React, { useState, useEffect } from 'react';

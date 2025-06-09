@@ -1,4 +1,7 @@
 // tailwind.config.js
+import index from '@/pages/help/index';
+import tailwind.config from '@/tailwind.config';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",

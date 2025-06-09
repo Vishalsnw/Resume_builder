@@ -1,5 +1,10 @@
 // pages/forgot-password.tsx
 
+import forgot-password from '@/pages/forgot-password';
+import contact from '@/pages/help/contact';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import login from '@/pages/api/auth/login';
+import 500 from '@/pages/500';
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';

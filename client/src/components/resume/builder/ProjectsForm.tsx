@@ -1,5 +1,10 @@
 // client/src/components/resume/builder/ProjectsForm.tsx
 
+import index from '@/pages/help/index';
+import [id] from '@/pages/resumes/edit/[id]';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import register from '@/pages/api/auth/register';
+import 500 from '@/pages/500';
 import LoadingSpinner from '@/components/layout/LoadingSpinner';
 import useForm from '@/hooks/useForm';
 import ProjectsForm from '@/components/resume/builder/ProjectsForm';

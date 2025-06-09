@@ -1,5 +1,11 @@
 // pages/resumes/[id].tsx
 
+import index from '@/pages/help/index';
+import edit from '@/pages/profile/edit';
+import [id] from '@/pages/resumes/edit/[id]';
+import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+import login from '@/pages/api/auth/login';
+import 500 from '@/pages/500';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
