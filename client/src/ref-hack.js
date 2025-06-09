@@ -1,8 +1,10 @@
 // src/ref-hack.js
 
-// Import React
-import ref-hack from '@/ref-hack';
-import [...nextauth] from '@/pages/api/auth/[...nextauth]';
+// Remove invalid imports
+// import ref-hack from '@/ref-hack';  // INVALID: hyphen not allowed in variable name
+// import [...nextauth] from '@/pages/api/auth/[...nextauth]';  // INVALID: [...] syntax not allowed in variable
+
+// Keep the valid import
 import React from 'react';
 
 // Monkeypatch React.RefObject to make current writable
