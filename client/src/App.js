@@ -7,7 +7,8 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import LoginForm from './components/auth/LoginForm';
 import RegisterForm from './components/auth/RegisterForm';
 import Dashboard from './components/dashboard/Dashboard';
-import EmailVerification from './components/auth/EmailVerification';
+// Rename the import to avoid the conflict
+import EmailVerificationComponent from './components/auth/EmailVerification';
 import ResumeBuilder from './components/resume/ResumeBuilder';
 import NotFound from './components/common/NotFound';
 
@@ -20,9 +21,6 @@ import ContentEnhancer from './components/resume/ai/ContentEnhancer';
 // Import the CreateResume component we just created
 import CreateResume from './components/resume/CreateResume';
 
-// REMOVED: Settings and Profile components are defined here twice - need to remove this duplicate
-// Import or create separate files for these components instead
-
 function App() {
   return (
     <Router>
@@ -32,7 +30,8 @@ function App() {
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />
-          <Route path="/verify-email" element={<EmailVerification />} />
+          {/* Update the component reference here */}
+          <Route path="/verify-email" element={<EmailVerificationComponent />} />
 
           {/* Protected Routes */}
           <Route path="/dashboard" element={
