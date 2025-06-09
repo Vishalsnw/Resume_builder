@@ -130,9 +130,9 @@
     "node": ">=16.0.0",
     "npm": ">=8.0.0"
   }
-}
+},
 "scripts": {
   "prebuild": "node --max-old-space-size=2048 process-source.js",
   "build": "react-scripts --max-old-space-size=4096 build",
-  // other scripts...
+  }
 }
