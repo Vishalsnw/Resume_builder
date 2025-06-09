@@ -20,7 +20,7 @@ declare module 'react-icons/fi' {
   export const FiLock: IconType;
   export const FiHelpCircle: IconType;
   
-  // Icons from errors
+  // Icons from previous errors
   export const FiExternalLink: IconType;
   export const FiLink2: IconType;
   export const FiInfo: IconType;
@@ -29,7 +29,12 @@ declare module 'react-icons/fi' {
   export const FiMaximize2: IconType;
   export const FiMinimize2: IconType;
   export const FiCheckCircle: IconType;
-  export const FiRefreshCcw: IconType; // Added the missing icon
+  export const FiRefreshCcw: IconType;
+  
+  // New icons from latest error
+  export const FiFile: IconType;
+  export const FiImage: IconType;
+  export const FiUpload: IconType;
   
   // Additional common Feather icons that might be used
   export const FiUser: IconType;
@@ -44,7 +49,6 @@ declare module 'react-icons/fi' {
   export const FiCalendar: IconType;
   export const FiClock: IconType;
   export const FiDownload: IconType;
-  export const FiUpload: IconType;
   export const FiLogOut: IconType;
   export const FiLogIn: IconType;
   export const FiMenu: IconType;
@@ -129,4 +133,4 @@ declare module 'react-icons/fi' {
   export const FiDivide: IconType;
   export const FiDivideCircle: IconType;
   export const FiDivideSquare: IconType;
-}
+  }
