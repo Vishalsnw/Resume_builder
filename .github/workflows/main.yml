@@ -1,115 +1,20 @@
-name: Auto-Fix Imports
+name: Manual Auto Import Fix
 
 on:
   workflow_dispatch:
-    inputs:
-      branch:
-        description: 'Target base branch'
-        required: true
-        default: 'main'
 
 jobs:
-  fix-imports:
+  run-import-fix:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Git
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "actions@github.com"
-
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
-      - name: Create a new branch
-        id: create_branch
-        run: |
-          BRANCH_NAME=auto-fix-imports-$(date +%s)
-          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
-          git checkout -b $BRANCH_NAME
-
-      - name: Run import fixer
-        run: |
-          echo "⚙️ Running fixer..."
-          cat <<EOF > fixer.py
-import os, re
-
-SRC_DIR = os.getcwd()
-BASE_DIRS = ["components", "hooks", "utils", "contexts", "services", "types"]
-IMPORT_ALIAS = "@/"
-
-def find_exports():
-    ex = {}
-    for base in BASE_DIRS:
-        path = os.path.join(SRC_DIR, base)
-        if not os.path.exists(path): continue
-        for root, _, files in os.walk(path):
-            for f in files:
-                if f.endswith((".tsx", ".ts", ".js", ".jsx")):
-                    name = f.split(".")[0]
-                    rel = os.path.relpath(os.path.join(root, f), SRC_DIR).replace("\\\\", "/")
-                    ex[name] = os.path.splitext(rel)[0]
-    return ex
-
-def update_file(filepath, exports):
-    with open(filepath, "r", encoding="utf-8") as f:
-        text = f.read()
-
-    existing_imports = set(re.findall(r"import\\s+([A-Za-z0-9_]+)", text))
-    used = set(k for k in exports if re.search(rf"\\b{k}\\b", text)) - existing_imports
-    if not used: return False
-
-    new_imports = [f"import {u} from '{IMPORT_ALIAS}{exports[u]}';\\n" for u in used]
-    lines = text.splitlines(keepends=True)
-    insert_index = next((i for i, l in enumerate(lines) if l.strip() and not l.strip().startswith(("//", "/*"))), 0)
-    updated = lines[:insert_index] + new_imports + lines[insert_index:]
-
-    with open(filepath, "w", encoding="utf-8") as f:
-        f.writelines(updated)
-    print(f"✅ Updated: {filepath} with {', '.join(used)}")
-    return True
-
-exports = find_exports()
-count = 0
-for root, _, files in os.walk(SRC_DIR):
-    for f in files:
-        if f.endswith((".tsx", ".ts", ".js", ".jsx")):
-            if update_file(os.path.join(root, f), exports):
-                count += 1
-print(f"\\n🔁 Updated {count} files.")
-EOF
-          python3 fixer.py
-
-      - name: Check for Git changes
-        id: check_changes
-        run: |
-          if [[ -n $(git status --porcelain) ]]; then
-            echo "changes=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "changes=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Commit and push
-        if: steps.check_changes.outputs.changes == 'true'
-        run: |
-          git add .
-          git commit -m "fix: auto-fixed missing imports"
-          git push origin "$BRANCH_NAME"
-
-      - name: Create Pull Request
-        if: steps.check_changes.outputs.changes == 'true'
-        uses: peter-evans/create-pull-request@v5
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          title: "Auto Fix: Missing Imports"
-          commit-message: "fix: auto-fixed imports"
-          body: |
-            This PR fixes missing imports based on usage in source files.
-          branch: ${{ env.BRANCH_NAME }}
-          base: ${{ github.event.inputs.branch }}
-          labels: auto-fix, imports
+      - name: Run Python import fixer
+        run: python3 client/src/auto_import_fix.py
