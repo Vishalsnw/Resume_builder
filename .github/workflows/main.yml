@@ -1,45 +1,26 @@
-name: Manual Auto Import Fix
+name: Fix Invalid Imports
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:  # Allows manual triggering
 
 jobs:
-  run-import-fix:
+  fix-imports:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Git
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "actions@github.com"
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - uses: actions/checkout@v3
         with:
-          python-version: '3.x'
-
-      - name: Run Python import fixer
-        run: python3 client/src/auto_import_fix.py
-
-      - name: Check for file changes
-        id: changes
-        run: |
-          if [[ -n "$(git status --porcelain)" ]]; then
-            echo "changed=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Commit and push if changes
-        if: steps.changes.outputs.changed == 'true'
-        run: |
-          git add .
-          git commit -m "fix: auto-imports added"
-          git push origin HEAD
-
-      - name: No changes to commit
-        if: steps.changes.outputs.changed == 'false'
-        run: echo "✅ No file changes to commit."
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Run Fix Script
+        run: node fix-imports.js
+      
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Fix invalid import statements"
+          file_pattern: "src/**/*.js src/**/*.jsx src/**/*.ts src/**/*.tsx"
