@@ -10,10 +10,16 @@ import Dashboard from './components/dashboard/Dashboard';
 import EmailVerification from './components/auth/EmailVerification';
 import ResumeBuilder from './components/resume/ResumeBuilder';
 import NotFound from './components/common/NotFound';
-// Import components for new routes (you may need to create these components)
+// Import components for settings and profile
 import Settings from './components/settings/Settings'; 
 import Profile from './components/profile/Profile';
 import CreateResume from './components/resume/CreateResume';
+
+// Import AI-related components
+import AIContentGenerator from './components/resume/ai/AIContentGenerator';
+import AIFeedback from './components/resume/ai/AIFeedback';
+import ATSScoreCard from './components/resume/ai/ATSScoreCard';
+import ContentEnhancer from './components/resume/ai/ContentEnhancer';
 
 function App() {
   return (
@@ -30,10 +36,17 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/resume-builder" element={<ResumeBuilder />} />
-            {/* Added new routes */}
+            
+            {/* Profile and Settings routes */}
             <Route path="/settings" element={<Settings />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/create-resume" element={<CreateResume />} />
+            
+            {/* AI Features routes */}
+            <Route path="/ai/content-generator" element={<AIContentGenerator />} />
+            <Route path="/ai/feedback" element={<AIFeedback />} />
+            <Route path="/ai/ats-score" element={<ATSScoreCard />} />
+            <Route path="/ai/content-enhancer" element={<ContentEnhancer />} />
           </Route>
 
           {/* 404 Route */}
