@@ -7,8 +7,8 @@
   "license": "MIT",
   "scripts": {
     "start": "react-scripts start",
-    "prebuild": "node process-source.js",
-    "build": "react-scripts build",
+    "prebuild": "node --max-old-space-size=2048 process-source.js",
+    "build": "react-scripts --max-old-space-size=4096 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint src/**/*.{js,jsx,ts,tsx}",
@@ -130,9 +130,4 @@
     "node": ">=16.0.0",
     "npm": ">=8.0.0"
   }
-},
-"scripts": {
-  "prebuild": "node --max-old-space-size=2048 process-source.js",
-  "build": "react-scripts --max-old-space-size=4096 build",
-  }
-}
+      }
