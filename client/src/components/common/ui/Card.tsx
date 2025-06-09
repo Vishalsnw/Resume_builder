@@ -1,6 +1,6 @@
 // client/src/components/common/cards/Card.tsx
 
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import Footer from '@/components/layout/Footer';
 import Card from '@/components/common/ui/Card';

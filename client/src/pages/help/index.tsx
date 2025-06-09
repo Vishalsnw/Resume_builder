@@ -1,7 +1,7 @@
 // pages/help/index.tsx
 
 import index from '@/pages/help/index';
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import React, { useState, useEffect } from 'react';
 import { GetStaticProps } from 'next';

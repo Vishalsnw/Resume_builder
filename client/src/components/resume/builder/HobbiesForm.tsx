@@ -4,7 +4,7 @@ import index from '@/pages/help/index';
 import [id] from '@/pages/resumes/edit/[id]';
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import register from '@/pages/api/auth/register';
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import LoadingSpinner from '@/components/layout/LoadingSpinner';
 import HobbiesForm from '@/components/resume/builder/HobbiesForm';
 import useForm from '@/hooks/useForm';

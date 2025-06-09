@@ -1,6 +1,6 @@
 // client/src/components/common/notifications/Toast.tsx
 
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import Toast from '@/components/common/feedback/Toast';
 import React, { forwardRef, useEffect, useState } from 'react';

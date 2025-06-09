@@ -6,7 +6,7 @@ import upload from '@/pages/api/upload';
 import [id] from '@/pages/resumes/edit/[id]';
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import login from '@/pages/api/auth/login';
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import Profile from '@/components/profile/Profile';
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';

@@ -1,6 +1,6 @@
 // client/src/components/common/navigation/Dropdown.tsx
 
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import Input from '@/components/common/forms/Input';
 import Dropdown from '@/components/common/ui/Dropdown';

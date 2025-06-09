@@ -6,7 +6,7 @@ import { default as modifierImport } from '@/modifier';
 import create from '@/pages/resumes/create';
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import login from '@/pages/api/auth/login';
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 
 // NOTE: Renamed to avoid conflict with local declarations:
 // modifier → modifierImport

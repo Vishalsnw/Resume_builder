@@ -5,7 +5,7 @@ import [id] from '@/pages/resumes/edit/[id]';
 import AuthContext from '@/contexts/AuthContext';
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import login from '@/pages/api/auth/login';
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import useAuth from '@/hooks/useAuth';
 import EmailVerification from '@/components/auth/EmailVerification';
 import React, { useState, useEffect } from 'react';

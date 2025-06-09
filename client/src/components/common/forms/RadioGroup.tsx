@@ -1,6 +1,6 @@
 // client/src/components/common/inputs/RadioGroup.tsx
 
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import Tooltip from '@/components/common/ui/Tooltip';
 import RadioGroup from '@/components/common/forms/RadioGroup';

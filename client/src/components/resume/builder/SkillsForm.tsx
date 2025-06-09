@@ -4,7 +4,7 @@ import index from '@/pages/help/index';
 import [id] from '@/pages/resumes/edit/[id]';
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import register from '@/pages/api/auth/register';
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import Select from '@/components/common/forms/Select';
 import SkillsForm from '@/components/resume/builder/SkillsForm';
 import useForm from '@/hooks/useForm';

@@ -1,10 +1,10 @@
 // pages/404.tsx
 
-import 404 from '@/pages/404';
+// REMOVED INVALID IMPORT
 import contact from '@/pages/help/contact';
 import [id] from '@/pages/resumes/edit/[id]';
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import faq from '@/pages/help/faq';
 import React from 'react';
 import Link from 'next/link';

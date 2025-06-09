@@ -1,6 +1,6 @@
 // client/src/components/common/badges/Badge.tsx
 
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import Badge from '@/components/common/ui/Badge';
 import React, { forwardRef } from 'react';

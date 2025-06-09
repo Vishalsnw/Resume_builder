@@ -1,7 +1,7 @@
 // src/components/resume/ResumeActionBar.tsx
 
 import upload from '@/pages/api/upload';
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import [id] from '@/pages/resumes/edit/[id]';
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import ResumeActionBar from '@/components/resume/ResumeActionBar';

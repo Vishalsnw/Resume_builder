@@ -1,6 +1,6 @@
 // pages/help/faq.tsx
 
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import faq from '@/pages/help/faq';
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import React, { useState, useCallback } from 'react';

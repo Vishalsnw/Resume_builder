@@ -1,5 +1,5 @@
 // client/src/components/auth/LoginForm.tsx
-import 404 from '@/pages/404';
+// REMOVED INVALID IMPORT
 import dashboard from '@/pages/dashboard';
 import login from '@/pages/api/auth/login';
 import [id] from '@/pages/resumes/edit/[id]';
@@ -7,7 +7,7 @@ import LoginForm from '@/components/auth/LoginForm';
 import AuthContext from '@/contexts/AuthContext';
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import register from '@/pages/api/auth/register';
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import useAuth from '@/hooks/useAuth';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';

@@ -1,7 +1,7 @@
 // client/src/components/resume/export/DOCXExporter.tsx
 
 import settings from '@/pages/profile/settings';
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import DOCXExporter from '@/components/resume/export/DOCXExporter';
 import Footer from '@/components/layout/Footer';

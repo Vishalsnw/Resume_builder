@@ -1,4 +1,4 @@
-import 404 from '@/pages/404';
+// REMOVED INVALID IMPORT
 import login from '@/pages/api/auth/login';
 import dashboard from '@/pages/dashboard';
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';

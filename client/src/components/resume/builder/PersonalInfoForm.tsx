@@ -1,6 +1,6 @@
 // client/src/components/resume/builder/PersonalInfoForm.tsx
 
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import [id] from '@/pages/resumes/edit/[id]';
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import register from '@/pages/api/auth/register';

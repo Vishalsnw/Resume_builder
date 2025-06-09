@@ -1,6 +1,6 @@
 // src/components/resume/TemplateSelector.tsx
 
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import TemplateSelector from '@/components/templates/TemplateSelector';
 import Select from '@/components/common/forms/Select';

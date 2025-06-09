@@ -1,7 +1,7 @@
 // pages/api/resumes/[id].ts
 
-import 404 from '@/pages/404';
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
+// REMOVED INVALID IMPORT
 import create from '@/pages/resumes/create';
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import { NextApiRequest, NextApiResponse } from 'next';

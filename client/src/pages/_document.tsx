@@ -1,7 +1,7 @@
 // pages/_document.tsx
 
 import _document from '@/pages/_document';
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import Document, {
   Html,

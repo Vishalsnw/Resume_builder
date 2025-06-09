@@ -1,7 +1,7 @@
 // pages/api/users/index.ts
 
 import index from '@/pages/help/index';
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import settings from '@/pages/profile/settings';
 import create from '@/pages/resumes/create';

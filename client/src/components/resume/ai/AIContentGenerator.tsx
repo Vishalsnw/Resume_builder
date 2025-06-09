@@ -1,6 +1,6 @@
 // client/src/components/resume/builder/AIContentGenerator.tsx
 
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import AIContentGenerator from '@/components/resume/ai/AIContentGenerator';
 import Footer from '@/components/layout/Footer';

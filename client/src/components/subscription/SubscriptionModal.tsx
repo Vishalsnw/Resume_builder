@@ -1,7 +1,7 @@
 // client/src/components/subscription/SubscriptionModal.tsx
 
 import index from '@/pages/help/index';
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import Modal from '@/components/common/feedback/Modal';
 import SubscriptionModal from '@/components/subscription/SubscriptionModal';

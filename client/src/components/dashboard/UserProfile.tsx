@@ -1,7 +1,7 @@
 // client/src/components/profile/UserProfile.tsx
 
 import index from '@/pages/help/index';
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import dashboard from '@/pages/dashboard';
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import UserProfile from '@/components/dashboard/UserProfile';

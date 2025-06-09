@@ -1,6 +1,6 @@
 // client/src/components/common/tooltips/Tooltip.tsx
 
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import Tooltip from '@/components/common/ui/Tooltip';
 import React, { forwardRef, useState, useEffect, useRef } from 'react';

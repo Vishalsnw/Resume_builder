@@ -5,7 +5,7 @@ import contact from '@/pages/help/contact';
 import [id] from '@/pages/resumes/edit/[id]';
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import register from '@/pages/api/auth/register';
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import useForm from '@/hooks/useForm';
 import Sidebar from '@/components/layout/Sidebar';
 import ResumeEditor from '@/components/resume/ResumeEditor';

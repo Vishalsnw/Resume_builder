@@ -1,6 +1,6 @@
 // hooks/useResume.ts
 
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import useDebounce from '@/hooks/useDebounce';

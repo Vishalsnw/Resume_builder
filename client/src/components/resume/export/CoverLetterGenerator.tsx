@@ -2,7 +2,7 @@
 
 import settings from '@/pages/profile/settings';
 import [id] from '@/pages/resumes/edit/[id]';
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import Footer from '@/components/layout/Footer';
 import CoverLetterGenerator from '@/components/resume/export/CoverLetterGenerator';

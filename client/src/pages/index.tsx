@@ -6,7 +6,7 @@ import contact from '@/pages/help/contact';
 import create from '@/pages/resumes/create';
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import register from '@/pages/api/auth/register';
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import faq from '@/pages/help/faq';
 import Footer from '@/components/layout/Footer';
 import React from 'react';

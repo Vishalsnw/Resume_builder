@@ -1,6 +1,6 @@
 // client/src/components/subscription/PlanFeatures.tsx
 
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import edit from '@/pages/profile/edit';
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import PlanFeatures from '@/components/subscription/PlanFeatures';

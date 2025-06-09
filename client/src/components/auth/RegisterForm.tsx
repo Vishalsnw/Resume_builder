@@ -6,7 +6,7 @@ import create from '@/pages/resumes/create';
 import [id] from '@/pages/resumes/edit/[id]';
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import register from '@/pages/api/auth/register';
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import firebase from '@/components/auth/firebase';
 import RegisterForm from '@/components/auth/RegisterForm';
 import useForm from '@/hooks/useForm';

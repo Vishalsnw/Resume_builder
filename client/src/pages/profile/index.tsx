@@ -1,7 +1,7 @@
 // pages/profile/index.tsx
 
 import index from '@/pages/help/index';
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import dashboard from '@/pages/dashboard';
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import login from '@/pages/api/auth/login';

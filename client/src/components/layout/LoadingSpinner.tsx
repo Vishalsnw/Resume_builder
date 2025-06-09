@@ -1,7 +1,7 @@
 // client/src/components/layout/LoadingSpinner.tsx
 
 import index from '@/pages/help/index';
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import LoadingSpinner from '@/components/layout/LoadingSpinner';
 import React from 'react';

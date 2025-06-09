@@ -1,7 +1,7 @@
 // client/src/components/common/inputs/Input.tsx
 
 import [id] from '@/pages/resumes/edit/[id]';
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import Input from '@/components/common/forms/Input';
 import Tooltip from '@/components/common/ui/Tooltip';

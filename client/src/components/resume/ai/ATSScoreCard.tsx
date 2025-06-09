@@ -1,7 +1,7 @@
 // client/src/components/resume/builder/ATSScoreCard.tsx
 
 import index from '@/pages/help/index';
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import Footer from '@/components/layout/Footer';
 import ATSScoreCard from '@/components/resume/ai/ATSScoreCard';

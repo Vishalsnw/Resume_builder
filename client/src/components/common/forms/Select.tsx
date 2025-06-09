@@ -1,7 +1,7 @@
 // client/src/components/common/inputs/Select.tsx
 
 import { default as indexImport } from '@/pages/help/index';
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 
 // NOTE: Renamed to avoid conflict with local declarations:

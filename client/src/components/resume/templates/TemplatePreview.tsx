@@ -1,6 +1,6 @@
 // client/src/components/resume/templates/TemplatePreview.tsx
 
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import TemplatePreview from '@/components/resume/templates/TemplatePreview';
 import React, { useState } from 'react';

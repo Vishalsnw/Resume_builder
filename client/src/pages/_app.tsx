@@ -1,7 +1,7 @@
 // pages/_app.tsx
 
 import _app from '@/pages/_app';
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import Toast from '@/components/common/feedback/Toast';
 import React from 'react';

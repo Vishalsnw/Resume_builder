@@ -1,7 +1,7 @@
 // pages/500.tsx
 
 import contact from '@/pages/help/contact';
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';

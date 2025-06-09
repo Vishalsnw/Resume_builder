@@ -4,7 +4,7 @@ import dashboard from '@/pages/dashboard';
 import [id] from '@/pages/resumes/edit/[id]';
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import login from '@/pages/api/auth/login';
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import firebase from '@/components/auth/firebase';
 import Footer from '@/components/layout/Footer';
 import AuthWrapper from '@/components/auth/AuthWrapper';

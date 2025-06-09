@@ -2,7 +2,7 @@
 
 import index from '@/pages/help/index';
 import [id] from '@/pages/resumes/edit/[id]';
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
 import FileUpload from '@/components/common/forms/FileUpload';
 import React, { forwardRef, useState, useRef } from 'react';

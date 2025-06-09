@@ -4,7 +4,7 @@ import dashboard from '@/pages/dashboard';
 import edit from '@/pages/profile/edit';
 import create from '@/pages/resumes/create';
 import [...nextauth] from '@/pages/api/auth/[...nextauth]';
-import 500 from '@/pages/500';
+// REMOVED INVALID IMPORT
 import Dashboard from '@/components/dashboard/Dashboard';
 import Select from '@/components/common/forms/Select';
 import React, { useState } from 'react';
