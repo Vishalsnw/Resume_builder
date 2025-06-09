@@ -30,11 +30,14 @@ declare module 'react-icons/fi' {
   export const FiMinimize2: IconType;
   export const FiCheckCircle: IconType;
   export const FiRefreshCcw: IconType;
-  
-  // New icons from latest error
   export const FiFile: IconType;
   export const FiImage: IconType;
-  export const FiUpload: IconType;
+  
+  // New icons from latest error
+  export const FiPaperclip: IconType;
+  export const FiFilm: IconType;
+  export const FiMusic: IconType;
+  export const FiArchive: IconType;
   
   // Additional common Feather icons that might be used
   export const FiUser: IconType;
@@ -49,6 +52,7 @@ declare module 'react-icons/fi' {
   export const FiCalendar: IconType;
   export const FiClock: IconType;
   export const FiDownload: IconType;
+  export const FiUpload: IconType;
   export const FiLogOut: IconType;
   export const FiLogIn: IconType;
   export const FiMenu: IconType;
@@ -72,21 +76,21 @@ declare module 'react-icons/fi' {
   export const FiDollarSign: IconType;
   export const FiFileText: IconType;
   
+  // Media/File icons
+  export const FiVideo: IconType;
+  export const FiFolder: IconType;
+  export const FiFolderPlus: IconType;
+  export const FiFolderMinus: IconType;
+  export const FiPrinter: IconType;
+  export const FiDownloadCloud: IconType;
+  export const FiUploadCloud: IconType;
+  
   // All other Feather icons
   export const FiActivity: IconType;
   export const FiAirplay: IconType;
   export const FiAlertOctagon: IconType;
   export const FiAnchor: IconType;
   export const FiAperture: IconType;
-  export const FiArchive: IconType;
-  export const FiArrowDownCircle: IconType;
-  export const FiArrowDownLeft: IconType;
-  export const FiArrowDownRight: IconType;
-  export const FiArrowLeftCircle: IconType;
-  export const FiArrowRightCircle: IconType;
-  export const FiArrowUpCircle: IconType;
-  export const FiArrowUpLeft: IconType;
-  export const FiArrowUpRight: IconType;
   export const FiBell: IconType;
   export const FiBellOff: IconType;
   export const FiBluetooth: IconType;
@@ -133,4 +137,5 @@ declare module 'react-icons/fi' {
   export const FiDivide: IconType;
   export const FiDivideCircle: IconType;
   export const FiDivideSquare: IconType;
-  }
+  // You can add more icons here as needed
+    }
