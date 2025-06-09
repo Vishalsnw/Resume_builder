@@ -1,3 +1,4 @@
+import './file-input-fix';
 import './ref-hack';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
