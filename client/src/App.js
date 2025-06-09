@@ -4,10 +4,11 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import ProtectedRoute from './components/auth/ProtectedRoute';
-import LoginForm from './components/auth/LoginForm';
+// Rename LoginForm import to avoid the conflict
+import LoginFormComponent from './components/auth/LoginForm';
 import RegisterForm from './components/auth/RegisterForm';
 import Dashboard from './components/dashboard/Dashboard';
-// Rename the import to avoid the conflict
+// EmailVerification is already correctly renamed
 import EmailVerificationComponent from './components/auth/EmailVerification';
 import ResumeBuilder from './components/resume/ResumeBuilder';
 import NotFound from './components/common/NotFound';
@@ -28,9 +29,9 @@ function App() {
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Navigate to="/login" replace />} />
-          <Route path="/login" element={<LoginForm />} />
+          {/* Update to use LoginFormComponent instead of LoginForm */}
+          <Route path="/login" element={<LoginFormComponent />} />
           <Route path="/register" element={<RegisterForm />} />
-          {/* Update the component reference here */}
           <Route path="/verify-email" element={<EmailVerificationComponent />} />
 
           {/* Protected Routes */}
