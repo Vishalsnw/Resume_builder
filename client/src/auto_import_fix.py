@@ -1,31 +1,29 @@
 import os
 import re
 
-SRC_DIR = os.getcwd()
+SRC_DIR = os.path.join(os.getcwd(), "client/src")  # ✅ Change if needed
 IMPORT_ALIAS = "@/"
 
-# Directories to scan for exportable components/modules
-BASE_DIRS = ['components', 'hooks', 'utils', 'contexts', 'services', 'types']
+def is_code_file(filename):
+    return filename.endswith(('.tsx', '.ts', '.js', '.jsx'))
 
-def find_all_exports(base_dirs):
+def find_all_exports():
     exports = {}
-    for base in base_dirs:
-        base_path = os.path.join(SRC_DIR, base)
-        if not os.path.exists(base_path):
-            continue
-        for root, _, files in os.walk(base_path):
-            for file in files:
-                if file.endswith(('.tsx', '.ts', '.js', '.jsx')):
-                    name = file.rsplit('.', 1)[0]
-                    rel_path = os.path.relpath(os.path.join(root, file), SRC_DIR).replace("\\", "/")
-                    path_no_ext = os.path.splitext(rel_path)[0]
-                    exports[name] = path_no_ext
+    for root, _, files in os.walk(SRC_DIR):
+        for file in files:
+            if not is_code_file(file):
+                continue
+            name = file.rsplit('.', 1)[0]
+            full_path = os.path.join(root, file)
+            rel_path = os.path.relpath(full_path, SRC_DIR).replace("\\", "/")
+            path_no_ext = os.path.splitext(rel_path)[0]
+            exports[name] = path_no_ext
     return exports
 
 def get_imported_items(text):
-    direct_imports = re.findall(r'import\s+([A-Za-z0-9_]+)', text)
-    renamed_imports = re.findall(r'import\s+{[^}]*\s+as\s+([A-Za-z0-9_]+)[^}]*}', text)
-    return set(direct_imports + renamed_imports)
+    direct = re.findall(r'import\s+([A-Za-z0-9_]+)', text)
+    renamed = re.findall(r'import\s+{[^}]*\s+as\s+([A-Za-z0-9_]+)[^}]*}', text)
+    return set(direct + renamed)
 
 def get_local_declarations(text):
     consts = re.findall(r'(?:const|let|var)\s+(\w+)\s*[:=]', text)
@@ -35,11 +33,7 @@ def get_local_declarations(text):
     return set(consts + funcs + classes + types)
 
 def get_used_items(text, known_items):
-    used = set()
-    for item in known_items:
-        if re.search(rf'\b{item}\b', text):
-            used.add(item)
-    return used
+    return {item for item in known_items if re.search(rf'\b{item}\b', text)}
 
 def add_imports(filepath, missing, exports, local_declarations):
     with open(filepath, 'r', encoding='utf-8') as f:
@@ -49,32 +43,29 @@ def add_imports(filepath, missing, exports, local_declarations):
                       if line.strip() and not line.strip().startswith(("//", "/*", "*"))), 0)
 
     import_lines = []
-    skipped = []
+    renamed = []
 
     for item in missing:
         if item in local_declarations:
             alias = f"{item}Import"
             import_lines.append(f"import {{ default as {alias} }} from '{IMPORT_ALIAS}{exports[item]}';\n")
-            skipped.append(f"{item} → {alias}")
+            renamed.append(f"{item} → {alias}")
         else:
             import_lines.append(f"import {item} from '{IMPORT_ALIAS}{exports[item]}';\n")
 
-    if skipped:
-        import_lines.append("\n// NOTE: Renamed imports to avoid naming conflicts:\n")
-        import_lines.append("// " + ", ".join(skipped) + "\n")
+    if renamed:
+        import_lines.append("\n// NOTE: Renamed to avoid conflict with local declarations:\n")
+        import_lines.append("// " + ", ".join(renamed) + "\n")
 
-    updated_lines = lines[:insert_at] + import_lines + lines[insert_at:]
+    updated = lines[:insert_at] + import_lines + lines[insert_at:]
     with open(filepath, 'w', encoding='utf-8') as f:
-        f.writelines(updated_lines)
+        f.writelines(updated)
 
-    return skipped
-
-def is_code_file(filename):
-    return filename.endswith(('.tsx', '.ts', '.js', '.jsx'))
+    return renamed
 
 def main():
-    exports = find_all_exports(BASE_DIRS)
-    print(f"🧠 Found {len(exports)} exported items from: {', '.join(BASE_DIRS)}")
+    exports = find_all_exports()
+    print(f"🧠 Found {len(exports)} exportable items (auto-detected)")
 
     updated_files = 0
     total_files = 0
@@ -105,19 +96,18 @@ def main():
 
             total_files += 1
 
-    # Unused exports
     unused = set(exports.keys()) - all_used
     if unused:
-        print("\n⚠️ Possibly unused exported files:")
+        print("\n⚠️ Possibly unused components:")
         for u in sorted(unused):
             print(f"  - {u} → {exports[u]}")
 
     if conflicts:
-        print("\n⚠️ Renamed imports due to local name conflict:")
-        for conflict in conflicts:
-            print(f"  - {conflict}")
+        print("\n⚠️ Renamed imports due to local declaration conflict:")
+        for c in conflicts:
+            print(f"  - {c}")
 
-    print(f"\n✅ Completed. Processed {total_files} files, updated {updated_files} files.")
+    print(f"\n✅ Done: Processed {total_files} files, updated {updated_files} files.")
 
 if __name__ == "__main__":
     main()
