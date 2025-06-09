@@ -1,5 +1,8 @@
 // client/src/components/resume/builder/CertificationsForm.tsx
 
+import CertificationsForm from '@/components/resume/builder/CertificationsForm';
+import LoadingSpinner from '@/components/layout/LoadingSpinner';
+import useForm from '@/hooks/useForm';
 import React, { useState, useEffect } from 'react';
 import { useForm, useFieldArray, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';

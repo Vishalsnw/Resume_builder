@@ -1,5 +1,6 @@
 // pages/resumes/index.tsx
 
+import Card from '@/components/common/ui/Card';
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';

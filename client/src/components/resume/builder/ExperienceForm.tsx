@@ -1,5 +1,8 @@
 // client/src/components/resume/builder/ExperienceForm.tsx
 
+import LoadingSpinner from '@/components/layout/LoadingSpinner';
+import ExperienceForm from '@/components/resume/builder/ExperienceForm';
+import useForm from '@/hooks/useForm';
 import React, { useState, useEffect } from 'react';
 import { useForm, useFieldArray, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';

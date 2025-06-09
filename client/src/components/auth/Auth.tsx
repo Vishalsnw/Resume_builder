@@ -1,5 +1,7 @@
 // src/components/auth/Auth.tsx
 
+import Auth from '@/components/auth/Auth';
+import useForm from '@/hooks/useForm';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';

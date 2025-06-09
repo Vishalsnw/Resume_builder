@@ -1,4 +1,5 @@
 // client/src/components/resume/CreateResume.tsx
+import CreateResume from '@/components/resume/CreateResume';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 

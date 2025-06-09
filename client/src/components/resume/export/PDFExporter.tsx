@@ -1,5 +1,8 @@
 // client/src/components/resume/export/PDFExporter.tsx
 
+import PDFExporter from '@/components/resume/export/PDFExporter';
+import Footer from '@/components/layout/Footer';
+import Settings from '@/components/settings/Settings';
 import React, { useState, useRef } from 'react';
 import { 
   FiDownload, 

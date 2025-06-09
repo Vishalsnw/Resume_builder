@@ -1,5 +1,6 @@
 // client/src/components/layout/PageContainer.tsx
 
+import PageContainer from '@/components/layout/PageContainer';
 import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';

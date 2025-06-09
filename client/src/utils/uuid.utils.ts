@@ -4,6 +4,7 @@
  * Generates a Version 4 UUID (Random UUID).
  * @returns A randomly generated UUID string in the format xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx.
  */
+import uuid.utils from '@/utils/uuid.utils';
 export function generateUUIDv4(): string {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (char) => {
         const random = Math.random() * 16 | 0; // Generate a random number between 0 and 15.

@@ -1,5 +1,7 @@
 // client/src/components/resume/builder/AIFeedback.tsx
 
+import AIFeedback from '@/components/resume/ai/AIFeedback';
+import Footer from '@/components/layout/Footer';
 import React, { useState, useEffect } from 'react';
 import { FiThumbsUp, FiThumbsDown, FiRefreshCw, FiAward, FiAlertTriangle, FiBarChart2 } from 'react-icons/fi';
 import toast from 'react-hot-toast';

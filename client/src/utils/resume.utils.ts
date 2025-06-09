@@ -5,6 +5,7 @@
  * @param sections - An array of section objects (e.g., Personal Details, Work Experience).
  * @returns A single merged object containing all sections.
  */
+import resume.utils from '@/utils/resume.utils';
 export function mergeSections(sections: Record<string, any>[]): Record<string, any> {
     return sections.reduce((merged, section) => {
         return { ...merged, ...section };

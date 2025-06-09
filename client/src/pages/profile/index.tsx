@@ -1,5 +1,7 @@
 // pages/profile/index.tsx
 
+import Profile from '@/components/profile/Profile';
+import UserProfile from '@/components/dashboard/UserProfile';
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';

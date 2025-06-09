@@ -1,5 +1,7 @@
 // src/components/resume/ResumeActionBar.tsx
 
+import ResumeActionBar from '@/components/resume/ResumeActionBar';
+import Dropdown from '@/components/common/ui/Dropdown';
 import React, { useState } from 'react';
 import { 
   HiOutlineDownload, 

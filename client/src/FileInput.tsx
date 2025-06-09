@@ -1,3 +1,5 @@
+import FileInput from '@/components/FileInput';
+import FileInputWrapper from '@/components/FileInputWrapper';
 import React, { useRef } from 'react';
 import { FileInputWrapper } from './components/FileInputWrapper';
 

@@ -1,6 +1,7 @@
 // src/components/file-upload-fix.tsx
 
 // This is a helper component you can use to replace the problematic component
+import file-upload-fix from '@/components/file-upload-fix';
 import { ForwardedRef, forwardRef, useRef, InputHTMLAttributes } from 'react';
 
 interface FileInputProps extends InputHTMLAttributes<HTMLInputElement> {

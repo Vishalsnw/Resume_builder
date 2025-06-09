@@ -1,5 +1,6 @@
 // pages/_app.tsx
 
+import Toast from '@/components/common/feedback/Toast';
 import React from 'react';
 import { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';

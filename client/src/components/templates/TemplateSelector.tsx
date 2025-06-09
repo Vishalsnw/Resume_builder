@@ -1,5 +1,7 @@
 // src/components/resume/TemplateSelector.tsx
 
+import TemplateSelector from '@/components/templates/TemplateSelector';
+import Select from '@/components/common/forms/Select';
 import React from 'react';
 import { HiOutlineCheck } from 'react-icons/hi';
 

@@ -1,5 +1,7 @@
 // client/src/components/pricing/PricingCards.tsx
 
+import Dashboard from '@/components/dashboard/Dashboard';
+import PricingCards from '@/components/subscription/PricingCards';
 import React, { useState } from 'react';
 import { 
   FiCheck, 

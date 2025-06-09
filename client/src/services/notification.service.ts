@@ -1,6 +1,7 @@
 // notification.service.ts
 
 // Define the types of notifications
+import notification.service from '@/services/notification.service';
 export type NotificationType = 'success' | 'error' | 'info' | 'warning';
 
 // Interface for a notification

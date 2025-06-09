@@ -1,5 +1,9 @@
 // client/src/components/payment/PaymentForm.tsx
 
+import Footer from '@/components/layout/Footer';
+import PaymentForm from '@/components/subscription/PaymentForm';
+import Select from '@/components/common/forms/Select';
+import Card from '@/components/common/ui/Card';
 import React, { useState, useEffect } from 'react';
 import {
   FiCreditCard,

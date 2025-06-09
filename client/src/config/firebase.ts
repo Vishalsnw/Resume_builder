@@ -1,3 +1,5 @@
+import firebase from '@/components/auth/firebase';
+import Auth from '@/components/auth/Auth';
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 

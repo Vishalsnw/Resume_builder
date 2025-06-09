@@ -1,5 +1,7 @@
 // client/src/components/resume/templates/ClassicTemplate.tsx
 
+import Profile from '@/components/profile/Profile';
+import ClassicTemplate from '@/components/resume/templates/ClassicTemplate';
 import React from 'react';
 import { format } from 'date-fns';
 

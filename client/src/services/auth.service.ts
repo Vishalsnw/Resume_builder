@@ -1,5 +1,8 @@
 // src/services/auth.service.ts
 
+import Auth from '@/components/auth/Auth';
+import api.service from '@/services/api.service';
+import auth.service from '@/services/auth.service';
 import { apiService } from './api.service';
 import { z } from 'zod';
 import jwtDecode from 'jwt-decode';

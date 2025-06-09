@@ -3,6 +3,7 @@
 /**
  * Enum for cache storage types.
  */
+import cache.service from '@/services/cache.service';
 export enum CacheStorageType {
   LocalStorage = 'localStorage',
   SessionStorage = 'sessionStorage',

@@ -1,5 +1,7 @@
 // client/src/components/resume/builder/ContentEnhancer.tsx
 
+import Footer from '@/components/layout/Footer';
+import ContentEnhancer from '@/components/resume/ai/ContentEnhancer';
 import React, { useState, useRef } from 'react';
 import { 
   FiEdit3, 

@@ -4,6 +4,7 @@
  * Displays a success notification.
  * @param message - The message to display.
  */
+import notification.utils from '@/utils/notification.utils';
 export function showSuccessNotification(message: string): void {
     console.log(`✅ SUCCESS: ${message}`);
     // Example: You can replace console.log with actual UI notification logic

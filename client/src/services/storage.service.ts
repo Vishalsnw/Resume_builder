@@ -1,5 +1,6 @@
 // src/services/storage.service.ts
 
+import storage.service from '@/services/storage.service';
 import { z } from 'zod';
 
 // Storage Configuration Schema

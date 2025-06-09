@@ -1,5 +1,6 @@
 // client/src/components/common/inputs/FileUpload.tsx
 
+import FileUpload from '@/components/common/forms/FileUpload';
 import React, { forwardRef, useState, useRef } from 'react';
 import {
   FiUpload,

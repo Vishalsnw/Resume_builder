@@ -1,4 +1,8 @@
 // client/src/contexts/AuthContext.tsx
+import firebase from '@/components/auth/firebase';
+import AuthContext from '@/contexts/AuthContext';
+import Auth from '@/components/auth/Auth';
+import useAuth from '@/hooks/useAuth';
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { 
   getAuth, 

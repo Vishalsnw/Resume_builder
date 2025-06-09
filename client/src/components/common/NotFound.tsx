@@ -1,3 +1,5 @@
+import Dashboard from '@/components/dashboard/Dashboard';
+import NotFound from '@/components/common/NotFound';
 import React from 'react';
 import { Link } from 'react-router-dom';
 

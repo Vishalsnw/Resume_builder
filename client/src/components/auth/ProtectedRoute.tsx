@@ -1,4 +1,7 @@
 // client/src/components/auth/ProtectedRoute.tsx
+import AuthContext from '@/contexts/AuthContext';
+import ProtectedRoute from '@/components/auth/ProtectedRoute';
+import useAuth from '@/hooks/useAuth';
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';

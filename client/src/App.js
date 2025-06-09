@@ -1,4 +1,7 @@
 // client/src/App.tsx
+import Profile from '@/components/profile/Profile';
+import AuthContext from '@/contexts/AuthContext';
+import Settings from '@/components/settings/Settings';
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';

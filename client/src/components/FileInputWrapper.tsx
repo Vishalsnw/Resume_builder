@@ -1,3 +1,4 @@
+import FileInputWrapper from '@/components/FileInputWrapper';
 import React, { forwardRef, useRef, InputHTMLAttributes } from 'react';
 
 // Create a wrapper component around input file that handles the ref properly

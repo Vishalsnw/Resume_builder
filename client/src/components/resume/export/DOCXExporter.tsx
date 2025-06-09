@@ -1,5 +1,8 @@
 // client/src/components/resume/export/DOCXExporter.tsx
 
+import DOCXExporter from '@/components/resume/export/DOCXExporter';
+import Footer from '@/components/layout/Footer';
+import Settings from '@/components/settings/Settings';
 import React, { useState, useRef } from 'react';
 import {
   FiDownload,

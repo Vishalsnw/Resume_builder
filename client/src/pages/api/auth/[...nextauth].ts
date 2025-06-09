@@ -1,5 +1,6 @@
 // pages/api/auth/[...nextauth].ts
 
+import Auth from '@/components/auth/Auth';
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GitHubProvider from 'next-auth/providers/github';

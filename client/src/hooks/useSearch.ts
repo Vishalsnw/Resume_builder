@@ -1,5 +1,8 @@
 // hooks/useSearch.ts
 
+import useLocalStorage from '@/hooks/useLocalStorage';
+import useDebounce from '@/hooks/useDebounce';
+import useSearch from '@/hooks/useSearch';
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useDebounce } from './useDebounce';
 import { useLocalStorage } from './useLocalStorage';

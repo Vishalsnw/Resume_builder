@@ -5,6 +5,7 @@
  * @param key - The key under which the value will be stored.
  * @param value - The value to store (can be a string, object, or array).
  */
+import storage.utils from '@/utils/storage.utils';
 export function saveToLocalStorage(key: string, value: any): void {
     try {
         const serializedValue = JSON.stringify(value);

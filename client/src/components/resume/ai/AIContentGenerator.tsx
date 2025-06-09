@@ -1,5 +1,7 @@
 // client/src/components/resume/builder/AIContentGenerator.tsx
 
+import AIContentGenerator from '@/components/resume/ai/AIContentGenerator';
+import Footer from '@/components/layout/Footer';
 import React, { useState, useRef } from 'react';
 import { FiEdit2, FiCopy, FiCheck, FiRefreshCw, FiAlertCircle } from 'react-icons/fi';
 import toast from 'react-hot-toast';

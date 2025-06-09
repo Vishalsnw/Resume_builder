@@ -3,6 +3,7 @@
 /**
  * Interface for an analytics event
  */
+import analytics.service from '@/services/analytics.service';
 interface AnalyticsEvent {
   eventName: string;
   properties?: Record<string, any>; // Optional additional data for the event

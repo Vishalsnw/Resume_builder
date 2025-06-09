@@ -1,5 +1,6 @@
 // client/src/components/common/navigation/Tabs.tsx
 
+import Tabs from '@/components/common/ui/Tabs';
 import React, { forwardRef, useState, useEffect } from 'react';
 import {
   FiX,

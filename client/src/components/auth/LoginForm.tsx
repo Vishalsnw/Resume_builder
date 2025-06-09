@@ -1,4 +1,6 @@
 // client/src/components/auth/LoginForm.tsx
+import firebase from '@/components/auth/firebase';
+import LoginForm from '@/components/auth/LoginForm';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 

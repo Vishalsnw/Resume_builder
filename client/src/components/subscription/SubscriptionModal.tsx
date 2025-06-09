@@ -1,5 +1,7 @@
 // client/src/components/subscription/SubscriptionModal.tsx
 
+import Modal from '@/components/common/feedback/Modal';
+import SubscriptionModal from '@/components/subscription/SubscriptionModal';
 import React, { useState, useEffect } from 'react';
 import {
   FiX,

@@ -1,5 +1,9 @@
 // client/src/components/resume/builder/PersonalInfoForm.tsx
 
+import Profile from '@/components/profile/Profile';
+import LoadingSpinner from '@/components/layout/LoadingSpinner';
+import useForm from '@/hooks/useForm';
+import PersonalInfoForm from '@/components/resume/builder/PersonalInfoForm';
 import React, { useState, useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';

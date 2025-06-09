@@ -1,5 +1,6 @@
 // client/src/components/common/alerts/Alert.tsx
 
+import Alert from '@/components/common/feedback/Alert';
 import React, { forwardRef, useState } from 'react';
 import {
   FiX,

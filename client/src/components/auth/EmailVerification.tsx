@@ -1,4 +1,8 @@
 // client/src/components/auth/EmailVerification.tsx
+import EmailVerification from '@/components/auth/EmailVerification';
+import AuthContext from '@/contexts/AuthContext';
+import firebase from '@/components/auth/firebase';
+import useAuth from '@/hooks/useAuth';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';

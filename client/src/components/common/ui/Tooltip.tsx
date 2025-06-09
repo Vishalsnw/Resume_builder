@@ -1,5 +1,6 @@
 // client/src/components/common/tooltips/Tooltip.tsx
 
+import Tooltip from '@/components/common/ui/Tooltip';
 import React, { forwardRef, useState, useEffect, useRef } from 'react';
 import {
   FiInfo,

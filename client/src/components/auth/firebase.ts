@@ -1,4 +1,5 @@
 // client/src/config/firebase.ts
+import firebase from '@/components/auth/firebase';
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 

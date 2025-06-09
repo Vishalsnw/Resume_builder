@@ -1,5 +1,6 @@
 // src/components/resume/ResumePreview.tsx
 
+import ResumePreview from '@/components/resume/ResumePreview';
 import React, { useRef } from 'react';
 import { 
   HiOutlineDownload,

@@ -1,5 +1,6 @@
 // client/src/components/common/badges/Badge.tsx
 
+import Badge from '@/components/common/ui/Badge';
 import React, { forwardRef } from 'react';
 import {
   FiX,

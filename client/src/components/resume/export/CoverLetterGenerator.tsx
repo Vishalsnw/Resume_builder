@@ -1,5 +1,9 @@
 // client/src/components/resume/builder/CoverLetterGenerator.tsx
 
+import Footer from '@/components/layout/Footer';
+import CoverLetterGenerator from '@/components/resume/export/CoverLetterGenerator';
+import Settings from '@/components/settings/Settings';
+import Select from '@/components/common/forms/Select';
 import React, { useState, useRef } from 'react';
 import { 
   FiEdit3, 

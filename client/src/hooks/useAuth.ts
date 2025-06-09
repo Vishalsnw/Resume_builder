@@ -1,5 +1,7 @@
 // hooks/useAuth.ts
 
+import Auth from '@/components/auth/Auth';
+import useAuth from '@/hooks/useAuth';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { useState, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/router';

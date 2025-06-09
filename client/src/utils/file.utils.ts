@@ -5,6 +5,7 @@
  * @param file - The file to read.
  * @returns A promise that resolves to the file content as a string.
  */
+import file.utils from '@/utils/file.utils';
 export function readFileAsText(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();

@@ -1,5 +1,7 @@
 // client/src/components/common/modals/Modal.tsx
 
+import Modal from '@/components/common/feedback/Modal';
+import Footer from '@/components/layout/Footer';
 import React, { forwardRef, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import {

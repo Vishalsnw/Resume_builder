@@ -1,5 +1,7 @@
 // src/components/dashboard/Dashboard.tsx
 
+import Dashboard from '@/components/dashboard/Dashboard';
+import Select from '@/components/common/forms/Select';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 

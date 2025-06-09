@@ -1,5 +1,6 @@
 // pdf.utils.ts
 
+import pdf.utils from '@/utils/pdf.utils';
 import jsPDF from 'jspdf';
 
 /**

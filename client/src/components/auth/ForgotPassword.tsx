@@ -1,5 +1,7 @@
 // client/src/components/auth/ForgotPassword.tsx
 
+import firebase from '@/components/auth/firebase';
+import ForgotPassword from '@/components/auth/ForgotPassword';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { sendPasswordResetEmail } from 'firebase/auth';

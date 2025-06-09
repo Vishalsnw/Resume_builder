@@ -1,5 +1,7 @@
 // client/src/components/auth/GoogleAuthButton.tsx
 
+import firebase from '@/components/auth/firebase';
+import GoogleAuthButton from '@/components/auth/GoogleAuthButton';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';

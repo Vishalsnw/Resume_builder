@@ -1,5 +1,8 @@
 // client/src/components/resume/builder/HobbiesForm.tsx
 
+import LoadingSpinner from '@/components/layout/LoadingSpinner';
+import HobbiesForm from '@/components/resume/builder/HobbiesForm';
+import useForm from '@/hooks/useForm';
 import React, { useState, useEffect } from 'react';
 import { useForm, useFieldArray, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';

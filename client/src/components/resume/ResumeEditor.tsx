@@ -1,5 +1,8 @@
 // src/components/resume/ResumeEditor.tsx - Part 1: Imports and interfaces
 
+import useForm from '@/hooks/useForm';
+import Sidebar from '@/components/layout/Sidebar';
+import ResumeEditor from '@/components/resume/ResumeEditor';
 import React, { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { 

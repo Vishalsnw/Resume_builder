@@ -1,6 +1,7 @@
 // logger.service.ts
 
 // Define log levels
+import logger.service from '@/services/logger.service';
 export type LogLevel = 'info' | 'warn' | 'error' | 'debug';
 
 /**

@@ -1,5 +1,7 @@
 // client/src/components/subscription/PlanFeatures.tsx
 
+import PlanFeatures from '@/components/subscription/PlanFeatures';
+import Footer from '@/components/layout/Footer';
 import React, { useState } from 'react';
 import {
   FiCheck,

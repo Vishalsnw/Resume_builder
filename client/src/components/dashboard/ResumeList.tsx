@@ -1,5 +1,6 @@
 // client/src/components/resume/ResumeList.tsx
 
+import ResumeList from '@/components/dashboard/ResumeList';
 import React, { forwardRef, useState } from 'react';
 import {
   FiFile,

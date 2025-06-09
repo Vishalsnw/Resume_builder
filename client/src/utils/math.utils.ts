@@ -5,6 +5,7 @@
  * @param num - The number to calculate the factorial for.
  * @returns The factorial of the number.
  */
+import math.utils from '@/utils/math.utils';
 export function factorial(num: number): number {
     if (num < 0) {
         throw new Error('Factorial is not defined for negative numbers.');

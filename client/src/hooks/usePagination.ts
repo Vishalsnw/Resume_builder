@@ -1,5 +1,6 @@
 // hooks/usePagination.ts
 
+import usePagination from '@/hooks/usePagination';
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { z } from 'zod';

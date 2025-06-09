@@ -1,82 +1,86 @@
 import os
 import re
 
-# Auto-detect SRC_DIR based on where script is run
-# We expect to find 'components' and 'pages' folder inside SRC_DIR
-def find_src_dir():
-    # Try current dir first
-    cwd = os.getcwd()
-    if os.path.isdir(os.path.join(cwd, "components")) and os.path.isdir(os.path.join(cwd, "pages")):
-        return cwd
-
-    # Try one level up
-    parent = os.path.dirname(cwd)
-    if os.path.isdir(os.path.join(parent, "components")) and os.path.isdir(os.path.join(parent, "pages")):
-        return parent
-
-    # Not found, fallback to cwd anyway
-    print("Warning: Could not auto-detect src directory structure properly. Using current directory.")
-    return cwd
-
-SRC_DIR = find_src_dir()
-print(f"Using SRC_DIR = {SRC_DIR}")
-
-COMPONENTS_DIR = os.path.join(SRC_DIR, "components")
-PAGES_DIR = os.path.join(SRC_DIR, "pages")
-
+SRC_DIR = os.getcwd()
 IMPORT_ALIAS = "@/"
 
-# ... rest of your functions remain unchanged ...
+def find_all_exports(base_dirs):
+    exports = {}
+    for base in base_dirs:
+        for root, _, files in os.walk(os.path.join(SRC_DIR, base)):
+            for file in files:
+                if file.endswith(('.tsx', '.ts', '.js', '.jsx')):
+                    name = file.rsplit('.', 1)[0]
+                    path = os.path.relpath(os.path.join(root, file), SRC_DIR).replace("\\", "/")
+                    path_no_ext = os.path.splitext(path)[0]
+                    exports[name] = path_no_ext
+    return exports
 
-def find_all_components():
-    comp_dict = {}
-    for root, _, files in os.walk(COMPONENTS_DIR):
-        for f in files:
-            if f.endswith(".tsx"):
-                comp_name = f[:-4]
-                full_path = os.path.relpath(os.path.join(root, f), SRC_DIR)
-                comp_path = full_path[:-4]
-                comp_dict[comp_name] = comp_path
-    return comp_dict
+def get_imported_items(text):
+    return set(re.findall(r'import\s+(\w+)', text))
 
-# ... rest of your existing code unchanged ...
+def get_used_items(text, known_items):
+    used = set()
+    for item in known_items:
+        # Match tags <ComponentName or usage like ComponentName(...)
+        if re.search(rf'\b{item}\b', text):
+            used.add(item)
+    return used
+
+def add_imports(filepath, missing, exports):
+    with open(filepath, 'r', encoding='utf-8') as f:
+        lines = f.readlines()
+
+    insert_at = next((i for i, line in enumerate(lines)
+                      if line.strip() and not line.strip().startswith(("//", "/*", "*"))), 0)
+
+    import_lines = [f"import {item} from '{IMPORT_ALIAS}{exports[item]}';\n" for item in missing]
+
+    updated = lines[:insert_at] + import_lines + lines[insert_at:]
+    with open(filepath, 'w', encoding='utf-8') as f:
+        f.writelines(updated)
+
+def is_code_file(filename):
+    return filename.endswith(('.tsx', '.ts', '.js', '.jsx'))
 
 def main():
-    comp_dict = find_all_components()
-    print(f"Found {len(comp_dict)} components.")
+    base_dirs = ['components', 'hooks', 'utils', 'contexts', 'services', 'types']
+    exports = find_all_exports(base_dirs)
+    print(f"🧠 Found {len(exports)} exportable items in: {', '.join(base_dirs)}")
 
-    total_files = 0
-    updated_files = 0
+    total = 0
+    updated = 0
+    all_used = set()
 
-    for root, _, files in os.walk(PAGES_DIR):
-        for f in files:
-            if not f.endswith(".tsx"):
+    for root, _, files in os.walk(SRC_DIR):
+        for file in files:
+            if not is_code_file(file):
                 continue
 
-            filepath = os.path.join(root, f)
-            if is_dynamic_route(filepath):
-                print(f"⏭️ Skipping dynamic route: {filepath}")
-                continue
+            filepath = os.path.join(root, file)
+            with open(filepath, 'r', encoding='utf-8') as f:
+                text = f.read()
 
-            total_files += 1
+            imported = get_imported_items(text)
+            used = get_used_items(text, exports.keys())
+            all_used.update(used)
 
-            with open(filepath, "r", encoding="utf-8") as file:
-                text = file.read()
+            missing = used - imported
+            if missing:
+                print(f"🔧 Updating {filepath} - adding: {', '.join(missing)}")
+                add_imports(filepath, missing, exports)
+                updated += 1
 
-            imported = get_imported_components(text)
-            used = get_used_components(text, comp_dict.keys())
+            total += 1
 
-            missing_imports = used - imported
+    # Unused component warning
+    unused = set(exports.keys()) - all_used
+    if unused:
+        print("\n⚠️ Possibly unused files/components:")
+        for u in sorted(unused):
+            print(f"  - {u} → {exports[u]}")
 
-            if missing_imports:
-                print(f"🔧 Updating {filepath} - adding imports for: {', '.join(missing_imports)}")
-                changed = add_imports_to_file(filepath, missing_imports, comp_dict)
-                if changed:
-                    updated_files += 1
-            else:
-                print(f"✅ No missing imports in {filepath}")
-
-    print(f"\nSummary: Processed {total_files} files, updated {updated_files} files.")
+    print(f"\n✅ Done: Processed {total} files, updated {updated} files.")
 
 if __name__ == "__main__":
     main()

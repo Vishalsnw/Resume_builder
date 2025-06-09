@@ -1,5 +1,6 @@
 // src/services/api.service.ts
 
+import api.service from '@/services/api.service';
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 import { z } from 'zod';
 

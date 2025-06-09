@@ -1,5 +1,10 @@
 // client/src/components/layout/Sidebar.tsx
 
+import firebase from '@/components/auth/firebase';
+import Dashboard from '@/components/dashboard/Dashboard';
+import Sidebar from '@/components/layout/Sidebar';
+import Footer from '@/components/layout/Footer';
+import Settings from '@/components/settings/Settings';
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { auth } from '../../config/firebase';

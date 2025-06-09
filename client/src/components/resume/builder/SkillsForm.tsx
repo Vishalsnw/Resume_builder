@@ -1,5 +1,9 @@
 // client/src/components/resume/builder/SkillsForm.tsx
 
+import Select from '@/components/common/forms/Select';
+import SkillsForm from '@/components/resume/builder/SkillsForm';
+import useForm from '@/hooks/useForm';
+import LoadingSpinner from '@/components/layout/LoadingSpinner';
 import React, { useState, useEffect } from 'react';
 import { useForm, useFieldArray, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';

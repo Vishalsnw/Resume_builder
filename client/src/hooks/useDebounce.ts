@@ -1,5 +1,6 @@
 // hooks/useDebounce.ts
 
+import useDebounce from '@/hooks/useDebounce';
 import { useState, useEffect, useCallback, useRef } from 'react';
 
 interface DebounceOptions {

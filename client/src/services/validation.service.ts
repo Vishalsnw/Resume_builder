@@ -5,6 +5,7 @@
  * @param email - The email string to validate.
  * @returns True if valid, otherwise false.
  */
+import validation.service from '@/services/validation.service';
 export const validateEmail = (email: string): boolean => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);

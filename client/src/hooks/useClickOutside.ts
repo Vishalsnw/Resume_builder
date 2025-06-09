@@ -1,5 +1,6 @@
 // hooks/useClickOutside.ts
 
+import useClickOutside from '@/hooks/useClickOutside';
 import { useEffect, useRef, useCallback, RefObject } from 'react';
 import { z } from 'zod';
 

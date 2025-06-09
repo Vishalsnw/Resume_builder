@@ -1,5 +1,6 @@
 // client/src/components/common/buttons/SecondaryButton.tsx
 
+import SecondaryButton from '@/components/common/buttons/SecondaryButton';
 import React from 'react';
 
 interface SecondaryButtonProps {

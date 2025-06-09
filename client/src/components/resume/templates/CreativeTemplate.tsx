@@ -1,5 +1,7 @@
 // client/src/components/resume/templates/CreativeTemplate.tsx
 
+import CreativeTemplate from '@/components/resume/templates/CreativeTemplate';
+import Profile from '@/components/profile/Profile';
 import React from 'react';
 import { format } from 'date-fns';
 

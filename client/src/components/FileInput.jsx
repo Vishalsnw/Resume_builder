@@ -1,4 +1,5 @@
 // src/components/FileInput.jsx
+import FileInput from '@/components/FileInput';
 import React, { useRef } from 'react';
 
 // This is a JavaScript replacement for your problematic TypeScript component

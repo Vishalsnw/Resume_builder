@@ -1,5 +1,7 @@
 // src/services/http.service.ts
 
+import http.service from '@/services/http.service';
+import auth.service from '@/services/auth.service';
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 import { z } from 'zod';
 import { authService } from './auth.service';

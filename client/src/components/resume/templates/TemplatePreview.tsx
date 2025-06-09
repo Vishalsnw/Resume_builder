@@ -1,5 +1,6 @@
 // client/src/components/resume/templates/TemplatePreview.tsx
 
+import TemplatePreview from '@/components/resume/templates/TemplatePreview';
 import React, { useState } from 'react';
 import { FiDownload, FiZoomIn, FiZoomOut, FiRefreshCw } from 'react-icons/fi';
 import ClassicTemplate from './ClassicTemplate';

@@ -1,5 +1,6 @@
 // client/src/components/common/activity/ActivityLog.tsx
 
+import ActivityLog from '@/components/dashboard/ActivityLog';
 import React, { forwardRef, useState } from 'react';
 import {
   FiActivity,

@@ -1,5 +1,8 @@
 // client/src/components/auth/RegisterForm.tsx
 
+import firebase from '@/components/auth/firebase';
+import RegisterForm from '@/components/auth/RegisterForm';
+import useForm from '@/hooks/useForm';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 

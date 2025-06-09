@@ -5,6 +5,7 @@
  * @param url - The URL to send the GET request to.
  * @returns A promise resolving to the JSON response.
  */
+import http.utils from '@/utils/http.utils';
 export async function getRequest<T>(url: string): Promise<T> {
     try {
         const response = await fetch(url, {

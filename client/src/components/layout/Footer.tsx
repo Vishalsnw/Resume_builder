@@ -1,5 +1,7 @@
 // client/src/components/layout/Footer.tsx
 
+import Footer from '@/components/layout/Footer';
+import Settings from '@/components/settings/Settings';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 

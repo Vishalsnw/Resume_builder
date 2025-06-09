@@ -1,5 +1,7 @@
 // client/src/components/resume/builder/ATSScoreCard.tsx
 
+import Footer from '@/components/layout/Footer';
+import ATSScoreCard from '@/components/resume/ai/ATSScoreCard';
 import React, { useState, useEffect } from 'react';
 import { 
   FiCheck, 

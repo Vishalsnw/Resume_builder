@@ -1,5 +1,6 @@
 // client/src/components/common/feedback/ProgressBar.tsx
 
+import ProgressBar from '@/components/common/feedback/ProgressBar';
 import React, { forwardRef, useEffect, useState } from 'react';
 import { FiCheckCircle, FiAlertCircle, FiClock } from 'react-icons/fi';
 

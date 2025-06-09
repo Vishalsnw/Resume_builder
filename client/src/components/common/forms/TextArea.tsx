@@ -1,5 +1,7 @@
 // client/src/components/common/inputs/TextArea.tsx
 
+import Footer from '@/components/layout/Footer';
+import TextArea from '@/components/common/forms/TextArea';
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import {
   FiAlertCircle,

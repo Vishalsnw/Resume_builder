@@ -1,5 +1,6 @@
 // client/src/components/resume/templates/ATSTemplate.tsx
 
+import ATSTemplate from '@/components/resume/templates/ATSTemplate';
 import React from 'react';
 import { format } from 'date-fns';
 

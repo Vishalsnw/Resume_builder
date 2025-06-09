@@ -1,5 +1,7 @@
 // client/src/components/common/cards/Card.tsx
 
+import Footer from '@/components/layout/Footer';
+import Card from '@/components/common/ui/Card';
 import React, { forwardRef } from 'react';
 import {
   FiChevronRight,

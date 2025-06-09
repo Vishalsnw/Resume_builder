@@ -1,5 +1,6 @@
 // client/src/components/common/buttons/PrimaryButton.tsx
 
+import PrimaryButton from '@/components/common/buttons/PrimaryButton';
 import React from 'react';
 
 interface PrimaryButtonProps {

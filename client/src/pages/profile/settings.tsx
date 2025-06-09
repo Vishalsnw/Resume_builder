@@ -1,5 +1,9 @@
 // pages/profile/settings.tsx
 
+import Profile from '@/components/profile/Profile';
+import Footer from '@/components/layout/Footer';
+import Settings from '@/components/settings/Settings';
+import Sidebar from '@/components/layout/Sidebar';
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';

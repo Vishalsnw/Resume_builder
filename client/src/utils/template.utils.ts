@@ -4,6 +4,7 @@
  * Retrieves the list of available resume templates.
  * @returns An array of template objects with id, name, and description.
  */
+import template.utils from '@/utils/template.utils';
 export function getAvailableTemplates(): Array<{ id: string; name: string; description: string }> {
     return [
         {

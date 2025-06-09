@@ -1,5 +1,6 @@
 // hooks/useMediaQuery.ts
 
+import useMediaQuery from '@/hooks/useMediaQuery';
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { z } from 'zod';
 

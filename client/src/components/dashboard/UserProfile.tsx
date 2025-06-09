@@ -1,5 +1,6 @@
 // client/src/components/profile/UserProfile.tsx
 
+import UserProfile from '@/components/dashboard/UserProfile';
 import React, { forwardRef, useState } from 'react';
 import {
   FiUser,

@@ -1,3 +1,4 @@
+import notification.utils from '@/utils/notification.utils';
 import {
     showSuccessNotification,
     showErrorNotification,

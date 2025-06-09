@@ -1,5 +1,8 @@
 // client/src/components/auth/AuthWrapper.tsx
 
+import firebase from '@/components/auth/firebase';
+import Footer from '@/components/layout/Footer';
+import AuthWrapper from '@/components/auth/AuthWrapper';
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { auth } from '../../config/firebase';

@@ -1,5 +1,11 @@
 // client/src/components/layout/Navbar.tsx
 
+import firebase from '@/components/auth/firebase';
+import Dashboard from '@/components/dashboard/Dashboard';
+import Navbar from '@/components/layout/Navbar';
+import Dropdown from '@/components/common/ui/Dropdown';
+import Settings from '@/components/settings/Settings';
+import Profile from '@/components/profile/Profile';
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { auth } from '../../config/firebase';

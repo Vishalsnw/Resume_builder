@@ -1,5 +1,8 @@
 // client/src/components/common/buttons/IconButton.tsx
 
+import Badge from '@/components/common/ui/Badge';
+import IconButton from '@/components/common/buttons/IconButton';
+import Tooltip from '@/components/common/ui/Tooltip';
 import React from 'react';
 import {
   FiLoader,
