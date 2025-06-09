@@ -1,23 +1,4 @@
 // client/src/App.js or App.tsx
-import 404 from '@/pages/404';
-import Settings from '@/components/settings/Settings';
-import dashboard from '@/pages/dashboard';
-import { default as AppImport } from '@/App';
-import create from '@/pages/resumes/create';
-import login from '@/pages/api/auth/login';
-import Profile from '@/components/profile/Profile';
-import [id] from '@/pages/resumes/edit/[id]';
-import LoginForm from '@/components/auth/LoginForm';
-import AuthContext from '@/contexts/AuthContext';
-import [...nextauth] from '@/pages/api/auth/[...nextauth]';
-import settings from '@/pages/profile/settings';
-import register from '@/pages/api/auth/register';
-import 500 from '@/pages/500';
-import useAuth from '@/hooks/useAuth';
-import EmailVerification from '@/components/auth/EmailVerification';
-
-// NOTE: Renamed to avoid conflict with local declarations:
-// App → AppImport
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
@@ -31,6 +12,19 @@ import Dashboard from './components/dashboard/Dashboard';
 import EmailVerificationComponent from './components/auth/EmailVerification';
 import ResumeBuilder from './components/resume/ResumeBuilder';
 import NotFound from './components/common/NotFound';
+
+// Import these properly - using valid JavaScript identifiers
+import Settings from './components/settings/Settings';
+import Profile from './components/profile/Profile';
+
+// Use direct imports for files with invalid names (no variable binding)
+import './pages/404';
+import './pages/500';
+import './pages/dashboard';
+import './pages/resumes/create';
+import './pages/api/auth/login';
+import './pages/api/auth/register';
+import './pages/profile/settings';
 
 // Import AI components
 import AIContentGenerator from './components/resume/ai/AIContentGenerator';
