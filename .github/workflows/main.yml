@@ -36,7 +36,7 @@ jobs:
       - name: Run import fixer
         run: |
           echo "⚙️ Running fixer..."
-          echo '
+          cat <<EOF > fixer.py
 import os, re
 
 SRC_DIR = os.getcwd()
@@ -64,7 +64,7 @@ def update_file(filepath, exports):
     used = set(k for k in exports if re.search(rf"\\b{k}\\b", text)) - existing_imports
     if not used: return False
 
-    new_imports = [f"import {u} from \'{IMPORT_ALIAS}{exports[u]}\';\\n" for u in used]
+    new_imports = [f"import {u} from '{IMPORT_ALIAS}{exports[u]}';\\n" for u in used]
     lines = text.splitlines(keepends=True)
     insert_index = next((i for i, l in enumerate(lines) if l.strip() and not l.strip().startswith(("//", "/*"))), 0)
     updated = lines[:insert_index] + new_imports + lines[insert_index:]
@@ -82,16 +82,16 @@ for root, _, files in os.walk(SRC_DIR):
             if update_file(os.path.join(root, f), exports):
                 count += 1
 print(f"\\n🔁 Updated {count} files.")
-          ' > fixer.py
+EOF
           python3 fixer.py
 
       - name: Check for Git changes
         id: check_changes
         run: |
           if [[ -n $(git status --porcelain) ]]; then
-            echo "changes=true" >> $GITHUB_OUTPUT
+            echo "changes=true" >> "$GITHUB_OUTPUT"
           else
-            echo "changes=false" >> $GITHUB_OUTPUT
+            echo "changes=false" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Commit and push
@@ -99,7 +99,7 @@ print(f"\\n🔁 Updated {count} files.")
         run: |
           git add .
           git commit -m "fix: auto-fixed missing imports"
-          git push origin $BRANCH_NAME
+          git push origin "$BRANCH_NAME"
 
       - name: Create Pull Request
         if: steps.check_changes.outputs.changes == 'true'
