@@ -11,25 +11,65 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Fix invalid imports
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Create and run fix script
         run: |
-          # Find JS/TS files
-          FOUND_FILES=$(find ./src -type f -name "*.js" -o -name "*.jsx" -o -name "*.ts" -o -name "*.tsx")
+          cat > fix-imports.js << 'EOL'
+          const fs = require('fs');
+          const path = require('path');
+          const { execSync } = require('child_process');
+
+          // Find all JS/TS files
+          const findCommand = "find ./src -type f -name '*.js' -o -name '*.jsx' -o -name '*.ts' -o -name '*.tsx'";
+          const files = execSync(findCommand).toString().trim().split('\n');
+
+          let fixedCount = 0;
+
+          // Process each file
+          files.forEach(filePath => {
+            if (!filePath) return;
+            
+            console.log(`Checking ${filePath}...`);
+            
+            try {
+              // Read the file
+              let content = fs.readFileSync(filePath, 'utf8');
+              
+              // Original content length for comparison
+              const originalLength = content.length;
+              
+              // Fix imports with hyphens, numbers, square brackets, etc.
+              content = content.replace(/^import\s+([0-9]+|.*?[-\[\].].*?)\s+from\s+['"].*?['"]\s*;?\s*$/gm, '// REMOVED INVALID IMPORT');
+              
+              // Fix import with special characters that starts with @
+              content = content.replace(/^import\s+(.*?)(\s+from\s+['"]@\/.*?['"]\s*;?\s*)$/gm, (match, importName) => {
+                // If import name contains invalid characters
+                if (/^[0-9]|[-\[\].]/.test(importName)) {
+                  return '// REMOVED INVALID IMPORT';
+                }
+                return match;
+              });
+              
+              // If content changed, save the file
+              if (content.length !== originalLength) {
+                fs.writeFileSync(filePath, content, 'utf8');
+                console.log(`Fixed imports in ${filePath}`);
+                fixedCount++;
+              }
+            } catch (err) {
+              console.error(`Error processing ${filePath}:`, err);
+            }
+          });
+
+          console.log(`\nFixed imports in ${fixedCount} files.`);
+          EOL
           
-          # Loop through each file
-          for FILE in $FOUND_FILES; do
-            echo "Processing $FILE"
-            
-            # Replace imports with numbers, hyphens, or brackets
-            sed -i -E 's/^import[[:space:]]+([0-9]+|.*[-\[\].].*)[[:space:]]+from[[:space:]]+.*$/\/\/ REMOVED INVALID IMPORT/g' "$FILE"
-            
-            # Report if file was modified
-            if [ $? -eq 0 ]; then
-              echo "Processed $FILE"
-            else
-              echo "Error processing $FILE"
-            fi
-          done
+          # Run the script
+          node fix-imports.js
       
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
