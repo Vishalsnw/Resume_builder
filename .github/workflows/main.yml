@@ -7,72 +7,52 @@ jobs:
   fix-imports:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-      
-      - name: Create and run fix script
+      - name: Find source directory and fix invalid imports
         run: |
-          cat > fix-imports.js << 'EOL'
-          const fs = require('fs');
-          const path = require('path');
-          const { execSync } = require('child_process');
-
-          // Find all JS/TS files
-          const findCommand = "find ./src -type f -name '*.js' -o -name '*.jsx' -o -name '*.ts' -o -name '*.tsx'";
-          const files = execSync(findCommand).toString().trim().split('\n');
-
-          let fixedCount = 0;
-
-          // Process each file
-          files.forEach(filePath => {
-            if (!filePath) return;
-            
-            console.log(`Checking ${filePath}...`);
-            
-            try {
-              // Read the file
-              let content = fs.readFileSync(filePath, 'utf8');
-              
-              // Original content length for comparison
-              const originalLength = content.length;
-              
-              // Fix imports with hyphens, numbers, square brackets, etc.
-              content = content.replace(/^import\s+([0-9]+|.*?[-\[\].].*?)\s+from\s+['"].*?['"]\s*;?\s*$/gm, '// REMOVED INVALID IMPORT');
-              
-              // Fix import with special characters that starts with @
-              content = content.replace(/^import\s+(.*?)(\s+from\s+['"]@\/.*?['"]\s*;?\s*)$/gm, (match, importName) => {
-                // If import name contains invalid characters
-                if (/^[0-9]|[-\[\].]/.test(importName)) {
-                  return '// REMOVED INVALID IMPORT';
-                }
-                return match;
-              });
-              
-              // If content changed, save the file
-              if (content.length !== originalLength) {
-                fs.writeFileSync(filePath, content, 'utf8');
-                console.log(`Fixed imports in ${filePath}`);
-                fixedCount++;
-              }
-            } catch (err) {
-              console.error(`Error processing ${filePath}:`, err);
-            }
-          });
-
-          console.log(`\nFixed imports in ${fixedCount} files.`);
-          EOL
+          # First, list the repository structure to understand what we're working with
+          echo "Repository structure:"
+          ls -la
           
-          # Run the script
-          node fix-imports.js
-      
+          # Try to find where the source files actually are
+          SOURCE_DIRS=$(find . -type d -name "src" -o -name "source" -o -name "app" | grep -v "node_modules")
+          echo "Potential source directories found: $SOURCE_DIRS"
+          
+          if [ -z "$SOURCE_DIRS" ]; then
+            echo "No src directory found. Searching for JS/TS files directly..."
+            JS_FILES=$(find . -type f \( -name "*.js" -o -name "*.jsx" -o -name "*.ts" -o -name "*.tsx" \) -not -path "*/node_modules/*" -not -path "*/dist/*" -not -path "*/build/*")
+          else
+            # Process each potential source directory
+            for SRC_DIR in $SOURCE_DIRS; do
+              echo "Checking source directory: $SRC_DIR"
+              JS_FILES=$(find "$SRC_DIR" -type f \( -name "*.js" -o -name "*.jsx" -o -name "*.ts" -o -name "*.tsx" \))
+              
+              # Process each file in this directory
+              for FILE in $JS_FILES; do
+                echo "Examining $FILE"
+                
+                # Create a backup
+                cp "$FILE" "${FILE}.bak"
+                
+                # Fix imports with numbers at start, hyphens, or brackets
+                sed -i -E 's/^import[[:space:]]+([0-9]+|.*[-\[\].].*)[[:space:]]+from[[:space:]]+.*$/\/\/ REMOVED INVALID IMPORT/g' "$FILE"
+                
+                # Check if file was modified
+                if ! cmp -s "$FILE" "${FILE}.bak"; then
+                  echo "Fixed invalid imports in $FILE"
+                fi
+                
+                # Clean up backup
+                rm "${FILE}.bak"
+              done
+            done
+          fi
+
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "Fix invalid import statements"
-          file_pattern: "src/**/*.js src/**/*.jsx src/**/*.ts src/**/*.tsx"
