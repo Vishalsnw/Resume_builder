@@ -11,6 +11,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Set up Git
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -18,3 +23,23 @@ jobs:
 
       - name: Run Python import fixer
         run: python3 client/src/auto_import_fix.py
+
+      - name: Check for file changes
+        id: changes
+        run: |
+          if [[ -n "$(git status --porcelain)" ]]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit and push if changes
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git add .
+          git commit -m "fix: auto-imports added"
+          git push origin HEAD
+
+      - name: No changes to commit
+        if: steps.changes.outputs.changed == 'false'
+        run: echo "✅ No file changes to commit."
