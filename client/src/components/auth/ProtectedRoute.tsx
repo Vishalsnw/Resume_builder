@@ -1,21 +1,20 @@
 // client/src/components/auth/ProtectedRoute.tsx
 import React from 'react';
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 
-const ProtectedRoute: React.FC = () => {
+interface ProtectedRouteProps {
+  children: React.ReactNode;
+}
+
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const { currentUser } = useAuth();
-  const location = useLocation();
 
   if (!currentUser) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return <Navigate to="/login" />;
   }
 
-  if (currentUser && !currentUser.emailVerified) {
-    return <Navigate to="/verify-email" state={{ from: location }} replace />;
-  }
-
-  return <Outlet />;
+  return <>{children}</>;
 };
 
 export default ProtectedRoute;
