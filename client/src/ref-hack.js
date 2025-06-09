@@ -1,5 +1,8 @@
 // src/ref-hack.js
 
+// Import React
+import React from 'react';
+
 // Monkeypatch React.RefObject to make current writable
 // This is a hack and should be used with caution!
 if (typeof window !== 'undefined') {
