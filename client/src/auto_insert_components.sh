@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Root folder where the script runs should be inside `client/src`
+PAGES_DIR="src"
+
 # Map of component to target file
 declare -A usage_map=(
   [AIContentGenerator]="pages/resumes/[id].tsx"
@@ -33,16 +36,36 @@ while IFS= read -r line; do
 
   if [[ "$usage" == "0 usages" && ${usage_map[$comp]+_} ]]; then
     file="${usage_map[$comp]}"
-    abs_path="src/$file"
+
+    # Skip dynamic route files like [id].tsx if they don't exist
+    if [[ "$file" == *"["*"]"* ]]; then
+      echo "⏭️ Skipping dynamic route: $file"
+      continue
+    fi
+
+    abs_path="$PAGES_DIR/$file"
 
     if [[ -f "$abs_path" ]]; then
       echo "🔧 Adding $comp to $abs_path..."
 
-      # Add import at top if not present
-      grep -q "$comp" "$abs_path" || sed -i "1i import $comp from '@/components/$(find components -name "$comp.tsx" | head -n1 | sed 's|components/||;s|.tsx$||;s|/|/|g')" "$abs_path"
+      # Resolve import path from components folder
+      comp_path=$(find components -name "$comp.tsx" | head -n1)
+      if [[ -z "$comp_path" ]]; then
+        echo "❌ Could not locate component file for $comp"
+        continue
+      fi
+      import_path="@/components/${comp_path#components/}"
+      import_path="${import_path%.tsx}"
 
-      # Add JSX usage at end
-      echo -e "\n{/* Auto Inserted Component */}\n<$comp />\n" >> "$abs_path"
+      # Insert import at top if not already present
+      grep -q "$comp" "$abs_path" || sed -i "1i import $comp from '$import_path';" "$abs_path"
+
+      # Insert JSX usage before last line (assumes functional JSX file)
+      sed -i '$i\
+{/* Auto Inserted Component */}\
+\n<'$comp' />\
+' "$abs_path"
+
     else
       echo "⚠️ File not found: $abs_path"
     fi
