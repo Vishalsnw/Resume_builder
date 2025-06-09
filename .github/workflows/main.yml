@@ -11,13 +11,25 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-      
-      - name: Run Fix Script
-        run: node fix-imports.js
+      - name: Fix invalid imports
+        run: |
+          # Find JS/TS files
+          FOUND_FILES=$(find ./src -type f -name "*.js" -o -name "*.jsx" -o -name "*.ts" -o -name "*.tsx")
+          
+          # Loop through each file
+          for FILE in $FOUND_FILES; do
+            echo "Processing $FILE"
+            
+            # Replace imports with numbers, hyphens, or brackets
+            sed -i -E 's/^import[[:space:]]+([0-9]+|.*[-\[\].].*)[[:space:]]+from[[:space:]]+.*$/\/\/ REMOVED INVALID IMPORT/g' "$FILE"
+            
+            # Report if file was modified
+            if [ $? -eq 0 ]; then
+              echo "Processed $FILE"
+            else
+              echo "Error processing $FILE"
+            fi
+          done
       
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
