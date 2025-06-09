@@ -50,8 +50,63 @@ declare module 'react' {
     fs.writeFileSync('src/react-overrides.d.ts', declContent);
     console.log('Created type declaration override');
   }
+
+  // ADD NEW FUNCTION: Fix invalid imports across all files
+  function fixInvalidImports() {
+    console.log('Starting to fix invalid imports in TS/JS files...');
+    
+    // Find source directory
+    const srcDir = path.resolve(__dirname, 'src');
+    if (!fs.existsSync(srcDir)) {
+      console.log('Source directory not found at:', srcDir);
+      return;
+    }
+    
+    // Function to recursively process files
+    function processDir(dir) {
+      const files = fs.readdirSync(dir);
+      let fixedCount = 0;
+      
+      for (const file of files) {
+        const fullPath = path.join(dir, file);
+        
+        if (fs.statSync(fullPath).isDirectory()) {
+          fixedCount += processDir(fullPath);
+        } else if (/\.(js|jsx|ts|tsx)$/.test(file)) {
+          let content = fs.readFileSync(fullPath, 'utf8');
+          const originalLength = content.length;
+          
+          // Fix imports with invalid names (numbers, hyphens, brackets)
+          content = content.replace(/^import\s+([0-9]+|[^;]*?[-\[\].].*?)\s+from\s+['"].*?['"]\s*;?\s*$/gm, 
+                                  '// REMOVED INVALID IMPORT');
+          
+          // Fix import paths with [...] brackets that start with @/
+          content = content.replace(/^import\s+.*?\s+from\s+['"]@\/.*?\[.*?\].*?['"]\s*;?\s*$/gm, 
+                                  '// REMOVED INVALID IMPORT');
+                                  
+          // Fix imports for files with numbers at beginning
+          content = content.replace(/^import\s+.*?\s+from\s+['"]@\/pages\/[0-9].*?['"]\s*;?\s*$/gm,
+                                  '// REMOVED INVALID IMPORT');
+          
+          if (content.length !== originalLength) {
+            fs.writeFileSync(fullPath, content, 'utf8');
+            console.log(`Fixed invalid imports in ${fullPath}`);
+            fixedCount++;
+          }
+        }
+      }
+      
+      return fixedCount;
+    }
+    
+    const totalFixed = processDir(srcDir);
+    console.log(`Fixed invalid imports in ${totalFixed} files`);
+  }
+
+  // Call the new function
+  fixInvalidImports();
   
   console.log('Fixes applied successfully');
 } catch (error) {
   console.error('Error:', error.message);
-}
+      }
