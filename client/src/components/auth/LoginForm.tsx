@@ -1,120 +1,81 @@
-// client/src/components/auth/LoginForm.tsx
+// src/components/auth/LoginForm.tsx
 import React, { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 
-// Define any types/interfaces at the top level
-interface LoginFormState {
-  email: string;
-  password: string;
-  loading: boolean;
-}
+const LoginForm = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const { login, googleSignIn, loading } = useAuth();
 
-const LoginForm: React.FC = () => {
-  const [formState, setFormState] = useState<LoginFormState>({
-    email: '',
-    password: '',
-    loading: false
-  });
-  const { login } = useAuth();
-
-  // Mock navigation function since we don't have react-router-dom in our build
-  const navigate = (path: string) => {
-    console.log(`Navigating to: ${path}`);
-    // In a real app with react-router-dom, this would use the actual navigate function
-    window.location.href = path;
-  };
-
-  // Mock toast functionality
-  const toast = {
-    success: (message: string) => console.log(`Success: ${message}`),
-    error: (message: string) => console.error(`Error: ${message}`)
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setFormState({ ...formState, loading: true });
-    
     try {
-      await login(formState.email, formState.password);
-      toast.success('Logged in successfully!');
-      navigate('/dashboard');
-    } catch (error: any) {
-      console.error('Login error:', error);
-      toast.error(error.message || 'Failed to log in');
-    } finally {
-      setFormState({ ...formState, loading: false });
+      await login(email, password);
+      console.log('Login successful');
+      // Redirect would happen here in a real app
+    } catch (error) {
+      console.error('Login failed:', error);
     }
   };
 
-  // Mock Google sign in function
   const handleGoogleSignIn = async () => {
-    setFormState({ ...formState, loading: true });
     try {
-      // Mock implementation
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      toast.success('Logged in with Google!');
-      setTimeout(() => navigate('/dashboard'), 500);
-    } catch (error: any) {
-      console.error('Google sign in error:', error);
-      toast.error(error.message || 'Failed to sign in with Google');
-    } finally {
-      setFormState({ ...formState, loading: false });
+      await googleSignIn();
+      console.log('Google sign-in successful');
+      // Redirect would happen here in a real app
+    } catch (error) {
+      console.error('Google sign-in failed:', error);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4">
+      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-md">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
+          <h2 className="text-center text-3xl font-bold text-gray-900">
+            Sign in to your account
+          </h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <label htmlFor="email-address" className="sr-only">Email address</label>
-              <input
-                id="email-address"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
-                value={formState.email}
-                onChange={(e) => setFormState({ ...formState, email: e.target.value })}
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="sr-only">Password</label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
-                value={formState.password}
-                onChange={(e) => setFormState({ ...formState, password: e.target.value })}
-              />
-            </div>
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Email address
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            />
           </div>
-
-          <div className="flex items-center justify-between">
-            <div className="text-sm">
-              <a href="/register" className="font-medium text-blue-600 hover:text-blue-500">
-                Don't have an account? Register
-              </a>
-            </div>
+          
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              Password
+            </label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autoComplete="current-password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            />
           </div>
 
           <div>
             <button
               type="submit"
-              disabled={formState.loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-blue-300"
+              disabled={loading}
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              {formState.loading ? 'Signing in...' : 'Sign in'}
+              {loading ? 'Signing in...' : 'Sign in'}
             </button>
           </div>
         </form>
@@ -125,18 +86,17 @@ const LoginForm: React.FC = () => {
               <div className="w-full border-t border-gray-300"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-gray-50 text-gray-500">Or continue with</span>
+              <span className="px-2 bg-white text-gray-500">Or continue with</span>
             </div>
           </div>
-          
+
           <div className="mt-6">
             <button
               type="button"
               onClick={handleGoogleSignIn}
-              disabled={formState.loading}
-              className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-100"
+              className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
             >
-              <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24" width="24" height="24">
+              <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" width="24" height="24">
                 <g transform="matrix(1, 0, 0, 1, 27.009001, -39.238998)">
                   <path fill="#4285F4" d="M -3.264 51.509 C -3.264 50.719 -3.334 49.969 -3.454 49.239 L -14.754 49.239 L -14.754 53.749 L -8.284 53.749 C -8.574 55.229 -9.424 56.479 -10.684 57.329 L -10.684 60.329 L -6.824 60.329 C -4.564 58.239 -3.264 55.159 -3.264 51.509 Z"></path>
                   <path fill="#34A853" d="M -14.754 63.239 C -11.514 63.239 -8.804 62.159 -6.824 60.329 L -10.684 57.329 C -11.764 58.049 -13.134 58.489 -14.754 58.489 C -17.884 58.489 -20.534 56.379 -21.484 53.529 L -25.464 53.529 L -25.464 56.619 C -23.494 60.539 -19.444 63.239 -14.754 63.239 Z"></path>
@@ -147,6 +107,12 @@ const LoginForm: React.FC = () => {
               Sign in with Google
             </button>
           </div>
+        </div>
+        
+        <div className="text-center mt-4">
+          <a href="/register" className="font-medium text-indigo-600 hover:text-indigo-500">
+            Don't have an account? Register
+          </a>
         </div>
       </div>
     </div>
