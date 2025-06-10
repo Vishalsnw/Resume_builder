@@ -98,6 +98,14 @@ declare module 'react' {
                                   '// Mocked useRouter\n' +
                                   'const useRouter = () => ({ push: () => {}, pathname: "/" })');
           
+          // Replace next-auth imports
+          content = content.replace(/import\s+{\s*([^}]+)\s*}\s+from\s+['"]next-auth\/react['"]/g, (match, importList) => {
+            return `// Mocked next-auth/react imports\nconst sessionStatus = "unauthenticated";\nconst session = null;\nconst useSession = () => ({ data: session, status: sessionStatus });\nconst signIn = () => Promise.resolve(true);\nconst signOut = () => Promise.resolve(true);\nconst getSession = () => Promise.resolve(null);`;
+          });
+          
+          content = content.replace(/import\s+NextAuth\s+from\s+['"]next-auth['"]/g, 
+                                  '// Mocked NextAuth\nconst NextAuth = (options) => (req, res) => res.status(200).json({});');
+          
           if (content.length !== originalLength) {
             fs.writeFileSync(fullPath, content, 'utf8');
             console.log(`Fixed invalid imports in ${fullPath}`);
@@ -173,6 +181,66 @@ export default { useRouter };
 `;
     fs.writeFileSync(path.join(mockDir, 'next-router.js'), nextRouterMock);
     
+    // Mock for next-auth/react
+    const nextAuthReactMock = `
+// Mock implementation of next-auth/react
+export const useSession = () => {
+  return {
+    data: null,
+    status: "unauthenticated"
+  };
+};
+
+export const signIn = async () => {
+  return { ok: true, error: null };
+};
+
+export const signOut = async () => {
+  return { ok: true };
+};
+
+export const getSession = async () => {
+  return null;
+};
+
+export const getCsrfToken = async () => {
+  return "mock-csrf-token";
+};
+
+export const getProviders = async () => {
+  return {
+    google: {
+      id: "google",
+      name: "Google",
+      type: "oauth"
+    }
+  };
+};
+
+export default {
+  useSession,
+  signIn,
+  signOut,
+  getSession,
+  getCsrfToken,
+  getProviders
+};
+`;
+    fs.writeFileSync(path.join(mockDir, 'next-auth-react.js'), nextAuthReactMock);
+    
+    // Mock for next-auth
+    const nextAuthMock = `
+// Mock implementation of next-auth
+const NextAuth = (options) => {
+  return (req, res) => {
+    res.status(200).json({});
+  };
+};
+
+export default NextAuth;
+`;
+    fs.writeFileSync(path.join(mockDir, 'next-auth.js'), nextAuthMock);
+    
     // Create an alias module for webpack
     const webpackConfigMock = `
 // This file would normally be added to your webpack config
@@ -181,6 +249,8 @@ module.exports = {
     alias: {
       'next/link': '${path.join(mockDir, 'next-link.jsx').replace(/\\/g, '\\\\')}',
       'next/router': '${path.join(mockDir, 'next-router.js').replace(/\\/g, '\\\\')}',
+      'next-auth/react': '${path.join(mockDir, 'next-auth-react.js').replace(/\\/g, '\\\\')}',
+      'next-auth': '${path.join(mockDir, 'next-auth.js').replace(/\\/g, '\\\\')}'
     }
   }
 };
@@ -192,6 +262,7 @@ module.exports = {
     // Special fix for React project: Create module resolution in node_modules
     const nodeModulesDir = path.join(__dirname, 'node_modules');
     if (fs.existsSync(nodeModulesDir)) {
+      // Create Next.js mocks
       const nextDir = path.join(nodeModulesDir, 'next');
       if (!fs.existsSync(nextDir)) {
         fs.mkdirSync(nextDir, { recursive: true });
@@ -235,7 +306,65 @@ exports.useRouter = function useRouter() {
         main: 'router.js'
       }, null, 2));
       
-      console.log('Created Next.js module resolution in node_modules');
+      // Create Next-Auth mocks
+      const nextAuthDir = path.join(nodeModulesDir, 'next-auth');
+      if (!fs.existsSync(nextAuthDir)) {
+        fs.mkdirSync(nextAuthDir, { recursive: true });
+      }
+      
+      // Create next-auth main module
+      fs.writeFileSync(path.join(nextAuthDir, 'index.js'), `
+module.exports = function NextAuth(options) {
+  return function NextAuthHandler(req, res) {
+    return res.status(200).json({});
+  };
+};
+module.exports.default = module.exports;
+      `);
+      
+      // Create next-auth/react directory
+      const nextAuthReactDir = path.join(nextAuthDir, 'react');
+      if (!fs.existsSync(nextAuthReactDir)) {
+        fs.mkdirSync(nextAuthReactDir, { recursive: true });
+      }
+      
+      // Create next-auth/react module
+      fs.writeFileSync(path.join(nextAuthReactDir, 'index.js'), `
+exports.useSession = function() {
+  return { data: null, status: "unauthenticated" };
+};
+
+exports.signIn = function() {
+  return Promise.resolve({ ok: true });
+};
+
+exports.signOut = function() {
+  return Promise.resolve({ ok: true });
+};
+
+exports.getSession = function() {
+  return Promise.resolve(null);
+};
+
+exports.getCsrfToken = function() {
+  return Promise.resolve("mock-csrf-token");
+};
+
+exports.getProviders = function() {
+  return Promise.resolve({
+    google: { id: "google", name: "Google", type: "oauth" }
+  });
+};
+      `);
+      
+      // Create package.json for the next-auth module
+      fs.writeFileSync(path.join(nextAuthDir, 'package.json'), JSON.stringify({
+        name: 'next-auth-mock',
+        version: '1.0.0',
+        main: 'index.js'
+      }, null, 2));
+      
+      console.log('Created Next.js and Next Auth module resolution in node_modules');
     }
   }
   
@@ -246,4 +375,4 @@ exports.useRouter = function useRouter() {
   console.log('Fixes applied successfully');
 } catch (error) {
   console.error('Error:', error.message);
-        }
+      }
