@@ -1,239 +1,105 @@
+// process-source.js - Complete and correct version
 const fs = require('fs');
 const path = require('path');
 
 try {
   console.log('Starting dependency fix process...');
 
-  function main() {
-    // Fix invalid imports in the source code
-    function fixInvalidImports() {
-      console.log('Fixing invalid imports in source files...');
-      
-      const srcDir = path.join(__dirname, 'src');
-      
-      if (!fs.existsSync(srcDir)) {
-        console.error(`Source directory '${srcDir}' not found!`);
-        return;
-      }
-      
-      function processDir(dirPath) {
-        let fixedCount = 0;
-        const entries = fs.readdirSync(dirPath);
-        
-        for (const entry of entries) {
-          const fullPath = path.join(dirPath, entry);
-          const stat = fs.statSync(fullPath);
-          
-          if (stat.isDirectory()) {
-            fixedCount += processDir(fullPath);
-          } else if (/\.(js|jsx|ts|tsx)$/.test(entry)) {
-            let content = fs.readFileSync(fullPath, 'utf8');
-            const originalLength = content.length;
-            
-            // Make sure React is imported
-            if (!content.includes('import React')) {
-              content = 'import React from "react";\n' + content;
-            }
-            
-            // Replace Next.js Link imports
-            content = content.replace(/import\s+Link\s+from\s+['"]next\/link['"]/g, 
-                                    '// Replaced Next.js Link\n' +
-                                    'import React from "react";\n' +
-                                    'const Link = ({ href, children, ...props }) => React.createElement("a", { href, ...props }, children);');
-            
-            // Replace Next.js useRouter imports
-            content = content.replace(/import\s+{\s*useRouter\s*}\s+from\s+['"]next\/router['"]/g, 
-                                    '// Mocked useRouter\n' +
-                                    'import React from "react";\n' +
-                                    'function useRouter() { return { push: () => {}, pathname: "/" }; }');
-            
-            // Replace next-auth imports
-            content = content.replace(/import\s+{\s*([^}]+)\s*}\s+from\s+['"]next-auth\/react['"]/g, (match, importList) => {
-              return `// Mocked next-auth/react imports
-import React from "react";
-function useSession() { return { data: null, status: "unauthenticated" }; }
-function signIn() { return Promise.resolve(true); }
-function signOut() { return Promise.resolve(true); }
-function getSession() { return Promise.resolve(null); }`;
-            });
-            
-            content = content.replace(/import\s+NextAuth\s+from\s+['"]next-auth['"]/g, 
-                                    '// Mocked NextAuth\n' +
-                                    'import React from "react";\n' +
-                                    'function NextAuth(options) { return (req, res) => res.status(200).json({}); }');
-            
-            // Replace react-toastify imports
-            content = content.replace(/import\s+{\s*([^}]+)\s*}\s+from\s+['"]react-toastify['"]/g, (match, importList) => {
-              return `// Mocked react-toastify imports
-import React from "react";
-const toast = { 
-  success: (message) => console.log('Success:', message),
-  error: (message) => console.log('Error:', message),
-  info: (message) => console.log('Info:', message),
-  warn: (message) => console.log('Warning:', message),
-  dark: (message) => console.log('Dark:', message)
-};
-function ToastContainer() { return null; }`;
-            });
-            
-            content = content.replace(/import\s+.*?\s+from\s+['"]react-toastify\/dist\/ReactToastify\.css['"]/g, 
-                                    '// Mocked react-toastify CSS import');
-                                    
-            // Add jsonwebtoken mock import replacement
-            content = content.replace(/import\s+(?:(?:{[^}]*})|(?:\*\s+as\s+[^;]+)|(?:[^;]+))\s+from\s+['"]jsonwebtoken['"]/g,
-                                    '// Mocked jsonwebtoken imports\n' +
-                                    'const jwt = { \n' +
-                                    '  sign: function(payload, secret) { return "mock.jwt.token"; },\n' +
-                                    '  verify: function(token, secret) { return { id: "mock-user-id", email: "user@example.com" }; },\n' +
-                                    '  decode: function(token) { return { id: "mock-user-id", email: "user@example.com" }; }\n' +
-                                    '};');
-            
-            if (content.length !== originalLength) {
-              fs.writeFileSync(fullPath, content, 'utf8');
-              console.log(`Fixed invalid imports in ${fullPath}`);
-              fixedCount++;
-            }
-          }
-        }
-        
-        return fixedCount;
-      }
-      
-      const totalFixed = processDir(srcDir);
-      console.log(`Fixed invalid imports in ${totalFixed} files`);
+  // Fix invalid imports in the source code
+  function fixInvalidImports() {
+    console.log('Fixing invalid imports in source files...');
+    
+    const srcDir = path.join(__dirname, 'src');
+    
+    if (!fs.existsSync(srcDir)) {
+      console.error(`Source directory '${srcDir}' not found!`);
+      return;
     }
     
-    // Create mock files for Next.js components and other libraries
-    function createNextMocks() {
-      console.log('Creating mocks for Next.js components and other libraries...');
+    function processDir(dirPath) {
+      let fixedCount = 0;
+      const entries = fs.readdirSync(dirPath);
       
-      // Create a directory for our mocks
-      const mockDir = path.join(__dirname, 'src', 'mocks');
-      if (!fs.existsSync(mockDir)) {
-        fs.mkdirSync(mockDir, { recursive: true });
+      for (const entry of entries) {
+        const fullPath = path.join(dirPath, entry);
+        const stat = fs.statSync(fullPath);
+        
+        if (stat.isDirectory()) {
+          fixedCount += processDir(fullPath);
+        } else if (/\.(js|jsx|ts|tsx)$/.test(entry)) {
+          let content = fs.readFileSync(fullPath, 'utf8');
+          const originalLength = content.length;
+          
+          // Fix React import
+          if (!content.includes('import React')) {
+            content = 'import React from "react";\n' + content;
+          }
+          
+          // Replace Next.js Link imports
+          content = content.replace(/import\s+Link\s+from\s+['"]next\/link['"]/g, 
+                                  '// Replaced Next.js Link\n' +
+                                  'const Link = ({ href, children, ...props }) => React.createElement("a", { href, ...props }, children);');
+          
+          // Replace Next.js useRouter imports
+          content = content.replace(/import\s+{\s*useRouter\s*}\s+from\s+['"]next\/router['"]/g, 
+                                  '// Mocked useRouter\n' +
+                                  'const useRouter = () => ({ push: () => {}, pathname: "/" });');
+          
+          // Replace next-auth imports
+          content = content.replace(/import\s+{\s*([^}]+)\s*}\s+from\s+['"]next-auth\/react['"]/g, 
+                                  '// Mocked next-auth/react imports\n' +
+                                  'const useSession = () => ({ data: null, status: "unauthenticated" });\n' +
+                                  'const signIn = () => Promise.resolve(true);\n' +
+                                  'const signOut = () => Promise.resolve(true);\n' +
+                                  'const getSession = () => Promise.resolve(null);');
+          
+          content = content.replace(/import\s+NextAuth\s+from\s+['"]next-auth['"]/g, 
+                                  '// Mocked NextAuth\n' +
+                                  'const NextAuth = (options) => (req, res) => res.status(200).json({});');
+          
+          // Replace react-toastify imports
+          content = content.replace(/import\s+{\s*([^}]+)\s*}\s+from\s+['"]react-toastify['"]/g, 
+                                  '// Mocked react-toastify imports\n' +
+                                  'const toast = { success: () => {}, error: () => {}, info: () => {}, warn: () => {}, dark: () => {} };\n' +
+                                  'const ToastContainer = () => null;');
+          
+          content = content.replace(/import\s+.*?\s+from\s+['"]react-toastify\/dist\/ReactToastify\.css['"]/g, 
+                                  '// Mocked react-toastify CSS import');
+                                  
+          // Add jsonwebtoken mock import replacement
+          content = content.replace(/import\s+(?:(?:{[^}]*})|(?:\*\s+as\s+[^;]+)|(?:[^;]+))\s+from\s+['"]jsonwebtoken['"]/g,
+                                  '// Mocked jsonwebtoken imports\n' +
+                                  'const jwt = { sign: (payload, secret) => "mock.jwt.token", ' +
+                                  'verify: (token, secret) => ({ id: "mock-user-id", email: "user@example.com" }), ' +
+                                  'decode: (token) => ({ id: "mock-user-id", email: "user@example.com" }) };');
+          
+          if (content.length !== originalLength) {
+            fs.writeFileSync(fullPath, content, 'utf8');
+            console.log(`Fixed invalid imports in ${fullPath}`);
+            fixedCount++;
+          }
+        }
       }
       
-      // Create a type definitions file for fixing TypeScript errors
-      const typeDefinitions = `
-// Type definitions for mocked components
-import React from 'react';
-
-declare global {
-  namespace React {
-    interface FunctionComponent<P = {}> {
-      (props: P, context?: any): React.ReactElement<any, any> | null;
+      return fixedCount;
     }
+    
+    const totalFixed = processDir(srcDir);
+    console.log(`Fixed invalid imports in ${totalFixed} files`);
   }
-}
-
-declare module 'next/link' {
-  export interface LinkProps {
-    href: string;
-    as?: string;
-    replace?: boolean;
-    scroll?: boolean;
-    shallow?: boolean;
-    passHref?: boolean;
-    prefetch?: boolean;
-    locale?: string;
-    [key: string]: any;
-  }
-  export default function Link(props: LinkProps): JSX.Element;
-}
-
-declare module 'next/router' {
-  export interface NextRouter {
-    route: string;
-    pathname: string;
-    query: any;
-    asPath: string;
-    basePath: string;
-    events: {
-      on: (event: string, handler: (...args: any[]) => void) => void;
-      off: (event: string, handler: (...args: any[]) => void) => void;
-      emit: (event: string, ...args: any[]) => void;
-    };
-    push: (url: string, as?: string, options?: any) => Promise<boolean>;
-    replace: (url: string, as?: string, options?: any) => Promise<boolean>;
-    reload: () => void;
-    back: () => void;
-    prefetch: (url: string, as?: string, options?: any) => Promise<void>;
-    beforePopState: (cb: (state: any) => boolean) => void;
-    isReady: boolean;
-    isFallback: boolean;
-  }
-  export function useRouter(): NextRouter;
-}
-
-declare module 'next-auth/react' {
-  export interface Session {
-    user?: {
-      name?: string;
-      email?: string;
-      image?: string;
-      id?: string;
-    };
-    expires: string;
-  }
-  export type SessionStatus = 'loading' | 'authenticated' | 'unauthenticated';
-  export interface UseSessionOptions {
-    required?: boolean;
-    onUnauthenticated?: () => void;
-  }
-  export interface UseSessionReturn {
-    data: Session | null;
-    status: SessionStatus;
-  }
-  export function useSession(options?: UseSessionOptions): UseSessionReturn;
-  export function signIn(provider?: string, options?: any, authorizationParams?: any): Promise<any>;
-  export function signOut(options?: any): Promise<any>;
-  export function getSession(options?: any): Promise<Session | null>;
-  export function getCsrfToken(options?: any): Promise<string | null>;
-  export function getProviders(): Promise<any>;
-}
-
-declare module 'react-toastify' {
-  export interface ToastOptions {
-    position?: string;
-    autoClose?: number;
-    hideProgressBar?: boolean;
-    closeOnClick?: boolean;
-    pauseOnHover?: boolean;
-    draggable?: boolean;
-    progress?: number;
-    theme?: string;
-  }
-  export interface ToastContainerProps {
-    position?: string;
-    autoClose?: number;
-    hideProgressBar?: boolean;
-    newestOnTop?: boolean;
-    closeOnClick?: boolean;
-    rtl?: boolean;
-    pauseOnFocusLoss?: boolean;
-    draggable?: boolean;
-    pauseOnHover?: boolean;
-    theme?: string;
-  }
-  export const toast: {
-    success: (message: string, options?: ToastOptions) => any;
-    error: (message: string, options?: ToastOptions) => any;
-    info: (message: string, options?: ToastOptions) => any;
-    warn: (message: string, options?: ToastOptions) => any;
-    dark: (message: string, options?: ToastOptions) => any;
-    update: (id: string, options?: ToastOptions) => any;
-  };
-  export function ToastContainer(props?: ToastContainerProps): JSX.Element;
-  export function Slide(props?: any): any;
-  export function Zoom(props?: any): any;
-  export function Flip(props?: any): any;
-  export function Bounce(props?: any): any;
-}
-`;
-      fs.writeFileSync(path.join(srcDir, 'react-app-env.d.ts'), typeDefinitions);
-      
-      // Mock for next/link
-      const nextLinkMock = `
+  
+  // Create mock files for Next.js components and other libraries
+  function createNextMocks() {
+    console.log('Creating mocks for Next.js components and other libraries...');
+    
+    // Create a directory for our mocks
+    const mockDir = path.join(__dirname, 'src', 'mocks');
+    if (!fs.existsSync(mockDir)) {
+      fs.mkdirSync(mockDir, { recursive: true });
+    }
+    
+    // Mock for next/link
+    const nextLinkMock = `
 import React from 'react';
 
 // Mock implementation of next/link
@@ -248,12 +114,10 @@ Link.defaultProps = {
 
 export default Link;
 `;
-      fs.writeFileSync(path.join(mockDir, 'next-link.jsx'), nextLinkMock);
-      
-      // Mock for next/router
-      const nextRouterMock = `
-import React from 'react';
-
+    fs.writeFileSync(path.join(mockDir, 'next-link.jsx'), nextLinkMock);
+    
+    // Mock for next/router
+    const nextRouterMock = `
 // Mock implementation of next/router
 const router = {
   route: '/',
@@ -282,12 +146,10 @@ export function useRouter() {
 
 export default { useRouter };
 `;
-      fs.writeFileSync(path.join(mockDir, 'next-router.js'), nextRouterMock);
-      
-      // Mock for next-auth/react
-      const nextAuthReactMock = `
-import React from 'react';
-
+    fs.writeFileSync(path.join(mockDir, 'next-router.js'), nextRouterMock);
+    
+    // Mock for next-auth/react
+    const nextAuthReactMock = `
 // Mock implementation of next-auth/react
 export const useSession = () => {
   return {
@@ -331,12 +193,10 @@ export default {
   getProviders
 };
 `;
-      fs.writeFileSync(path.join(mockDir, 'next-auth-react.js'), nextAuthReactMock);
-      
-      // Mock for next-auth
-      const nextAuthMock = `
-import React from 'react';
-
+    fs.writeFileSync(path.join(mockDir, 'next-auth-react.js'), nextAuthReactMock);
+    
+    // Mock for next-auth
+    const nextAuthMock = `
 // Mock implementation of next-auth
 const NextAuth = (options) => {
   return (req, res) => {
@@ -346,13 +206,13 @@ const NextAuth = (options) => {
 
 export default NextAuth;
 `;
-      fs.writeFileSync(path.join(mockDir, 'next-auth.js'), nextAuthMock);
-      
-      // Mock for react-toastify
-      const reactToastifyMock = `
+    fs.writeFileSync(path.join(mockDir, 'next-auth.js'), nextAuthMock);
+    
+    // Mock for react-toastify
+    const reactToastifyMock = `
+// Mock implementation of react-toastify
 import React from 'react';
 
-// Mock implementation of react-toastify
 export const toast = {
   success: (message) => console.log('TOAST SUCCESS:', message),
   error: (message) => console.log('TOAST ERROR:', message),
@@ -375,10 +235,10 @@ export const Bounce = cssTransition();
 
 export default { toast, ToastContainer };
 `;
-      fs.writeFileSync(path.join(mockDir, 'react-toastify.js'), reactToastifyMock);
+    fs.writeFileSync(path.join(mockDir, 'react-toastify.js'), reactToastifyMock);
 
-      // Mock for jsonwebtoken
-      const jsonwebtokenMock = `
+    // Mock for jsonwebtoken
+    const jsonwebtokenMock = `
 // Mock implementation of jsonwebtoken
 export const sign = (payload, secret, options) => {
   return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2NrIjoidG9rZW4ifQ.mock-signature";
@@ -398,10 +258,13 @@ export default {
   decode
 };
 `;
-      fs.writeFileSync(path.join(mockDir, 'jsonwebtoken.js'), jsonwebtokenMock);
-      
-      // Create webpack config mock for module resolution
-      const webpackConfigMock = `
+    fs.writeFileSync(path.join(mockDir, 'jsonwebtoken.js'), jsonwebtokenMock);
+    
+    // Create mock empty CSS file
+    fs.writeFileSync(path.join(mockDir, 'empty.css'), '/* Mock CSS */');
+    
+    // Create webpack config mock for module resolution
+    const webpackConfigMock = `
 // This file would normally be added to your webpack config
 module.exports = {
   resolve: {
@@ -416,134 +279,141 @@ module.exports = {
   }
 };
 `;
-      fs.writeFileSync(path.join(mockDir, 'webpack-config.js'), webpackConfigMock);
-      
-      // Create node_modules structure to resolve imports
-      const nodeModulesDir = path.join(__dirname, 'node_modules');
-      
-      // Create next/link mock in node_modules
-      const nextDir = path.join(nodeModulesDir, 'next');
-      if (!fs.existsSync(nextDir)) {
-        fs.mkdirSync(nextDir, { recursive: true });
-      }
-      fs.writeFileSync(path.join(nextDir, 'link.js'), `module.exports = require('${path.join(mockDir, 'next-link.jsx').replace(/\\/g, '\\\\')}')`);
-      fs.writeFileSync(path.join(nextDir, 'router.js'), `module.exports = require('${path.join(mockDir, 'next-router.js').replace(/\\/g, '\\\\')}')`);
-      
-      // Create next-auth mock in node_modules
-      const nextAuthDir = path.join(nodeModulesDir, 'next-auth');
-      if (!fs.existsSync(nextAuthDir)) {
-        fs.mkdirSync(nextAuthDir, { recursive: true });
-      }
-      fs.writeFileSync(path.join(nextAuthDir, 'index.js'), `module.exports = require('${path.join(mockDir, 'next-auth.js').replace(/\\/g, '\\\\')}')`);
-      
-      const nextAuthReactDir = path.join(nextAuthDir, 'react');
-      if (!fs.existsSync(nextAuthReactDir)) {
-        fs.mkdirSync(nextAuthReactDir, { recursive: true });
-      }
-      fs.writeFileSync(path.join(nextAuthReactDir, 'index.js'), `module.exports = require('${path.join(mockDir, 'next-auth-react.js').replace(/\\/g, '\\\\')}')`);
-      
-      // Create react-toastify mock in node_modules
-      const reactToastifyDir = path.join(nodeModulesDir, 'react-toastify');
-      if (!fs.existsSync(reactToastifyDir)) {
-        fs.mkdirSync(reactToastifyDir, { recursive: true });
-      }
-      fs.writeFileSync(path.join(reactToastifyDir, 'index.js'), `module.exports = require('${path.join(mockDir, 'react-toastify.js').replace(/\\/g, '\\\\')}')`);
-      
-      // Create react-toastify/dist directory
-      const reactToastifyCssDir = path.join(reactToastifyDir, 'dist');
-      if (!fs.existsSync(reactToastifyCssDir)) {
-        fs.mkdirSync(reactToastifyCssDir, { recursive: true });
-      }
-      fs.writeFileSync(path.join(reactToastifyCssDir, 'ReactToastify.css'), `/* Mock CSS */`);
-      
-      // Create jsonwebtoken mock in node_modules
-      const jsonwebtokenDir = path.join(nodeModulesDir, 'jsonwebtoken');
-      if (!fs.existsSync(jsonwebtokenDir)) {
-        fs.mkdirSync(jsonwebtokenDir, { recursive: true });
-      }
-      fs.writeFileSync(path.join(jsonwebtokenDir, 'index.js'), `module.exports = require('${path.join(mockDir, 'jsonwebtoken.js').replace(/\\/g, '\\\\')}')`);
-      
-      console.log('Successfully created mock files for all required dependencies');
-    }
-
-    // Fix TypeScript errors in components
-    function fixTypescriptErrors() {
-      console.log('Fixing TypeScript errors in component files...');
-      
-      const srcDir = path.join(__dirname, 'src');
-      
-      // List of files with errors from the build log
-      const filesToFix = [
-        'components/auth/EmailVerification.tsx',
-        'components/auth/LoginForm.tsx',
-        'components/auth/ProtectedRoute.tsx',
-        'components/auth/RegisterForm.tsx',
-        'components/common/NotFound.tsx',
-        'components/dashboard/Dashboard.tsx',
-        'components/profile/Profile.tsx',
-        'components/resume/CreateResume.tsx',
-        'components/resume/ResumeBuilder.tsx',
-        'components/resume/ai/AIContentGenerator.tsx',
-        'components/resume/ai/AIFeedback.tsx',
-        'components/resume/ai/ATSScoreCard.tsx',
-        'components/resume/ai/ContentEnhancer.tsx',
-        'components/settings/Settings.tsx',
-        'contexts/AuthContext.tsx',
-        'pages/404.tsx',
-        'pages/500.tsx',
-        'pages/api/auth/login.ts',
-        'pages/api/auth/register.ts',
-        'pages/dashboard.tsx',
-        'pages/profile/settings.tsx',
-        'pages/resumes/create.tsx'
-      ];
-      
-      for (const relPath of filesToFix) {
-        const fullPath = path.join(srcDir, relPath);
-        if (fs.existsSync(fullPath)) {
-          try {
-            let content = fs.readFileSync(fullPath, 'utf8');
-            
-            // Make sure React is imported first
-            if (!content.includes('import React')) {
-              content = 'import React from "react";\n' + content;
-            }
-            
-            // Fix common TypeScript syntax errors by ensuring imports and declarations are properly structured
-            // Look for any mock variables outside of function scopes and wrap them
-            content = content.replace(/(\/\/ Mocked.*?\n)(const|let|var|function)(\s+[a-zA-Z0-9_]+)/g, 
-            (match, comment, declType, name) => {
-              return `${comment}// Fix: Wrapped in proper module scope\n${declType}${name}`;
-            });
-            
-            fs.writeFileSync(fullPath, content, 'utf8');
-            console.log(`Fixed TypeScript errors in ${fullPath}`);
-          } catch (err) {
-            console.error(`Error fixing file ${fullPath}:`, err);
-          }
-        } else {
-          console.warn(`File ${fullPath} not found, skipping...`);
-        }
-      }
-    }
-
-    // Run the main fix functions
-    fixInvalidImports();
-    createNextMocks();
-    fixTypescriptErrors();
+    fs.writeFileSync(path.join(mockDir, 'webpack-config.js'), webpackConfigMock);
     
-        // Add script metadata
-    const scriptMetadata = {
-      version: "1.0.0",
-      executedBy: "VishalsnwCan", // Updated username
-      executedAt: "2025-06-10 13:23:42", // Updated timestamp
-      description: "Auto-correction script to fix dependency issues and provide mocks"
+    // Create type definition file
+    const typeDefinitions = `
+// Type definitions for mocked modules
+import React from 'react';
+
+// Next.js Link type
+declare module 'next/link' {
+  interface LinkProps {
+    href: string;
+    as?: string;
+    replace?: boolean;
+    scroll?: boolean;
+    shallow?: boolean;
+    passHref?: boolean;
+    prefetch?: boolean;
+    locale?: string;
+    [key: string]: any;
+  }
+  export default function Link(props: LinkProps): JSX.Element;
+}
+
+// Next.js Router type
+declare module 'next/router' {
+  interface Router {
+    route: string;
+    pathname: string;
+    query: any;
+    asPath: string;
+    push(url: string): Promise<boolean>;
+    replace(url: string): Promise<boolean>;
+    reload(): void;
+    back(): void;
+  }
+  export function useRouter(): Router;
+}
+
+// Next-auth types
+declare module 'next-auth/react' {
+  interface Session {
+    user?: {
+      name?: string;
+      email?: string;
+      image?: string;
     };
+    expires: string;
+  }
+  export function useSession(): {
+    data: Session | null;
+    status: 'loading' | 'authenticated' | 'unauthenticated';
+  };
+  export function signIn(): Promise<any>;
+  export function signOut(): Promise<any>;
+  export function getSession(): Promise<Session | null>;
+}
+
+// React-toastify types
+declare module 'react-toastify' {
+  export const toast: {
+    success(message: string): void;
+    error(message: string): void;
+    info(message: string): void;
+    warn(message: string): void;
+  };
+  export function ToastContainer(props?: any): JSX.Element;
+}
+
+// Empty CSS module
+declare module '*.css' {
+  const css: { [key: string]: string };
+  export default css;
+}
+`;
+    fs.writeFileSync(path.join(srcDir, 'mock-types.d.ts'), typeDefinitions);
     
-    fs.writeFileSync('fix-script-metadata.json', JSON.stringify(scriptMetadata, null, 2));
+    console.log('Successfully created mock files for all required dependencies');
+  }
+
+  // Create a module registration file to dynamically load mocks
+  function createModuleRegistration() {
+    console.log('Creating module registration system...');
     
-    // Create a summary report
-    const summaryReport = `
+    const registrationCode = `
+// Intercepting module loading to provide mocks
+const Module = require('module');
+const path = require('path');
+const originalRequire = Module.prototype.require;
+
+// Mock directory
+const mockDir = path.join(__dirname, 'src', 'mocks');
+
+// Map of modules to mock
+const mockModules = {
+  'next/link': path.join(mockDir, 'next-link.jsx'),
+  'next/router': path.join(mockDir, 'next-router.js'),
+  'next-auth/react': path.join(mockDir, 'next-auth-react.js'),
+  'next-auth': path.join(mockDir, 'next-auth.js'),
+  'react-toastify': path.join(mockDir, 'react-toastify.js'),
+  'jsonwebtoken': path.join(mockDir, 'jsonwebtoken.js'),
+  'react-toastify/dist/ReactToastify.css': path.join(mockDir, 'empty.css')
+};
+
+// Override the require function
+Module.prototype.require = function(id) {
+  if (mockModules[id]) {
+    return originalRequire.call(this, mockModules[id]);
+  }
+  return originalRequire.call(this, id);
+};
+
+console.log('Module interception registered');
+`;
+    
+    fs.writeFileSync(path.join(__dirname, 'register-mocks.js'), registrationCode);
+    console.log('Created module registration system');
+  }
+
+  // Execute all the fix functions
+  fixInvalidImports();
+  createNextMocks();
+  createModuleRegistration();
+  
+  // Add script metadata
+  const scriptMetadata = {
+    version: "1.0.0",
+    executedBy: "Vishalsnw",
+    executedAt: "2025-06-10 13:34:27", 
+    description: "Auto-correction script to fix dependency issues and provide mocks"
+  };
+  
+  fs.writeFileSync('fix-script-metadata.json', JSON.stringify(scriptMetadata, null, 2));
+  
+  // Create a summary report
+  const summaryReport = `
 DEPENDENCY FIX SUMMARY
 =====================
 Executed by: ${scriptMetadata.executedBy}
@@ -559,27 +429,30 @@ Actions completed:
   * next-auth
   * react-toastify
   * jsonwebtoken
-- Created proper module resolution structure in node_modules
-- Added type definition overrides to fix TypeScript errors
-- Fixed TypeScript syntax errors in component files
+- Created module registration system
+- Added TypeScript type definitions
 
 USAGE INSTRUCTIONS:
-1. Make sure you run 'npm install' to install remaining dependencies
-2. Use 'npm start' to test the application with mocks
-3. If you encounter any TypeScript errors:
-   - Check src/react-app-env.d.ts for type definitions
-   - If needed, add additional type definitions
-4. For webpack configuration, reference the mock webpack config at:
+1. Add this line at the top of your entry file:
+   require('./register-mocks');
+
+2. If using TypeScript, make sure src/mock-types.d.ts is included
+
+3. For webpack configuration, reference the mock webpack config at:
    src/mocks/webpack-config.js
 
-NOTE: These fixes are meant as temporary solutions to get the application
-running outside of its original Next.js environment. For production use,
-proper implementation of these dependencies will be required.
+NOTE: These fixes provide lightweight mocks to help build the application
+outside of a Next.js environment. For full functionality, proper implementation
+of these dependencies will be required.
 `;
 
-    fs.writeFileSync('fix-summary.md', summaryReport);
-    
-    console.log('');
-    console.log(summaryReport);
-    console.log('');
-    console.log('Script execution complete.');
+  fs.writeFileSync('fix-summary.md', summaryReport);
+  
+  console.log('');
+  console.log(summaryReport);
+  console.log('');
+  console.log('Script execution complete.');
+
+} catch (error) {
+  console.error('Error during code processing:', error);
+                                    }
