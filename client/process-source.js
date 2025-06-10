@@ -441,3 +441,82 @@ exports.ToastContainer = function() { return React.createElement('div'); };
 } catch (error) {
   console.error('Error:', error.message);
                                  }
+// Updated portion for process-source.js
+
+// In the fixInvalidImports function, add this pattern:
+// Replace jsonwebtoken imports
+content = content.replace(/import\s+(?:(?:jwt)|(?:\{\s*([^}]+)\s*\}))\s+from\s+['"]jsonwebtoken['"]/g, 
+                         '// Mocked jsonwebtoken imports\n' +
+                         'const jwt = { sign: (payload, secret) => "mock.jwt.token", ' +
+                         'verify: (token, secret) => ({ id: "mock-user-id", email: "user@example.com" }) };');
+
+// In the createNextMocks function, add this mock file:
+// Mock for jsonwebtoken
+const jsonwebMock = `
+// Mock implementation of jsonwebtoken
+export const sign = (payload, secret, options) => {
+  return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2NrIjoidG9rZW4ifQ.mock-signature";
+};
+
+export const verify = (token, secret) => {
+  return { id: "mock-user-id", email: "user@example.com" };
+};
+
+export const decode = (token) => {
+  return { id: "mock-user-id", email: "user@example.com" };
+};
+
+export default {
+  sign,
+  verify,
+  decode
+};
+`;
+fs.writeFileSync(path.join(mockDir, 'jsonwebtoken.js'), jsonwebMock);
+
+// Add to webpack aliases:
+// Update the webpackConfigMock to include jsonwebtoken:
+const webpackConfigMock = `
+// This file would normally be added to your webpack config
+module.exports = {
+  resolve: {
+    alias: {
+      'next/link': '${path.join(mockDir, 'next-link.jsx').replace(/\\/g, '\\\\')}',
+      'next/router': '${path.join(mockDir, 'next-router.js').replace(/\\/g, '\\\\')}',
+      'next-auth/react': '${path.join(mockDir, 'next-auth-react.js').replace(/\\/g, '\\\\')}',
+      'next-auth': '${path.join(mockDir, 'next-auth.js').replace(/\\/g, '\\\\')}',
+      'react-toastify': '${path.join(mockDir, 'react-toastify.js').replace(/\\/g, '\\\\')}',
+      'jsonwebtoken': '${path.join(mockDir, 'jsonwebtoken.js').replace(/\\/g, '\\\\')}'
+    }
+  }
+};
+`;
+
+// In the node_modules creation section, add:
+// Create jsonwebtoken mock
+const jsonwebtokenDir = path.join(nodeModulesDir, 'jsonwebtoken');
+if (!fs.existsSync(jsonwebtokenDir)) {
+  fs.mkdirSync(jsonwebtokenDir, { recursive: true });
+}
+
+// Create main jsonwebtoken module
+fs.writeFileSync(path.join(jsonwebtokenDir, 'index.js'), `
+exports.sign = function(payload, secret, options) {
+  return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2NrIjoidG9rZW4ifQ.mock-signature";
+};
+
+exports.verify = function(token, secret) {
+  return { id: "mock-user-id", email: "user@example.com" };
+};
+
+exports.decode = function(token) {
+  return { id: "mock-user-id", email: "user@example.com" };
+};
+`);
+
+// Create package.json for jsonwebtoken
+fs.writeFileSync(path.join(jsonwebtokenDir, 'package.json'), JSON.stringify({
+  name: 'jsonwebtoken-mock',
+  version: '1.0.0',
+  main: 'index.js'
+}, null, 2));
