@@ -60,70 +60,76 @@ declare module 'react' {
     if (!fs.existsSync(srcDir)) {
       console.log('Source directory not found at:', srcDir);
       return;
-    }
+                }
+      // Function to recursively process files
+  function processDir(dir) {
+    const files = fs.readdirSync(dir);
+    let fixedCount = 0;
     
-    // Function to recursively process files
-    function processDir(dir) {
-      const files = fs.readdirSync(dir);
-      let fixedCount = 0;
+    for (const file of files) {
+      const fullPath = path.join(dir, file);
       
-      for (const file of files) {
-        const fullPath = path.join(dir, file);
+      if (fs.statSync(fullPath).isDirectory()) {
+        fixedCount += processDir(fullPath);
+      } else if (/\.(js|jsx|ts|tsx)$/.test(file)) {
+        let content = fs.readFileSync(fullPath, 'utf8');
+        const originalLength = content.length;
         
-        if (fs.statSync(fullPath).isDirectory()) {
-          fixedCount += processDir(fullPath);
-        } else if (/\.(js|jsx|ts|tsx)$/.test(file)) {
-          let content = fs.readFileSync(fullPath, 'utf8');
-          const originalLength = content.length;
-          
-          // Fix imports with invalid names (numbers, hyphens, brackets)
-          content = content.replace(/^import\s+([0-9]+|[^;]*?[-\[\].].*?)\s+from\s+['"].*?['"]\s*;?\s*$/gm, 
-                                  '// REMOVED INVALID IMPORT');
-          
-          // Fix import paths with [...] brackets that start with @/
-          content = content.replace(/^import\s+.*?\s+from\s+['"]@\/.*?\[.*?\].*?['"]\s*;?\s*$/gm, 
-                                  '// REMOVED INVALID IMPORT');
-                                  
-          // Fix imports for files with numbers at beginning
-          content = content.replace(/^import\s+.*?\s+from\s+['"]@\/pages\/[0-9].*?['"]\s*;?\s*$/gm,
-                                  '// REMOVED INVALID IMPORT');
-          
-          // Replace Next.js Link imports
-          content = content.replace(/import\s+Link\s+from\s+['"]next\/link['"]/g, 
-                                  '// Replaced Next.js Link with standard <a>\n' +
-                                  'const Link = ({ href, children, ...props }) => React.createElement("a", { href, ...props }, children);');
-          
-          // Replace Next.js useRouter imports
-          content = content.replace(/import\s+{\s*useRouter\s*}\s+from\s+['"]next\/router['"]/g, 
-                                  '// Mocked useRouter\n' +
-                                  'const useRouter = () => ({ push: () => {}, pathname: "/" })');
-          
-          // Replace next-auth imports
-          content = content.replace(/import\s+{\s*([^}]+)\s*}\s+from\s+['"]next-auth\/react['"]/g, (match, importList) => {
-            return `// Mocked next-auth/react imports\nconst sessionStatus = "unauthenticated";\nconst session = null;\nconst useSession = () => ({ data: session, status: sessionStatus });\nconst signIn = () => Promise.resolve(true);\nconst signOut = () => Promise.resolve(true);\nconst getSession = () => Promise.resolve(null);`;
-          });
-          
-          content = content.replace(/import\s+NextAuth\s+from\s+['"]next-auth['"]/g, 
-                                  '// Mocked NextAuth\nconst NextAuth = (options) => (req, res) => res.status(200).json({});');
-          
-          if (content.length !== originalLength) {
-            fs.writeFileSync(fullPath, content, 'utf8');
-            console.log(`Fixed invalid imports in ${fullPath}`);
-            fixedCount++;
-          }
+        // Fix imports with invalid names (numbers, hyphens, brackets)
+        content = content.replace(/^import\s+([0-9]+|[^;]*?[-\[\].].*?)\s+from\s+['"].*?['"]\s*;?\s*$/gm, 
+                                '// REMOVED INVALID IMPORT');
+        
+        // Fix import paths with [...] brackets that start with @/
+        content = content.replace(/^import\s+.*?\s+from\s+['"]@\/.*?\[.*?\].*?['"]\s*;?\s*$/gm, 
+                                '// REMOVED INVALID IMPORT');
+                                
+        // Fix imports for files with numbers at beginning
+        content = content.replace(/^import\s+.*?\s+from\s+['"]@\/pages\/[0-9].*?['"]\s*;?\s*$/gm,
+                                '// REMOVED INVALID IMPORT');
+        
+        // Replace Next.js Link imports
+        content = content.replace(/import\s+Link\s+from\s+['"]next\/link['"]/g, 
+                                '// Replaced Next.js Link with standard <a>\n' +
+                                'const Link = ({ href, children, ...props }) => React.createElement("a", { href, ...props }, children);');
+        
+        // Replace Next.js useRouter imports
+        content = content.replace(/import\s+{\s*useRouter\s*}\s+from\s+['"]next\/router['"]/g, 
+                                '// Mocked useRouter\n' +
+                                'const useRouter = () => ({ push: () => {}, pathname: "/" })');
+        
+        // Replace next-auth imports
+        content = content.replace(/import\s+{\s*([^}]+)\s*}\s+from\s+['"]next-auth\/react['"]/g, (match, importList) => {
+          return `// Mocked next-auth/react imports\nconst sessionStatus = "unauthenticated";\nconst session = null;\nconst useSession = () => ({ data: session, status: sessionStatus });\nconst signIn = () => Promise.resolve(true);\nconst signOut = () => Promise.resolve(true);\nconst getSession = () => Promise.resolve(null);`;
+        });
+        
+        content = content.replace(/import\s+NextAuth\s+from\s+['"]next-auth['"]/g, 
+                                '// Mocked NextAuth\nconst NextAuth = (options) => (req, res) => res.status(200).json({});');
+        
+        // Replace react-toastify imports
+        content = content.replace(/import\s+{\s*([^}]+)\s*}\s+from\s+['"]react-toastify['"]/g, (match, importList) => {
+          return `// Mocked react-toastify imports\nconst toast = { success: () => {}, error: () => {}, info: () => {}, warn: () => {}, dark: () => {} };\nconst ToastContainer = () => null;`;
+        });
+        
+        content = content.replace(/import\s+.*?\s+from\s+['"]react-toastify\/dist\/ReactToastify\.css['"]/g, 
+                                '// Mocked react-toastify CSS import');
+        
+        if (content.length !== originalLength) {
+          fs.writeFileSync(fullPath, content, 'utf8');
+          console.log(`Fixed invalid imports in ${fullPath}`);
+          fixedCount++;
         }
       }
-      
-      return fixedCount;
     }
     
-    const totalFixed = processDir(srcDir);
-    console.log(`Fixed invalid imports in ${totalFixed} files`);
+    return fixedCount;
   }
-
-  // Create mock files for Next.js components
+  
+  const totalFixed = processDir(srcDir);
+  console.log(`Fixed invalid imports in ${totalFixed} files`);
+    }
+    // Create mock files for Next.js components and other libraries
   function createNextMocks() {
-    console.log('Creating mocks for Next.js components...');
+    console.log('Creating mocks for Next.js components and other libraries...');
     
     // Create a directory for our mocks
     const mockDir = path.join(__dirname, 'src', 'mocks');
@@ -227,8 +233,7 @@ export default {
 };
 `;
     fs.writeFileSync(path.join(mockDir, 'next-auth-react.js'), nextAuthReactMock);
-    
-    // Mock for next-auth
+        // Mock for next-auth
     const nextAuthMock = `
 // Mock implementation of next-auth
 const NextAuth = (options) => {
@@ -241,6 +246,29 @@ export default NextAuth;
 `;
     fs.writeFileSync(path.join(mockDir, 'next-auth.js'), nextAuthMock);
     
+    // Mock for react-toastify
+    const reactToastifyMock = `
+import React from 'react';
+
+// Mock implementation of react-toastify
+export const toast = {
+  success: (msg) => console.log('Toast success:', msg),
+  error: (msg) => console.log('Toast error:', msg),
+  info: (msg) => console.log('Toast info:', msg),
+  warn: (msg) => console.log('Toast warn:', msg),
+  dark: (msg) => console.log('Toast dark:', msg),
+  loading: (msg) => console.log('Toast loading:', msg)
+};
+
+export const ToastContainer = () => null;
+
+export default { toast, ToastContainer };
+`;
+    fs.writeFileSync(path.join(mockDir, 'react-toastify.js'), reactToastifyMock);
+    
+    // Create empty CSS file for react-toastify
+    fs.writeFileSync(path.join(mockDir, 'react-toastify.css'), '/* Mock CSS */');
+    
     // Create an alias module for webpack
     const webpackConfigMock = `
 // This file would normally be added to your webpack config
@@ -250,16 +278,16 @@ module.exports = {
       'next/link': '${path.join(mockDir, 'next-link.jsx').replace(/\\/g, '\\\\')}',
       'next/router': '${path.join(mockDir, 'next-router.js').replace(/\\/g, '\\\\')}',
       'next-auth/react': '${path.join(mockDir, 'next-auth-react.js').replace(/\\/g, '\\\\')}',
-      'next-auth': '${path.join(mockDir, 'next-auth.js').replace(/\\/g, '\\\\')}'
+      'next-auth': '${path.join(mockDir, 'next-auth.js').replace(/\\/g, '\\\\')}',
+      'react-toastify': '${path.join(mockDir, 'react-toastify.js').replace(/\\/g, '\\\\')}'
     }
   }
 };
 `;
     fs.writeFileSync('webpack-alias.js', webpackConfigMock);
     
-    console.log('Next.js mocks created successfully');
-    
-    // Special fix for React project: Create module resolution in node_modules
+    console.log('Mock files created successfully');
+        // Special fix for React project: Create module resolution in node_modules
     const nodeModulesDir = path.join(__dirname, 'node_modules');
     if (fs.existsSync(nodeModulesDir)) {
       // Create Next.js mocks
@@ -364,7 +392,44 @@ exports.getProviders = function() {
         main: 'index.js'
       }, null, 2));
       
-      console.log('Created Next.js and Next Auth module resolution in node_modules');
+      // Create React Toastify mock
+      const reactToastifyDir = path.join(nodeModulesDir, 'react-toastify');
+      if (!fs.existsSync(reactToastifyDir)) {
+        fs.mkdirSync(reactToastifyDir, { recursive: true });
+      }
+      
+      // Create dist directory for CSS
+      const reactToastifyDistDir = path.join(reactToastifyDir, 'dist');
+      if (!fs.existsSync(reactToastifyDistDir)) {
+        fs.mkdirSync(reactToastifyDistDir, { recursive: true });
+      }
+      
+      // Create main react-toastify module
+      fs.writeFileSync(path.join(reactToastifyDir, 'index.js'), `
+const React = require('react');
+
+exports.toast = {
+  success: function(msg) { return console.log('Toast success:', msg); },
+  error: function(msg) { return console.log('Toast error:', msg); },
+  info: function(msg) { return console.log('Toast info:', msg); },
+  warn: function(msg) { return console.log('Toast warn:', msg); },
+  dark: function(msg) { return console.log('Toast dark:', msg); }
+};
+
+exports.ToastContainer = function() { return React.createElement('div'); };
+      `);
+      
+      // Create CSS file
+      fs.writeFileSync(path.join(reactToastifyDistDir, 'ReactToastify.css'), '/* Mock CSS */');
+      
+      // Create package.json for the react-toastify module
+      fs.writeFileSync(path.join(reactToastifyDir, 'package.json'), JSON.stringify({
+        name: 'react-toastify-mock',
+        version: '1.0.0',
+        main: 'index.js'
+      }, null, 2));
+      
+      console.log('Created module resolution in node_modules');
     }
   }
   
@@ -375,4 +440,4 @@ exports.getProviders = function() {
   console.log('Fixes applied successfully');
 } catch (error) {
   console.error('Error:', error.message);
-      }
+                                 }
