@@ -19,7 +19,14 @@ function walk(dir, callback) {
 const brokenFiles = [];
 
 walk(srcDir, (filePath) => {
-  const content = fs.readFileSync(filePath, "utf8");
+  let content;
+  try {
+    content = fs.readFileSync(filePath, "utf8"); // Make sure this is sync
+  } catch (err) {
+    console.warn("❌ Can't read:", filePath);
+    return;
+  }
+
   if (!content.includes("import") && !content.includes("React")) {
     brokenFiles.push(filePath);
     console.warn("❌ Possibly broken file:", filePath);
@@ -30,7 +37,8 @@ walk(srcDir, (filePath) => {
     const formatted = prettier.format(content, {
       parser: "typescript",
     });
-    fs.writeFileSync(filePath, formatted);
+
+    fs.writeFileSync(filePath, formatted); // Sync write
     console.log("✅ Fixed:", filePath);
   } catch (err) {
     console.error("❌ Prettier failed for:", filePath, "\n", err.message);
@@ -42,11 +50,11 @@ if (brokenFiles.length) {
   console.log(brokenFiles.join("\n"));
 }
 
-// Optional: Auto Git commit
+// Git auto-commit block
 try {
   execSync("git add . && git commit -m 'auto: fix broken TSX files' && git push", {
     stdio: "inherit",
   });
 } catch (e) {
-  console.warn("❗ Git commit failed, maybe no changes or not a Git repo.");
-                 }
+  console.warn("❗ Git commit failed — maybe no changes or repo not clean.");
+}
