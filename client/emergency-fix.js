@@ -18,6 +18,18 @@ function walk(dir, callback) {
 
 const brokenFiles = [];
 
+function fixImports(content) {
+  return content
+    // invalid 'import abc.service'
+    .replace(/import\s+([a-zA-Z0-9_]+)\.service\s+from/g, (match, p1) => {
+      return `import ${p1}Service from`;
+    })
+    // invalid 'import [id] from ...'
+    .replace(/import\s+id\s+from/g, `import EditComponent from`)
+    // invalid 'import [...nextauth] from ...'
+    .replace(/import\s+\.\.\.nextauth\s+from/g, `import nextauthHandler from`);
+}
+
 async function processFile(filePath) {
   let content;
   try {
@@ -34,14 +46,15 @@ async function processFile(filePath) {
   }
 
   try {
-    const options = await prettier.resolveConfig(filePath);
-    const formatted = await prettier.format(content, {
+    const fixedContent = fixImports(content);
+    const options = (await prettier.resolveConfig(filePath)) || {};
+    const formatted = await prettier.format(fixedContent, {
       ...options,
       parser: "typescript",
     });
 
     fs.writeFileSync(filePath, formatted);
-    console.log("✅ Fixed:", filePath);
+    console.log("✅ Fixed & formatted:", filePath);
   } catch (err) {
     console.error("❌ Prettier failed for:", filePath, "\n", err.message);
   }
@@ -63,7 +76,7 @@ async function processFile(filePath) {
 
   // Git auto-commit
   try {
-    execSync("git add . && git commit -m 'auto: fix TSX files' && git push", {
+    execSync("git add . && git commit -m 'auto: fix TSX files with import patch' && git push", {
       stdio: "inherit",
     });
   } catch (e) {
