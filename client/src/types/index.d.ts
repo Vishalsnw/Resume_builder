@@ -1,7 +1,7 @@
-import 'react';
+import "react";
 
 // Override React's RefObject type to make current writable
-declare module 'react' {
+declare module "react" {
   interface RefObject<T> {
     current: T | null;
   }

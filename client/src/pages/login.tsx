@@ -1,10 +1,20 @@
 // pages/login.tsx
-import React, { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
+import React, { useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
 
 // Mock icon components since we might not have react-icons available
 const IconMock = ({ className }: { className?: string }) => (
-  <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    className={className}
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <circle cx="12" cy="12" r="10"></circle>
   </svg>
 );
@@ -16,18 +26,18 @@ interface LoginCredentials {
 
 const LoginPage = () => {
   const { login } = useAuth();
-  
+
   // Mock router functionality
   const router = {
-    query: { callbackUrl: '' },
+    query: { callbackUrl: "" },
     push: (url: string) => {
       window.location.href = url;
-    }
+    },
   };
-  
+
   const [credentials, setCredentials] = useState<LoginCredentials>({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -42,10 +52,10 @@ const LoginPage = () => {
       // Use our AuthContext login instead of next-auth
       await login(credentials.email, credentials.password);
       // Redirect to dashboard or requested page
-      const callbackUrl = router.query.callbackUrl || '/dashboard';
+      const callbackUrl = router.query.callbackUrl || "/dashboard";
       router.push(callbackUrl as string);
     } catch (error) {
-      setError('Invalid email or password');
+      setError("Invalid email or password");
     } finally {
       setLoading(false);
     }
@@ -53,20 +63,20 @@ const LoginPage = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setCredentials(prev => ({
+    setCredentials((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
-  
+
   // Mock sign in with providers
   const signInWithProvider = async (provider: string) => {
     setLoading(true);
     try {
       console.log(`Signing in with ${provider}`);
       // Wait a bit to simulate authentication
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      router.push('/dashboard');
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      router.push("/dashboard");
     } catch (error) {
       setError(`Failed to sign in with ${provider}`);
     } finally {
@@ -83,7 +93,7 @@ const LoginPage = () => {
             Welcome back
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Or{' '}
+            Or{" "}
             <a
               href="/register"
               className="font-medium text-blue-600 hover:text-blue-500"
@@ -167,7 +177,10 @@ const LoginPage = () => {
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
               />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+              <label
+                htmlFor="remember-me"
+                className="ml-2 block text-sm text-gray-900"
+              >
                 Remember me
               </label>
             </div>
@@ -188,10 +201,10 @@ const LoginPage = () => {
               type="submit"
               disabled={loading}
               className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
-                loading ? 'opacity-50 cursor-not-allowed' : ''
+                loading ? "opacity-50 cursor-not-allowed" : ""
               }`}
             >
-              {loading ? 'Signing in...' : 'Sign in'}
+              {loading ? "Signing in..." : "Sign in"}
             </button>
           </div>
 
@@ -211,7 +224,7 @@ const LoginPage = () => {
             <div className="mt-6 grid grid-cols-2 gap-3">
               <button
                 type="button"
-                onClick={() => signInWithProvider('github')}
+                onClick={() => signInWithProvider("github")}
                 className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
               >
                 <IconMock className="h-5 w-5" />
@@ -219,7 +232,7 @@ const LoginPage = () => {
               </button>
               <button
                 type="button"
-                onClick={() => signInWithProvider('google')}
+                onClick={() => signInWithProvider("google")}
                 className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
               >
                 <IconMock className="h-5 w-5" />

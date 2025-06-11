@@ -1,5 +1,5 @@
 // src/contexts/AuthContext.tsx
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState } from "react";
 
 // Create context with default values
 const AuthContext = createContext({
@@ -8,7 +8,7 @@ const AuthContext = createContext({
   error: null,
   login: async (email, password) => {},
   logout: async () => {},
-  googleSignIn: async () => {} // Add this for Google sign-in
+  googleSignIn: async () => {}, // Add this for Google sign-in
 });
 
 export const AuthProvider = ({ children }) => {
@@ -21,11 +21,11 @@ export const AuthProvider = ({ children }) => {
     try {
       console.log(`Logging in with email: ${email}`);
       // Mock successful login after delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setUser({ email, id: 'user-1' });
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setUser({ email, id: "user-1" });
       return true;
     } catch (err) {
-      setError('Login failed');
+      setError("Login failed");
       throw err;
     } finally {
       setLoading(false);
@@ -36,11 +36,11 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     try {
       // Mock Google sign in
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setUser({ email: 'google@example.com', id: 'google-user-1' });
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setUser({ email: "google@example.com", id: "google-user-1" });
       return true;
     } catch (err) {
-      setError('Google sign in failed');
+      setError("Google sign in failed");
       throw err;
     } finally {
       setLoading(false);
@@ -52,14 +52,16 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      loading, 
-      error,
-      login,
-      logout,
-      googleSignIn
-    }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        error,
+        login,
+        logout,
+        googleSignIn,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
