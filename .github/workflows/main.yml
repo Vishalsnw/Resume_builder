@@ -1,25 +1,24 @@
-name: ESLint Auto Fix
+name: Emergency Fix Runner
 
 on:
+  workflow_dispatch:  # Allow manual trigger
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-  workflow_dispatch:
+    paths:
+      - 'client/src/**'
+      - 'client/emergency-fix.js'
 
 jobs:
-  lint-and-fix:
+  fix-and-lint:
     runs-on: ubuntu-latest
-
     defaults:
       run:
-        working-directory: client  # ✅ run commands inside client folder
+        working-directory: client
 
     steps:
-      - name: 📥 Checkout Code
+      - name: 🧾 Checkout Repo
         uses: actions/checkout@v3
 
-      - name: 🔧 Setup Node.js
+      - name: 🧰 Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
@@ -27,20 +26,9 @@ jobs:
       - name: 📦 Install Dependencies
         run: npm install
 
-      - name: 🔌 Install ESLint & Plugins (if not present)
-        run: npm install eslint eslint-plugin-react --save-dev
+      - name: 🛠 Run Emergency Fix Script
+        run: node emergency-fix.js
 
-      - name: 🧹 Run ESLint with Auto-Fix
-        run: npx eslint "src/**/*.{js,jsx}" --fix || true
-
-      - name: 📤 Commit & Push Fixes (if any)
+      - name: ✅ Confirm Commit Status
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
-          if git diff --cached --quiet; then
-            echo "✅ No changes to commit"
-          else
-            git commit -m "🔧 Auto-fixed ESLint issues [skip ci]"
-            git push
-          fi
+          git status
