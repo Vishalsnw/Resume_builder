@@ -5,10 +5,15 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   lint-and-fix:
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: client  # ✅ focus inside client folder
 
     steps:
       - name: Checkout code
@@ -22,13 +27,11 @@ jobs:
       - name: Install project dependencies
         run: npm install
 
-      - name: Install ESLint & plugins (if not in package.json)
-        run: |
-          npm install eslint eslint-plugin-react --save-dev
+      - name: Install ESLint (if not already installed)
+        run: npm install eslint eslint-plugin-react --save-dev
 
       - name: Run ESLint with auto-fix
-        run: |
-          npx eslint "src/**/*.{js,jsx}" --fix || true
+        run: npx eslint "src/**/*.{js,jsx}" --fix || true
 
       - name: Commit & Push fixes (if any)
         run: |
