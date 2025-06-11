@@ -20,14 +20,14 @@ const brokenFiles = [];
 
 function fixImports(content) {
   return content
-    // invalid 'import abc.service'
+    // Fix [...nextauth]
+    .replace(/import\s+\.\.\.nextauth\s+from/g, `import nextauthHandler from`)
+    // Fix [id]
+    .replace(/import\s+id\s+from/g, `import EditComponent from`)
+    // Fix service import
     .replace(/import\s+([a-zA-Z0-9_]+)\.service\s+from/g, (match, p1) => {
       return `import ${p1}Service from`;
-    })
-    // invalid 'import [id] from ...'
-    .replace(/import\s+id\s+from/g, `import EditComponent from`)
-    // invalid 'import [...nextauth] from ...'
-    .replace(/import\s+\.\.\.nextauth\s+from/g, `import nextauthHandler from`);
+    });
 }
 
 async function processFile(filePath) {
@@ -39,14 +39,10 @@ async function processFile(filePath) {
     return;
   }
 
-  if (!content.includes("import") && !content.includes("React")) {
-    brokenFiles.push(filePath);
-    console.warn("❌ Possibly broken file:", filePath);
-    return;
-  }
+  // Step 1: Fix invalid imports first
+  const fixedContent = fixImports(content);
 
   try {
-    const fixedContent = fixImports(content);
     const options = (await prettier.resolveConfig(filePath)) || {};
     const formatted = await prettier.format(fixedContent, {
       ...options,
@@ -56,6 +52,7 @@ async function processFile(filePath) {
     fs.writeFileSync(filePath, formatted);
     console.log("✅ Fixed & formatted:", filePath);
   } catch (err) {
+    brokenFiles.push(filePath);
     console.error("❌ Prettier failed for:", filePath, "\n", err.message);
   }
 }
@@ -70,13 +67,12 @@ async function processFile(filePath) {
   await Promise.all(promises);
 
   if (brokenFiles.length) {
-    console.log("\n🚨 Broken files (skipped):");
+    console.log("\n🚨 Broken files (still failed):");
     console.log(brokenFiles.join("\n"));
   }
 
-  // Git auto-commit
   try {
-    execSync("git add . && git commit -m 'auto: fix TSX files with import patch' && git push", {
+    execSync("git add . && git commit -m 'auto: import + prettier fix' && git push", {
       stdio: "inherit",
     });
   } catch (e) {
