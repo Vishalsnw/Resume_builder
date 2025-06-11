@@ -19,10 +19,12 @@ jobs:
         with:
           node-version: 18
 
-      - name: 📦 Install Dependencies
+      - name: 📦 Install Dependencies in /client
+        working-directory: client
         run: npm install
 
       - name: 🚨 Run Emergency Fix Script
+        working-directory: client
         run: node emergency-fix.js
 
       - name: 📤 Commit & Push Changes (if any)
