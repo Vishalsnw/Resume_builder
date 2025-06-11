@@ -13,32 +13,34 @@ jobs:
 
     defaults:
       run:
-        working-directory: client  # ✅ focus inside client folder
+        working-directory: client  # ✅ run commands inside client folder
 
     steps:
-      - name: Checkout code
+      - name: 📥 Checkout Code
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
+      - name: 🔧 Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: Install project dependencies
+      - name: 📦 Install Dependencies
         run: npm install
 
-      - name: Install ESLint (if not already installed)
+      - name: 🔌 Install ESLint & Plugins (if not present)
         run: npm install eslint eslint-plugin-react --save-dev
 
-      - name: Run ESLint with auto-fix
+      - name: 🧹 Run ESLint with Auto-Fix
         run: npx eslint "src/**/*.{js,jsx}" --fix || true
 
-      - name: Commit & Push fixes (if any)
+      - name: 📤 Commit & Push Fixes (if any)
         run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
-          git diff --quiet && echo "✅ No ESLint fixes needed" || (
-            git commit -m "🔧 Auto-fixed ESLint issues"
+          if git diff --cached --quiet; then
+            echo "✅ No changes to commit"
+          else
+            git commit -m "🔧 Auto-fixed ESLint issues [skip ci]"
             git push
-          )
+          fi
