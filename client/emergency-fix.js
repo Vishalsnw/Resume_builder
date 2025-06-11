@@ -20,20 +20,18 @@ const brokenFiles = [];
 
 function fixImports(content) {
   return content
-    // Fix [...nextauth] imports
-    .replace(/import\s+\.\.\.nextauth\s+from/g, `import nextauthHandler from`)
-    // Fix [id] imports
-    .replace(/import\s+id\s+from/g, `import EditPage from`)
-    // Fix xyz.service → xyzService
-    .replace(/import\s+([a-zA-Z0-9_]+)\.service\s+from/g, (match, p1) => {
-      return `import ${p1}Service from`;
+    // Remove invalid dynamic imports
+    .replace(/^import\s+\.\.\.nextauth\s+from\s+['"][^'"]+['"];?\n?/gm, "")
+    .replace(/^import\s+id\s+from\s+['"][^'"]+['"];?\n?/gm, "")
+    // Fix .service imports to CamelCaseService
+    .replace(/import\s+([a-zA-Z0-9_]+)\.service\s+from/g, (_, name) => {
+      return `import ${name}Service from`;
     })
-    // Fix duplicate imports (same line repeated)
-    .replace(/(import\s+[^\n]+from\s+['"][^'"]+['"];)[\r\n]+\1/g, '$1')
-    // Strip any remaining import errors from malformed dynamic paths
-    .replace(/import\s+([a-zA-Z0-9_]+)\s+from/g, (match, p1) => {
-      return `import ${p1} from`;
-    });
+    // Remove exact duplicate import lines
+    .replace(
+      /^(import\s+.*from\s+['"][^'"]+['"];)(?:\s*\1)+/gm,
+      (_, line) => line
+    );
 }
 
 async function processFile(filePath) {
@@ -45,7 +43,6 @@ async function processFile(filePath) {
     return;
   }
 
-  // Step 1: Fix broken imports
   const fixedContent = fixImports(content);
 
   try {
