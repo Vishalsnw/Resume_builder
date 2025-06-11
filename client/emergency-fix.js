@@ -34,13 +34,16 @@ walk(srcDir, (filePath) => {
   }
 
   try {
-    const formatted = prettier.format(String(content), {
-      parser: "typescript",
-    });
+    // Use resolveConfig.sync to get .prettierrc config properly
+    const options = prettier.resolveConfig.sync(filePath) || {};
+    options.parser = "typescript";
+
+    const formatted = prettier.format(content, options);
     fs.writeFileSync(filePath, formatted);
     console.log("✅ Fixed:", filePath);
   } catch (err) {
-    console.error("❌ Prettier failed for:", filePath, "\n", err.message);
+    console.error("❌ Prettier failed for:", filePath);
+    console.error(err.message || err);
   }
 });
 
@@ -49,9 +52,8 @@ if (brokenFiles.length) {
   console.log(brokenFiles.join("\n"));
 }
 
-// Git auto-commit block
+// Git auto-commit
 try {
-  // Check if Git config is missing
   const userName = execSync("git config user.name").toString().trim();
   const userEmail = execSync("git config user.email").toString().trim();
 
@@ -66,4 +68,4 @@ try {
   });
 } catch (e) {
   console.warn("❗ Git commit failed — maybe no changes, repo not clean, or identity missing.");
-    }
+}
