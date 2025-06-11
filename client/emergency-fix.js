@@ -20,14 +20,16 @@ const brokenFiles = [];
 
 function fixImports(content) {
   return content
-    // Fix [...nextauth]
+    // Fix [...nextauth] imports
     .replace(/import\s+\.\.\.nextauth\s+from/g, `import nextauthHandler from`)
-    // Fix [id]
+    // Fix [id] imports
     .replace(/import\s+id\s+from/g, `import EditComponent from`)
-    // Fix service import
+    // Fix `xyz.service` to `xyzService`
     .replace(/import\s+([a-zA-Z0-9_]+)\.service\s+from/g, (match, p1) => {
       return `import ${p1}Service from`;
-    });
+    })
+    // Remove duplicate imports
+    .replace(/(import\s+[^\n]+from\s+['"][^'"]+['"];)[\r\n]+\1/g, '$1');
 }
 
 async function processFile(filePath) {
@@ -39,7 +41,7 @@ async function processFile(filePath) {
     return;
   }
 
-  // Step 1: Fix invalid imports first
+  // Step 1: Fix broken imports
   const fixedContent = fixImports(content);
 
   try {
