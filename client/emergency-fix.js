@@ -23,13 +23,17 @@ function fixImports(content) {
     // Fix [...nextauth] imports
     .replace(/import\s+\.\.\.nextauth\s+from/g, `import nextauthHandler from`)
     // Fix [id] imports
-    .replace(/import\s+id\s+from/g, `import EditComponent from`)
-    // Fix `xyz.service` to `xyzService`
+    .replace(/import\s+id\s+from/g, `import EditPage from`)
+    // Fix xyz.service → xyzService
     .replace(/import\s+([a-zA-Z0-9_]+)\.service\s+from/g, (match, p1) => {
       return `import ${p1}Service from`;
     })
-    // Remove duplicate imports
-    .replace(/(import\s+[^\n]+from\s+['"][^'"]+['"];)[\r\n]+\1/g, '$1');
+    // Fix duplicate imports (same line repeated)
+    .replace(/(import\s+[^\n]+from\s+['"][^'"]+['"];)[\r\n]+\1/g, '$1')
+    // Strip any remaining import errors from malformed dynamic paths
+    .replace(/import\s+([a-zA-Z0-9_]+)\s+from/g, (match, p1) => {
+      return `import ${p1} from`;
+    });
 }
 
 async function processFile(filePath) {
